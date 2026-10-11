@@ -89,11 +89,15 @@ def upload_video_to_youtube(video_path: str, thumbnail_path: str,
 🔮 {CHANNEL_NAME} — Guía Espiritual y Mensajes del Universo
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+✨ ¿NECESITAS UNA LECTURA PERSONALIZADA DE TAROT?
+Déjame un comentario en este video o escribe a nuestro correo oficial para agendar tu sesión privada y resolver las dudas de tu corazón:
+📩 Contacto: eddiesboutique954@gmail.com
+
 📌 Suscríbete para tu lectura diaria: no te pierdas los mensajes que el destino tiene para ti.
 🔔 Activa la campanita para recibir cada revelación a tiempo.
-✨ Deja tu intención en los comentarios para conectar con esta energía.
+✨ Deja tu intención o tu signo en los comentarios para conectar con esta energía.
 
-#tarot #esoterismo #espiritualidad #tarotdiario #arcanos #mensajedeluniverso #oraculo
+#tarot #lecturapersonalizada #esoterismo #espiritualidad #tarotdiario #arcanos #mensajedeluniverso #oraculo
 """
 
     print(f"\n📤 Subiendo a YouTube: {title}")
