@@ -37,11 +37,11 @@ def create_card_overlay(card_name: str, hook_text: str = "",
     if card_path and os.path.exists(card_path):
         card = Image.open(card_path).convert("RGBA")
         
-        # Tamaño generoso de la carta
-        target_w = int(width * 0.70)
+        # Carta centrada en la mitad superior para no chocar con los subtítulos
+        target_w = int(width * 0.62)
         aspect = card.height / card.width
         target_h = int(target_w * aspect)
-        max_h = int(height * 0.54)
+        max_h = int(height * 0.46)
         if target_h > max_h:
             target_h = max_h
             target_w = int(target_h / aspect)
@@ -52,12 +52,12 @@ def create_card_overlay(card_name: str, hook_text: str = "",
         card = Image.merge("RGBA", (*card_rgb.split(), card.split()[3]))
 
         cx = (width - target_w) // 2
-        cy = int(height * 0.28)
+        cy = int(height * 0.23)
 
         # Resplandor dorado místico multicapa
         draw = ImageDraw.Draw(overlay)
-        for off in range(45, 0, -3):
-            alpha = int(75 * ((45 - off) / 45) ** 0.6)
+        for off in range(35, 0, -3):
+            alpha = int(75 * ((35 - off) / 35) ** 0.6)
             draw.rounded_rectangle(
                 [cx - off, cy - off, cx + target_w + off, cy + target_h + off],
                 radius=25, fill=(255, 215, 0, alpha)

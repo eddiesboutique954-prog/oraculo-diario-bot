@@ -167,19 +167,19 @@ def generate_tarot_script(lang: str = "es", card: str = None, situacion: str = N
             "ganchos viscerales que activan el sesgo de confirmación y llamadas a la acción que provocan miles de comentarios. "
             "Escribes como un ser humano íntimo, empático y misterioso. CERO frases genéricas de horóscopo barato."
         )
-        user = f"""Crea un guion VIRAL para un Short de 20 a 25 segundos sobre:
+        user = f"""Crea un guion VIRAL COMPLETO para un Short que dure EXACTAMENTE ENTRE 28 Y 32 SEGUNDOS de locución continua (aproximadamente 65 a 80 palabras habladas).
+
 CARTA: {card}
 CONFLICTO VISCERAL: {situacion}
 
-ESTRUCTURA DE ALTO RENDIMIENTO (MÁXIMA RETENCIÓN):
-1. HOOK EXPLOSIVO (0 a 2s): Empieza directamente en el segundo 0 sin saludos ni rodeos. Ejemplos de apertura:
-   - "Alguien que te juró amor eterno no puede dormir esta noche..."
-   - "Si te apareció esta carta a esta hora, alguien está mintiendo sobre ti..."
-   - "El universo te puso esto en frente porque hay una verdad que no estás viendo..."
-2. DESARROLLO EMOCIONAL (3 a 18s): Conecta con el dolor, la duda o el anhelo del espectador. Menciona '{card}' como el punto de quiebre. Habla de algo que cualquiera ha sentido: traición, segundas oportunidades, dinero inesperado, intuición confirmada.
-3. BUCLE INFINITO + CTA (19 a 23s): 
-   - Termina la última frase de tal manera que empalme perfectamente con el inicio del video si se repite.
-   - Pide una micro-acción para reclamar: "Comenta 'Hecho está' y tus iniciales para manifestar esto hoy... por eso..." (para que buclee con el hook).
+REGLAS DE DURACIÓN ESTRICTAS:
+- NO LO HAGAS CORTO. Debe tener suficiente desarrollo para llenar 28 a 32 segundos de audio hablado continuo.
+- NUNCA dejes de hablar a mitad de video.
+
+ESTRUCTURA VIRAL (28 a 32 SEGUNDOS):
+1. HOOK EXPLOSIVO (0 a 3s): Apertura directa al corazón o al subconsciente.
+2. REVELACIÓN Y DESARROLLO PROFUNDO (4 a 22s): Explica con detalle lo que está pasando en la vida del espectador, por qué apareció '{card}', la advertencia o bendición concreta que viene, y el significado oculto.
+3. MENSAJE FINAL + CTA EN BUCLE (23 a 30s): Cierre contundente pidiendo comentar con su signo o 'Hecho está' para sellar el mensaje.
 
 Responde ÚNICAMENTE en JSON:
 {{
@@ -188,7 +188,7 @@ Responde ÚNICAMENTE en JSON:
   "cards": ["{card}"],
   "title": "titulo con alta curiosidad psicologica y emojis (max 50 chars)",
   "hook": "frase demoledora del hook inicial (max 12 palabras)",
-  "script": "guion narrado de 22 segundos, fluido, humano, con ritmo y bucle",
+  "script": "guion narrado de 70 a 80 palabras que llene 28 a 32 segundos de voz continua sin pausas vacias",
   "caption_lines": ["subtitulo 1", "subtitulo 2", "subtitulo 3"],
   "description": "descripcion orientada a SEO y conexion emocional",
   "tags": ["tarot", "lecturadetarot", "espiritualidad", "amor", "destino", "oraculo"]

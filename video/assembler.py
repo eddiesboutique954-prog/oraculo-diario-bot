@@ -51,13 +51,14 @@ def assemble_dynamic_video(card_overlay_path: str, audio_path: str,
     music = music_path or (MUSIC_PATH if os.path.exists(MUSIC_PATH) else None)
 
     # Filtro de subtítulos dinámicos estilo TikTok / Shorts
+    # Posicionados en la parte inferior (MarginV=60) para no tapar la carta
     sub_filter = ""
     if srt_path and os.path.exists(srt_path):
         escaped_srt = _escape_path_for_ffmpeg(srt_path)
         sub_style = (
-            "force_style='Alignment=2,FontSize=24,PrimaryColour=&H0000FFFF,"
-            "OutlineColour=&H00000000,BackColour=&H90000000,Bold=1,"
-            "MarginV=140,Outline=3,Shadow=2'"
+            "force_style='Alignment=2,FontSize=18,PrimaryColour=&H00FFFFFF,"
+            "OutlineColour=&H00000000,BackColour=&H60000000,Bold=1,"
+            "MarginV=70,Outline=2,Shadow=1'"
         )
         sub_filter = f",subtitles='{escaped_srt}':{sub_style}"
 
