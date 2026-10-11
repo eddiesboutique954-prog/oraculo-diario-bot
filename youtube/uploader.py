@@ -86,13 +86,14 @@ def upload_video_to_youtube(video_path: str, thumbnail_path: str,
     full_description = f"""{description}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🔮 {CHANNEL_NAME} — Lecturas de Tarot con IA
+🔮 {CHANNEL_NAME} — Guía Espiritual y Mensajes del Universo
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-📌 Suscríbete para tu lectura diaria: no te pierdas los mensajes del universo.
-🔔 Activa las notificaciones para recibir cada lectura.
+📌 Suscríbete para tu lectura diaria: no te pierdas los mensajes que el destino tiene para ti.
+🔔 Activa la campanita para recibir cada revelación a tiempo.
+✨ Deja tu intención en los comentarios para conectar con esta energía.
 
-#tarot #esoterismo #espiritualidad #tarotdiario #arcanos
+#tarot #esoterismo #espiritualidad #tarotdiario #arcanos #mensajedeluniverso #oraculo
 """
 
     print(f"\n📤 Subiendo a YouTube: {title}")
