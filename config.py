@@ -42,8 +42,8 @@ IMAGE_DISPLAY_TIME = 5
 VOICE_CONFIG = {
     "es": "es-CO-SalomeNeural",      # Voz femenina colombiana cálida, natural y envolvente
     "en": "en-US-JennyNeural",       # Voz femenina americana suave
-    "rate": "-3%",                   # Ritmo pausado natural
-    "pitch": "-4Hz",                 # Tono íntimo y místico
+    "rate": "+0%",                   # Cadencia 100% natural humana
+    "pitch": "+0Hz",                 # Tono original sin deformación
 }
 
 # ─────────────────────────────────────────

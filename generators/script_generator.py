@@ -162,38 +162,36 @@ def generate_tarot_script(lang: str = "es", card: str = None, situacion: str = N
 
     if lang == "es":
         system = (
-            "Eres el creador de tarot más viral de habla hispana en YouTube Shorts. "
-            "Tus videos tienen 95% de retención porque cada palabra llega al alma. "
-            "Hablas directo al corazón. Nunca eres genérico. Cada guion parece escrito "
-            "específicamente para la persona que lo está viendo. Usas pausas dramáticas, "
-            "revelaciones inesperadas y mensajes que la gente comenta diciendo 'cómo sabías'."
+            "Eres el estratega y guionista de YouTube Shorts #1 del mundo en el nicho de esoterismo, tarot y espiritualidad. "
+            "Tus videos superan el 120% de retención de audiencia porque usas TÉCNICA DE BUCLE INFINITO (el final conecta de forma perfecta con el inicio), "
+            "ganchos viscerales que activan el sesgo de confirmación y llamadas a la acción que provocan miles de comentarios. "
+            "Escribes como un ser humano íntimo, empático y misterioso. CERO frases genéricas de horóscopo barato."
         )
-        user = f"""Crea un guion VIRAL de 30 segundos para YouTube Shorts.
+        user = f"""Crea un guion VIRAL para un Short de 20 a 25 segundos sobre:
+CARTA: {card}
+CONFLICTO VISCERAL: {situacion}
 
-CARTA DEL TAROT: {card}
-SITUACION EMOCIONAL: {situacion}
+ESTRUCTURA DE ALTO RENDIMIENTO (MÁXIMA RETENCIÓN):
+1. HOOK EXPLOSIVO (0 a 2s): Empieza directamente en el segundo 0 sin saludos ni rodeos. Ejemplos de apertura:
+   - "Alguien que te juró amor eterno no puede dormir esta noche..."
+   - "Si te apareció esta carta a esta hora, alguien está mintiendo sobre ti..."
+   - "El universo te puso esto en frente porque hay una verdad que no estás viendo..."
+2. DESARROLLO EMOCIONAL (3 a 18s): Conecta con el dolor, la duda o el anhelo del espectador. Menciona '{card}' como el punto de quiebre. Habla de algo que cualquiera ha sentido: traición, segundas oportunidades, dinero inesperado, intuición confirmada.
+3. BUCLE INFINITO + CTA (19 a 23s): 
+   - Termina la última frase de tal manera que empalme perfectamente con el inicio del video si se repite.
+   - Pide una micro-acción para reclamar: "Comenta 'Hecho está' y tus iniciales para manifestar esto hoy... por eso..." (para que buclee con el hook).
 
-REGLAS DE ORO (no las rompas):
-1. El HOOK (primeros 3 segundos) debe ser tan específico y personal que la persona sienta que lo escribiste PARA ELLA. Ejemplo de buenos hooks:
-   - "Si este video apareció en tu pantalla hoy... no fue casualidad"
-   - "Hay alguien que lleva semanas queriendo decirte algo y no puede"
-   - "El universo me pidió que te dijera esto hoy específicamente"
-2. El DESARROLLO (3-25s) habla de la situación "{situacion}" de forma directa, como si supieras exactamente lo que está viviendo el espectador. Menciona "{card}" como la carta que lo confirma.
-3. El MENSAJE debe ser algo que la persona sienta que SOLO el universo podría saber. Algo que les haga poner pausa y releer.
-4. El CTA final debe generar comentarios: "Escribe SI si esto llegó a tu corazón" o "Comenta tu signo si lo sentiste"
-5. Tono: misterioso, cálido, íntimo. Como si fuera un secreto que solo tú y el espectador comparten.
-
-Responde SOLO en este JSON exacto (sin texto extra):
+Responde ÚNICAMENTE en JSON:
 {{
   "content_type": "tarot",
   "card": "{card}",
   "cards": ["{card}"],
-  "title": "titulo que detenga el scroll, con emoji, maximo 60 caracteres",
-  "hook": "la frase de apertura exacta, maxima 15 palabras, que hace parar el scroll",
-  "script": "guion completo de 30 segundos narrado en primera persona del oráculo, íntimo y personal, con pausas marcadas con ...",
-  "caption_lines": ["frase corta impacto 1 maxima 6 palabras", "frase corta impacto 2", "frase corta impacto 3"],
-  "description": "descripcion de 150 palabras para YouTube con hashtags al final",
-  "tags": ["tag1", "tag2", "tag3", "tag4", "tag5", "tag6"]
+  "title": "titulo con alta curiosidad psicologica y emojis (max 50 chars)",
+  "hook": "frase demoledora del hook inicial (max 12 palabras)",
+  "script": "guion narrado de 22 segundos, fluido, humano, con ritmo y bucle",
+  "caption_lines": ["subtitulo 1", "subtitulo 2", "subtitulo 3"],
+  "description": "descripcion orientada a SEO y conexion emocional",
+  "tags": ["tarot", "lecturadetarot", "espiritualidad", "amor", "destino", "oraculo"]
 }}"""
 
     else:
