@@ -179,7 +179,7 @@ REGLAS DE DURACIÓN ESTRICTAS:
 ESTRUCTURA VIRAL (28 a 32 SEGUNDOS):
 1. HOOK EXPLOSIVO (0 a 3s): Apertura directa al corazón o al subconsciente.
 2. REVELACIÓN Y DESARROLLO PROFUNDO (4 a 22s): Explica con detalle lo que está pasando en la vida del espectador, por qué apareció '{card}', la advertencia o bendición concreta que viene, y el significado oculto.
-3. MENSAJE FINAL + CTA EN BUCLE (23 a 30s): Cierre contundente pidiendo comentar con su signo o 'Hecho está' para sellar el mensaje.
+3. MENSAJE FINAL + CTA EN BUCLE (23 a 30s): Cierre contundente invitando a comentar para conectar con la energía o solicitar su lectura personalizada privada en comentarios. Termina con frase de enganche.
 
 Responde ÚNICAMENTE en JSON:
 {{
