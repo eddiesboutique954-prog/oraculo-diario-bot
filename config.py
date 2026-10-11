@@ -40,7 +40,7 @@ IMAGE_DISPLAY_TIME = 5
 #  🎙️ CONFIGURACIÓN DE VOZ (Edge-TTS - GRATIS)
 # ─────────────────────────────────────────
 VOICE_CONFIG = {
-    "es": "es-CO-SalomeNeural",      # Voz femenina colombiana cálida, natural y envolvente
+    "es": "es-PE-CamilaNeural",      # Camila: Cálida, íntima, envolvente y muy humana
     "en": "en-US-JennyNeural",       # Voz femenina americana suave
     "rate": "+0%",                   # Cadencia 100% natural humana
     "pitch": "+0Hz",                 # Tono original sin deformación
