@@ -1,0 +1,74 @@
+name: 🔮 Tarot Bot — 4 Videos Diarios
+
+on:
+  schedule:
+    # Horarios en UTC (México = UTC-6)
+    - cron: '0 13 * * *'   # 7:00 AM México
+    - cron: '0 17 * * *'   # 11:00 AM México
+    - cron: '0 22 * * *'   # 4:00 PM México
+    - cron: '0 2 * * *'    # 8:00 PM México
+  workflow_dispatch:
+    inputs:
+      lang:
+        description: 'Idioma (es / en / all)'
+        required: false
+        default: 'es'
+      content_type:
+        description: 'Tipo de contenido (tarot / zodiaco / reflexion)'
+        required: false
+        default: ''
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: 📥 Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: 🐍 Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 📦 Instalar dependencias
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 🎬 Instalar FFmpeg
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+
+      - name: 🔑 Crear archivo de credenciales YouTube
+        run: |
+          echo '${{ secrets.YOUTUBE_TOKEN_JSON }}' > youtube_token.json
+          echo '${{ secrets.CLIENT_SECRET_JSON }}' > client_secret.json
+
+      - name: 🔮 Generar y publicar video
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          PYTHONIOENCODING: utf-8
+        run: |
+          # Determinar tipo de contenido rotando según la hora
+          HOUR=$(date +%H)
+          if [ "$HOUR" = "13" ]; then TYPE="tarot";
+          elif [ "$HOUR" = "17" ]; then TYPE="zodiaco";
+          elif [ "$HOUR" = "22" ]; then TYPE="reflexion";
+          else TYPE="tarot"; fi
+
+          LANG="${{ github.event.inputs.lang || 'es' }}"
+          CTYPE="${{ github.event.inputs.content_type }}"
+          if [ -z "$CTYPE" ]; then CTYPE="$TYPE"; fi
+
+          echo "🕐 Hora UTC: $HOUR | Tipo: $CTYPE | Idioma: $LANG"
+          python main.py --lang "$LANG" --type "$CTYPE" --upload
+
+      - name: 📊 Reporte de resultado
+        if: always()
+        run: |
+          echo "✅ Pipeline completado en $(date)"
+          ls -lh output/*.mp4 2>/dev/null || echo "No se encontraron videos"

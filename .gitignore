@@ -1,0 +1,10 @@
+﻿youtube_token.json
+client_secret.json
+*.mp4
+*.mp3
+output/
+assets/tarot_deck/
+assets/mystical_bg.mp3
+__pycache__/
+*.pyc
+.env
