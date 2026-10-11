@@ -40,10 +40,10 @@ IMAGE_DISPLAY_TIME = 5
 #  🎙️ CONFIGURACIÓN DE VOZ (Edge-TTS - GRATIS)
 # ─────────────────────────────────────────
 VOICE_CONFIG = {
-    "es": "es-MX-DaliaNeural",      # Voz femenina mexicana misteriosa
-    "en": "en-US-JennyNeural",      # Voz femenina americana suave
-    "rate": "-5%",                  # Velocidad pausada y misteriosa
-    "pitch": "-10Hz",               # Tono profundo
+    "es": "es-CO-SalomeNeural",      # Voz femenina colombiana cálida, natural y envolvente
+    "en": "en-US-JennyNeural",       # Voz femenina americana suave
+    "rate": "-3%",                   # Ritmo pausado natural
+    "pitch": "-4Hz",                 # Tono íntimo y místico
 }
 
 # ─────────────────────────────────────────
