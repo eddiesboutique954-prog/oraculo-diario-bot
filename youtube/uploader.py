@@ -90,14 +90,16 @@ def upload_video_to_youtube(video_path: str, thumbnail_path: str,
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ✨ ¿NECESITAS UNA LECTURA PERSONALIZADA DE TAROT?
-Déjame un comentario en este video o escribe a nuestro correo oficial para agendar tu sesión privada y resolver las dudas de tu corazón:
-📩 Contacto: eddiesboutique954@gmail.com
+Resuelve tus dudas en el amor, trabajo, dinero o destino con una sesión privada profunda y detallada.
+💎 Valor sesión privada: $50.000 COP (o $15 USD internacional)
+📩 Para agendar: Déjame un comentario en este video o escribe a:
+👉 eddiesboutique954@gmail.com
 
 📌 Suscríbete para tu lectura diaria: no te pierdas los mensajes que el destino tiene para ti.
 🔔 Activa la campanita para recibir cada revelación a tiempo.
 ✨ Deja tu intención o tu signo en los comentarios para conectar con esta energía.
 
-#tarot #lecturapersonalizada #esoterismo #espiritualidad #tarotdiario #arcanos #mensajedeluniverso #oraculo
+#tarot #lecturapersonalizada #tarotcolombia #esoterismo #espiritualidad #tarotdiario #arcanos #mensajedeluniverso #oraculo
 """
 
     print(f"\n📤 Subiendo a YouTube: {title}")
