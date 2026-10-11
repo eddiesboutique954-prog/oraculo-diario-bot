@@ -41,30 +41,33 @@ ZODIAC_SIGNS_EN = [
     "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
 ]
 
-# Situaciones reales de la vida que la gente vive
-# Estos temas generan identificación inmediata y comentarios masivos
-SITUACIONES_VIRALES_ES = [
-    "alguien que te lastimó sigue pensando en ti y no puede dormir",
-    "hay una traición cerca de ti que aún no descubriste",
-    "el amor que esperas está más cerca de lo que crees",
-    "hay dinero bloqueado que viene hacia ti esta semana",
-    "una persona de tu pasado está a punto de volver",
-    "alguien te envidia en silencio y está bloqueando tu energía",
-    "estás a punto de tomar una decisión que cambiará tu vida",
-    "el universo está cerrando un ciclo doloroso en tu vida ahora mismo",
-    "alguien que perdiste no ha dejado de pensar en ti ni un solo día",
-    "hay una oportunidad enorme que estás a punto de perder por miedo",
-    "te están mintiendo alguien muy cercano a ti",
-    "tu soledad de ahora es preparación para algo hermoso que viene",
-    "alguien está hablando mal de ti a tus espaldas y la carta lo confirma",
-    "llevas tiempo esperando una señal y esta carta ES esa señal",
-    "hay un milagro económico que viene en los próximos 7 días",
-    "la persona que amas tiene sentimientos que no te ha dicho",
-    "estás cargando un peso emocional que no es tuyo soltar ya",
-    "alguien del pasado necesita pedirte perdón y lo hará pronto",
-    "tu intuición sobre esa persona tenía razón desde el principio",
-    "hay una puerta que el universo está a punto de abrirte de golpe",
+# Matriz de situaciones con polaridad emocional extrema para máxima variedad
+TEMAS_ADVERTENCIA_OSCURA = [
+    ("advertencia", "alguien muy cercano a ti te está mintiendo en la cara y finge lealtad"),
+    ("advertencia", "hay una energía de envidia oscura estancando tu economía en este instante"),
+    ("advertencia", "esa persona de tu pasado solo quiere volver para alimentar su ego, no por amor"),
+    ("advertencia", "estás a punto de cometer un error grave si confías en esa promesa vacía"),
+    ("advertencia", "alguien habló de ti a tus espaldas en una reunión reciente y las cartas lo confirman"),
+    ("advertencia", "un ciclo tóxico que creías superado está intentando atraparte de nuevo"),
+    ("advertencia", "tu intuición te avisó sobre esa persona y preferiste ignorarla por miedo a la soledad"),
+    ("advertencia", "hay dinero que se te está escapando por una fuga energética de alguien que te drena"),
 ]
+
+TEMAS_BENDICION_LUZ = [
+    ("bendicion", "un milagro económico inesperado tocará tu puerta en los próximos 7 días"),
+    ("bendicion", "el amor de tu vida ya sabe de tu existencia y un encuentro del destino está cerca"),
+    ("bendicion", "el universo está retirando de tu camino a personas falsas para darte paz verdadera"),
+    ("bendicion", "una propuesta laboral o de negocio que dabas por perdida resucitará con éxito"),
+    ("bendicion", "tu tristeza reciente fue solo la limpieza previa a la mayor bendición de tu año"),
+    ("bendicion", "la justicia divina se está cobrando lo que te hicieron sin que tú muevas un dedo"),
+    ("bendicion", "alguien que te ama en silencio finalmente romperá el orgullo y te buscará"),
+    ("bendicion", "una puerta gigante de abundancia se abrirá antes de que termine esta semana"),
+]
+
+def get_situacion_polarizada(lang: str) -> tuple:
+    # 50% probabilidad de advertencia dura / 50% de bendición luminosa
+    pool = TEMAS_ADVERTENCIA_OSCURA if random.random() < 0.5 else TEMAS_BENDICION_LUZ
+    return random.choice(pool)
 
 SITUACIONES_VIRALES_EN = [
     "someone who hurt you can't stop thinking about you",
@@ -157,10 +160,16 @@ def _parse_json(raw: str) -> dict:
 def generate_tarot_script(lang: str = "es", card: str = None, situacion: str = None) -> dict:
     if not card:
         card = get_random_card(lang)
+    polaridad, situacion_auto = get_situacion_polarizada(lang)
     if not situacion:
-        situacion = get_situacion_viral(lang)
+        situacion = situacion_auto
 
     if lang == "es":
+        instruccion_tono = (
+            "ESTE VIDEO ES UNA ADVERTENCIA OSCURA Y URGENTE (tensión, peligro, traición o secreto revelado). Tono serio, de alerta y protección."
+            if polaridad == "advertencia" else
+            "ESTE VIDEO ES UNA BENDICIÓN DE LUZ Y ABUNDANCIA (milagro económico, amor verdadero o liberación). Tono esperanzador, victorioso y mágico."
+        )
         system = (
             "Eres el estratega y guionista de YouTube Shorts #1 del mundo en el nicho de esoterismo, tarot y espiritualidad. "
             "Tus videos superan el 120% de retención de audiencia porque usas TÉCNICA DE BUCLE INFINITO (el final conecta de forma perfecta con el inicio), "
@@ -171,10 +180,12 @@ def generate_tarot_script(lang: str = "es", card: str = None, situacion: str = N
 
 CARTA: {card}
 CONFLICTO VISCERAL: {situacion}
+ENFOQUE DEL VIDEO: {instruccion_tono}
 
-REGLAS DE DURACIÓN ESTRICTAS:
-- NO LO HAGAS CORTO. Debe tener suficiente desarrollo para llenar 28 a 32 segundos de audio hablado continuo.
-- NUNCA dejes de hablar a mitad de video.
+REGLAS DE DURACIÓN Y NARRATIVA:
+- Cada video debe ser TOTALMENTE DIFERENTE al anterior. Alterna drásticamente entre advertencias duras y bendiciones luminosas.
+- NO LO HAGAS CORTO. Llena entre 28 y 32 segundos de narración continua.
+- Al final, invita naturalmente a dejar un comentario o revisar la descripción si desean su lectura privada personalizada.
 
 ESTRUCTURA VIRAL (28 a 32 SEGUNDOS):
 1. HOOK EXPLOSIVO (0 a 3s): Apertura directa al corazón o al subconsciente.

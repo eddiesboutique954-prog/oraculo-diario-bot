@@ -89,15 +89,12 @@ def upload_video_to_youtube(video_path: str, thumbnail_path: str,
 🔮 {CHANNEL_NAME} — Guía Espiritual y Mensajes del Universo
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-✨ ¿NECESITAS UNA LECTURA PERSONALIZADA DE TAROT?
-Resuelve tus dudas en el amor, trabajo, dinero o destino con una sesión privada profunda y detallada.
-💎 Valor sesión privada: $50.000 COP (o $15 USD internacional)
-📩 Para agendar: Déjame un comentario en este video o escribe a:
-👉 eddiesboutique954@gmail.com
+✨ ¿QUIERES UNA LECTURA PERSONALIZADA DE TAROT PRIVADA?
+Escríbeme a eddiesboutique954@gmail.com con la palabra "SESIÓN" y agendamos tu lectura personalizada por $50.000 COP ✨
 
 📌 Suscríbete para tu lectura diaria: no te pierdas los mensajes que el destino tiene para ti.
 🔔 Activa la campanita para recibir cada revelación a tiempo.
-✨ Deja tu intención o tu signo en los comentarios para conectar con esta energía.
+✨ Deja tu comentario en este video para conectar con esta energía.
 
 #tarot #lecturapersonalizada #tarotcolombia #esoterismo #espiritualidad #tarotdiario #arcanos #mensajedeluniverso #oraculo
 """
