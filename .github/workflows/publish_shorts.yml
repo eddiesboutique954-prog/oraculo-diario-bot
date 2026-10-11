@@ -2,11 +2,11 @@ name: 🔮 Tarot Bot — 4 Videos Diarios
 
 on:
   schedule:
-    # Horarios en UTC (México = UTC-6)
-    - cron: '0 13 * * *'   # 7:00 AM México
-    - cron: '0 17 * * *'   # 11:00 AM México
-    - cron: '0 22 * * *'   # 4:00 PM México
-    - cron: '0 2 * * *'    # 8:00 PM México
+    # Horarios en UTC (Colombia = UTC-5)
+    - cron: '0 13 * * *'   # 8:00 AM Colombia
+    - cron: '0 17 * * *'   # 12:00 PM Colombia
+    - cron: '0 0 * * *'    # 7:00 PM Colombia (ajustado por hoy)
+    - cron: '0 2 * * *'    # 9:00 PM Colombia
   workflow_dispatch:
     inputs:
       lang:
