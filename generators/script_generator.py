@@ -112,10 +112,9 @@ def get_situacion_viral(lang: str) -> str:
 
 def _call_openrouter(system_prompt: str, user_prompt: str) -> str:
     models = [
-        "liquid/lfm-2.5-2.6b:free",
-        "google/gemma-3-27b-it:free",
         "nvidia/nemotron-3.5-lightning:free",
-        "openrouter/auto",
+        "liquid/lfm-2.5-2.6b:free",
+        "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
     ]
     headers = {
         "Authorization": f"Bearer {OPENROUTER_API_KEY}",
@@ -249,18 +248,37 @@ Respond ONLY in this exact JSON (no extra text):
     data.setdefault("card", card)
     data.setdefault("cards", [card])
     data.setdefault("lang", lang)
-    data.setdefault("title", f"🔮 {card} tiene un mensaje urgente para ti")
-    data.setdefault("hook", "Si este video llegó a ti hoy... no fue casualidad")
+
+    # Generación de títulos y aperturas dinámicas sin plantillas fijas
+    titulos_dinamicos = [
+        f"El Secreto de {card} que Nadie Te Dijo",
+        f"Lo que {card} Revela Sobre Tu Destino",
+        f"¿Por qué {card} Aparece Hoy Frente a Ti?",
+        f"La Verdad Oculta Detrás de {card}",
+        f"La Señal de {card}: Algo Grande Viene",
+        f"No Ignores a {card}: Revelación Inesperada",
+        f"El Mensaje Oculto de {card} Para Tu Vida",
+    ]
+    hooks_dinamicos = [
+        f"Si estás viendo a {card} justo ahora, no fue casualidad...",
+        f"El universo puso a {card} en tu camino por una razón urgente...",
+        f"Hay algo que las cartas revelan sobre {card} que debes saber hoy...",
+        f"Antes de que termine el día, escucha lo que {card} te anuncia...",
+        f"Esta lectura con {card} no apareció en tu pantalla por error...",
+    ]
+
+    data.setdefault("title", random.choice(titulos_dinamicos))
+    data.setdefault("hook", random.choice(hooks_dinamicos))
     data.setdefault("script",
-        f"Si este video llegó a ti hoy, no fue casualidad... "
-        f"La carta {card} tiene algo importante que decirte. "
+        f"{data.get('hook')} "
         f"{situacion.capitalize()}. "
-        f"El universo te lo está confirmando ahora mismo. "
-        f"Escribe SI en los comentarios si esto llegó a tu corazón.")
+        f"La carta {card} confirma que estás en un punto de quiebre espiritual. "
+        f"No permitas que las dudas del pasado apaguen tu luz. "
+        f"Deja un comentario en este video para conectar con esta energía.")
     data.setdefault("caption_lines", [
-        "NO FUE CASUALIDAD",
-        card.upper(),
-        "ESCRIBE SI EN COMENTARIOS"
+        f"REVELACIÓN: {card.upper()}",
+        situacion[:22].upper() + "...",
+        "DEJA TU COMENTARIO"
     ])
     data["situacion"] = situacion
     return data
