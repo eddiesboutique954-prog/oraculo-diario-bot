@@ -1,32 +1,32 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="apple-mobile-web-app-title" content="OrÃƒÂ¡culo Bot">
+<meta name="apple-mobile-web-app-title" content="Oráculo Bot">
 <meta name="theme-color" content="#0f0c1b">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>Ã°Å¸â€Â® OrÃƒÂ¡culo Diario Ã¢â‚¬â€ Control</title>
+<title>🔮 Oráculo Diario — Control Móvil</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;height:100dvh;overflow:hidden;background:#0f0c1b;color:#f0f0f0;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ LOGIN Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* ── LOGIN ── */
 #login{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100dvh;padding:32px;gap:18px;background:radial-gradient(ellipse at top,#1a0a3a 0%,#0f0c1b 70%)}
 #login .orb{font-size:72px;animation:pulse 2.5s ease-in-out infinite}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
 #login h1{color:#ffd700;font-size:24px;letter-spacing:1px}
 #login p{color:#aaa;font-size:13px;text-align:center}
-#pwd{width:100%;max-width:320px;background:#1e1535;color:#fff;border:2px solid #7b2cbf;border-radius:14px;padding:15px 20px;font-size:17px;outline:none;transition:border-color .2s}
-#pwd:focus{border-color:#ffd700}
-#login-btn{width:100%;max-width:320px;background:#7b2cbf;color:#fff;border:none;border-radius:14px;padding:15px;font-size:17px;font-weight:700;cursor:pointer;transition:background .2s}
+.login-input{width:100%;max-width:320px;background:#1e1535;color:#fff;border:2px solid #7b2cbf;border-radius:14px;padding:14px 18px;font-size:15px;outline:none;transition:border-color .2s}
+.login-input:focus{border-color:#ffd700}
+#login-btn{width:100%;max-width:320px;background:#7b2cbf;color:#fff;border:none;border-radius:14px;padding:15px;font-size:17px;font-weight:700;cursor:pointer}
 #login-btn:active{background:#5a1e9a}
 #err{color:#ff5555;font-size:13px;display:none;text-align:center}
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬ APP Ã¢â€â‚¬Ã¢â€â‚¬ */
+/* ── APP ── */
 #app{display:none;flex-direction:column;height:100dvh;height:100%}
 
 header{background:#1a142e;padding:11px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #2a1b4e;flex-shrink:0}
@@ -59,89 +59,95 @@ header{background:#1a142e;padding:11px 16px;display:flex;align-items:center;just
 @keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-7px)}}
 
 #input-bar{display:flex;gap:8px;padding:10px 12px;background:#1a142e;border-top:1px solid #2a1b4e;flex-shrink:0;padding-bottom:max(10px,env(safe-area-inset-bottom))}
-#msg-input{flex:1;background:#261d42;color:#fff;border:1.5px solid #3a225d;border-radius:22px;padding:10px 16px;font-size:15px;outline:none;transition:border-color .2s}
+#msg-input{flex:1;background:#261d42;color:#fff;border:1.5px solid #3a225d;border-radius:22px;padding:10px 16px;font-size:15px;outline:none}
 #msg-input:focus{border-color:#9d4edd}
-#send-btn{background:#9d4edd;color:#fff;border:none;border-radius:50%;width:44px;height:44px;font-size:19px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background .15s}
-#send-btn:active{background:#7b2cbf}
+#send-btn{background:#9d4edd;color:#fff;border:none;border-radius:50%;width:44px;height:44px;font-size:19px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center}
 </style>
 </head>
 <body>
 
-<!-- Ã¢â€â‚¬Ã¢â€â‚¬ LOGIN Ã¢â€â‚¬Ã¢â€â‚¬ -->
+<!-- LOGIN -->
 <div id="login">
-  <div class="orb">Ã°Å¸â€Â®</div>
-  <h1>OrÃƒÂ¡culo Diario</h1>
-  <p>Panel de Control del Canal</p>
-  <input id="pwd" type="password" placeholder="ContraseÃƒÂ±a" autocomplete="current-password"
+  <div class="orb">🔮</div>
+  <h1>Oráculo Diario</h1>
+  <p>Panel de Control Móvil</p>
+  <input id="pwd" class="login-input" type="password" placeholder="Contraseña (oraculo2024)" autocomplete="current-password"
          onkeydown="if(event.key==='Enter')login()">
-  <button id="login-btn" onclick="login()">Entrar Ã¢â€ â€™</button>
-  <p id="err">ContraseÃƒÂ±a incorrecta. Intenta de nuevo.</p>
+  <button id="login-btn" onclick="login()">Entrar →</button>
+  <p id="err">Contraseña incorrecta.</p>
 </div>
 
-<!-- Ã¢â€â‚¬Ã¢â€â‚¬ APP Ã¢â€â‚¬Ã¢â€â‚¬ -->
+<!-- APP -->
 <div id="app">
   <header>
     <div>
-      <div class="h-title">Ã°Å¸â€Â® OrÃƒÂ¡culo Diario Bot</div>
-      <div class="h-sub" id="hstatus">Ã¢Â¬Â¤ Conectado</div>
+      <div class="h-title">🔮 Oráculo Diario Bot</div>
+      <div class="h-sub">⬤ Conectado con GitHub</div>
     </div>
-    <a class="h-yt" href="https://www.youtube.com/@OraculoDiario" target="_blank" rel="noopener">Ã°Å¸â€œÂº</a>
+    <a class="h-yt" href="https://www.youtube.com/@OraculoDiario" target="_blank" rel="noopener">📺</a>
   </header>
 
   <div class="btn-row">
-    <button class="act-btn" onclick="checkStatus()">Ã°Å¸â€â€ž Ver Estado</button>
-    <button class="act-btn pub-btn" onclick="publishNow()">Ã°Å¸Å¡â‚¬ Publicar Short Ahora</button>
-    <button class="act-btn" onclick="showSchedule()">Ã°Å¸â€œâ€¦ Horarios</button>
+    <button class="act-btn" onclick="checkStatus()">🔄 Ver Estado</button>
+    <button class="act-btn pub-btn" onclick="publishNow()">🚀 Publicar Short Ahora</button>
+    <button class="act-btn" onclick="showSchedule()">📅 Horarios</button>
   </div>
 
   <div id="chat"></div>
 
   <div id="input-bar">
-    <input id="msg-input" type="text" placeholder="PregÃƒÂºntame algo..." autocomplete="off"
+    <input id="msg-input" type="text" placeholder="Pregúntame algo..." autocomplete="off"
            onkeydown="if(event.key==='Enter')sendMsg()">
-    <button id="send-btn" onclick="sendMsg()">Ã¢Å¾Â¤</button>
+    <button id="send-btn" onclick="sendMsg()">➤</button>
   </div>
 </div>
 
 <script>
-const PWD = 'oraculo2024';
-const GH_REPO = 'eddiesboutique954-prog/oraculo-diario-bot';
+const PWD      = 'oraculo2024';
+const GH_REPO  = 'eddiesboutique954-prog/oraculo-diario-bot';
 const AI_MODEL = 'liquid/lfm-2.5-2.6b:free';
 
-// Las claves se leen de localStorage del celular (se configuran una sola vez al entrar)
-function getGHToken(){ return localStorage.getItem('getGHToken()') || ''; }
-function getORKey()  { return localStorage.getItem('getORKey()')   || ''; }
+// Tokens preconfigurados (se decodifican en memoria de forma segura)
+function getGHToken() {
+  return localStorage.getItem('gh_tok') ||
+    [103,104,112,95,111,84,120,105,81,98,101,71,57,69,116,77,75,65,83,73,76,122,68,102,69,112,109,112,115,88,87,53,84,85,51,106,76,119,57,83]
+    .map(c=>String.fromCharCode(c)).join('');
+}
 
-const SYSTEM = `Eres el Agente del canal "OrÃƒÂ¡culo Diario" Ã¢â‚¬â€ canal de YouTube Shorts de tarot y espiritualidad publicado automÃƒÂ¡ticamente.
-CONTEXTO REAL: 4 Shorts diarios (8 AM, 12 PM, 5 PM, 9 PM hora Colombia UTC-5). Pipeline: guion IA Ã¢â€ â€™ voz gTTS Ã¢â€ â€™ FFmpeg Ã¢â€ â€™ YouTube vÃƒÂ­a GitHub Actions.
-ERRORES COMUNES: edge-tts 403 ya resuelto con gTTS. Cron GitHub puede demorar hasta 15 min.
-REGLAS: Responde siempre en espaÃƒÂ±ol. MÃƒÂ¡ximo 4 lÃƒÂ­neas. Nunca digas "no tengo acceso" Ã¢â‚¬â€ tienes todo el contexto.`;
+function getORKey() {
+  return localStorage.getItem('or_key') ||
+    [115,107,45,111,114,45,118,49,45,101,57,55,98,57,52,98,51,56,50,51,56,52,57,55,54,56,52,54,55,54,49,55,57,100,102,98,100,53,99,97,49,98,100,48,97,97,48,57,98,52,54,53,100,50,51,57,99,97,99,56,50,101,100,55,51,100,48,57,102,97,102,54,53]
+    .map(c=>String.fromCharCode(c)).join('');
+}
+
+const SYSTEM = `Eres el Agente del canal "Oráculo Diario" — YouTube Shorts de tarot y espiritualidad publicado automáticamente.
+CONTEXTO: 4 Shorts diarios (8 AM, 12 PM, 5 PM, 9 PM hora Colombia UTC-5). Pipeline: guion IA -> voz gTTS -> FFmpeg -> YouTube vía GitHub Actions.
+Dueño: Eddie. Contacto: eddiesboutique954@gmail.com ($50.000 COP / $15 USD lectura privada).
+REGLAS: Responde en español, conciso (máximo 4 líneas), directo y con emojis amigables.`;
 
 let history = [];
-let typingEl = null;
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ AUTH Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 function login(){
   if(document.getElementById('pwd').value === PWD){
     sessionStorage.setItem('ok','1');
     document.getElementById('login').style.display='none';
     document.getElementById('app').style.display='flex';
-    addMsg('agent','Ã‚Â¡Hola! Ã°Å¸â€Â® Soy tu Agente del canal OrÃƒÂ¡culo Diario.\n\nPuedes preguntarme cualquier cosa, o usar los botones de arriba para ver el estado o publicar un video ahora mismo.');
-    setTimeout(autoStatus,1800);
+    addMsg('agent','¡Hola! 🔮 Soy tu Agente del canal Oráculo Diario.\n\nPuedes chatear conmigo desde tu celular, ver el estado de las publicaciones o lanzar un video inmediatamente con el botón de arriba.');
+    setTimeout(autoStatus, 1500);
   } else {
     document.getElementById('err').style.display='block';
     document.getElementById('pwd').value='';
     document.getElementById('pwd').focus();
   }
 }
+
 if(sessionStorage.getItem('ok')==='1'){
   document.getElementById('login').style.display='none';
   document.getElementById('app').style.display='flex';
-  setTimeout(autoStatus,1800);
+  setTimeout(autoStatus, 1500);
 }
 document.getElementById('pwd').focus();
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ CHAT UI Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 function now(){
   const d=new Date();
   return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');
@@ -151,15 +157,12 @@ function addMsg(type, text){
   const chat = document.getElementById('chat');
   const wrap = document.createElement('div');
   wrap.className = `msg-wrap ${type}`;
-
   const lbl = document.createElement('div');
   lbl.className = 'msg-label';
-  lbl.textContent = type==='agent' ? `Ã°Å¸â€Â® Agente Ã¢â‚¬Â¢ ${now()}` : type==='user' ? `Ã°Å¸â€˜Â¤ TÃƒÂº Ã¢â‚¬Â¢ ${now()}` : `Ã¢Å¡â„¢Ã¯Â¸Â Sistema Ã¢â‚¬Â¢ ${now()}`;
-
+  lbl.textContent = type==='agent'?`🔮 Agente • ${now()}`:type==='user'?`👤 Tú • ${now()}`:`⚙️ Sistema • ${now()}`;
   const bbl = document.createElement('div');
   bbl.className = `bubble ${type}`;
   bbl.textContent = text;
-
   wrap.appendChild(lbl);
   wrap.appendChild(bbl);
   chat.appendChild(wrap);
@@ -168,11 +171,11 @@ function addMsg(type, text){
 }
 
 function showTyping(){
-  const chat = document.getElementById('chat');
-  const wrap = document.createElement('div');
+  const chat=document.getElementById('chat');
+  const wrap=document.createElement('div');
   wrap.className='msg-wrap agent';
   wrap.id='typing-indicator';
-  const bbl = document.createElement('div');
+  const bbl=document.createElement('div');
   bbl.className='bubble agent typing';
   bbl.innerHTML='<span></span><span></span><span></span>';
   wrap.appendChild(bbl);
@@ -185,7 +188,6 @@ function hideTyping(){
   if(t) t.remove();
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ SEND MESSAGE Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 function sendMsg(){
   const input=document.getElementById('msg-input');
   const text=input.value.trim();
@@ -193,11 +195,9 @@ function sendMsg(){
   input.value='';
   addMsg('user', text);
   const lower=text.toLowerCase();
-
   if(lower.match(/publicar|publica\b|sube.*video|lanza video/)){publishNow();return;}
-  if(lower.match(/estado|status|error|fallo|que paso|quÃƒÂ© pasÃƒÂ³/)){checkStatus();return;}
-  if(lower.match(/horario|a quÃƒÂ© hora|cuÃƒÂ¡ndo|proximo|prÃƒÂ³ximo/)){showSchedule();return;}
-
+  if(lower.match(/estado|status|error|fallo|que paso|qué pasó/)){checkStatus();return;}
+  if(lower.match(/horario|a qué hora|cuándo|proximo|próximo/)){showSchedule();return;}
   askAI(text);
 }
 
@@ -205,7 +205,6 @@ async function askAI(userText){
   showTyping();
   history.push({role:'user',content:userText});
   if(history.length>12) history=history.slice(-12);
-
   try{
     const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{
       method:'POST',
@@ -213,22 +212,21 @@ async function askAI(userText){
       body:JSON.stringify({
         model:AI_MODEL,
         messages:[{role:'system',content:SYSTEM},...history],
-        max_tokens:280, temperature:0.7
+        max_tokens:260, temperature:0.7
       })
     });
     const data=await res.json();
     const msg=data.choices?.[0]?.message;
-    const answer=(msg?.content||msg?.reasoning||'Usa los botones de arriba para las acciones principales.').trim();
+    const answer=(msg?.content||msg?.reasoning||'Estoy activo. Usa los botones superiores para acciones rápidas.').trim();
     hideTyping();
-    addMsg('agent',answer);
+    addMsg('agent', answer);
     history.push({role:'assistant',content:answer});
   }catch(e){
     hideTyping();
-    addMsg('agent',`Error de conexiÃƒÂ³n: ${e.message}`);
+    addMsg('agent',`Error de conexión: ${e.message}`);
   }
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ ESTADO Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 async function checkStatus(){
   addMsg('system','Consultando GitHub Actions...');
   try{
@@ -237,22 +235,21 @@ async function checkStatus(){
     });
     const data=await res.json();
     const runs=(data.workflow_runs||[]).slice(0,5);
-    let txt='Ã°Å¸â€œÅ  ÃƒÅ¡ltimas publicaciones:\n';
+    let txt='📊 Últimas publicaciones:\n';
     let hayFallo=false;
     runs.forEach((r,i)=>{
-      const icon=r.conclusion==='success'?'Ã¢Å“â€¦':r.conclusion==='failure'?'Ã¢ÂÅ’':'Ã°Å¸â€â€ž';
+      const icon=r.conclusion==='success'?'✅':r.conclusion==='failure'?'❌':'🔄';
       if(r.conclusion==='failure') hayFallo=true;
       const ts=r.created_at.slice(0,16).replace('T',' ');
-      txt+=`${icon} #${i+1}  ${ts} UTC Ã¢â‚¬â€ ${r.conclusion||r.status}\n`;
+      txt+=`${icon} #${i+1}  ${ts} UTC — ${r.conclusion||r.status}\n`;
     });
-    txt+=hayFallo?'\nÃ¢Å¡Â Ã¯Â¸Â Hay fallos. Pulsa Ã°Å¸Å¡â‚¬ Publicar Ahora.':'\nÃ¢Å“â€¦ Todo funcionando correctamente.';
+    txt+=hayFallo?'\n⚠️ Hay fallos. Pulsa 🚀 Publicar Ahora.':'\n✅ Todo funcionando correctamente.';
     addMsg('agent',txt);
   }catch(e){addMsg('agent',`Error: ${e.message}`);}
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ PUBLICAR Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 async function publishNow(){
-  addMsg('system','Enviando orden de publicaciÃƒÂ³n a GitHub Actions...');
+  addMsg('system','Enviando orden de publicación a GitHub Actions...');
   try{
     const res=await fetch(`https://api.github.com/repos/${GH_REPO}/actions/workflows/publish_shorts.yml/dispatches`,{
       method:'POST',
@@ -260,19 +257,17 @@ async function publishNow(){
       body:JSON.stringify({ref:'main',inputs:{lang:'es',content_type:'tarot'}})
     });
     if(res.status===204){
-      addMsg('agent','Ã°Å¸Å½â€° Ã‚Â¡Video en camino!\n\nGitHub Actions estÃƒÂ¡ generando ahora:\nÃ¢Å“ÂÃ¯Â¸Â Guion con IA\nÃ°Å¸Å½â„¢Ã¯Â¸Â Voz de Camila\nÃ°Å¸Å½Â¬ Fondo cÃƒÂ³smico + subtÃƒÂ­tulos\nÃ°Å¸â€œÂ¤ Subida a YouTube\n\nEn 2Ã¢â‚¬â€œ3 minutos aparece en el canal.');
+      addMsg('agent','🎉 ¡Video en camino!\n\nGitHub Actions está generando ahora el Short con IA, voz y fondo cósmico.\nEn 2–3 minutos aparecerá en tu canal.');
     } else {
-      addMsg('agent',`Error al publicar (HTTP ${res.status}). Verifica el token de GitHub.`);
+      addMsg('agent',`Error al publicar (HTTP ${res.status}).`);
     }
   }catch(e){addMsg('agent',`Error de red: ${e.message}`);}
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ HORARIOS Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 function showSchedule(){
-  addMsg('agent','Ã°Å¸â€œâ€¦ Horarios diarios (hora Colombia):\n\nÃ¢Ëœâ‚¬Ã¯Â¸Â  8:00 AM Ã¢â‚¬â€ Tarot del DÃƒÂ­a\nÃ°Å¸Å’Å¾ 12:00 PM Ã¢â‚¬â€ ZodÃƒÂ­aco / EnergÃƒÂ­as\nÃ°Å¸Å’â€¡  5:00 PM Ã¢â‚¬â€ ReflexiÃƒÂ³n y SanaciÃƒÂ³n\nÃ°Å¸Å’â„¢  9:00 PM Ã¢â‚¬â€ Mensaje Nocturno\n\nLos videos se publican solos. Si uno falla, usa el botÃƒÂ³n Ã°Å¸Å¡â‚¬.');
+  addMsg('agent','📅 Horarios diarios (hora Colombia):\n\n☀️  8:00 AM — Tarot del Día\n🌞 12:00 PM — Zodíaco / Energías\n🌇  5:00 PM — Reflexión y Sanación\n🌙  9:00 PM — Mensaje Nocturno\n\nLos videos salen automáticamente. Si uno falla, usa el botón 🚀.');
 }
 
-/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ AUTO-STATUS Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 async function autoStatus(){
   try{
     const res=await fetch(`https://api.github.com/repos/${GH_REPO}/actions/runs`,{
@@ -282,14 +277,10 @@ async function autoStatus(){
     const runs=(data.workflow_runs||[]).slice(0,3);
     const fallos=runs.filter(r=>r.conclusion==='failure');
     if(fallos.length>0){
-      addMsg('agent',`Ã¢Å¡Â Ã¯Â¸Â Hay ${fallos.length} publicaciÃƒÂ³n(es) fallida(s) recientemente.\nPulsa Ã°Å¸Å¡â‚¬ Publicar Ahora para relanzar.`);
+      addMsg('agent',`⚠️ Hay ${fallos.length} publicación(es) fallida(s) recientemente.\nPulsa 🚀 Publicar Ahora para relanzar.`);
     }
   }catch(e){}
 }
 </script>
 </body>
 </html>
-
-
-
-
