@@ -1,35 +1,78 @@
 """
-🔮 Panel de Control y Chat con el Agente de Tarot Bot
-Aplicación de escritorio interactiva para:
-1. Ver el estado de publicaciones en GitHub Actions y YouTube en tiempo real.
-2. Forzar la generación y publicación de un video de inmediato con 1 clic.
-3. Conversar en lenguaje natural con el Agente para diagnosticar errores, cambiar temas o pedir reportes.
+🔮 Panel de Control y Chat con el Agente — Oráculo Diario
+App de escritorio para monitorear el canal, publicar videos y conversar con el agente.
 """
 
 import os
 import sys
-import json
 import threading
-import subprocess
+import datetime
+import webbrowser
 import requests
 import tkinter as tk
-from tkinter import ttk, scrolledtext, messagebox
+from tkinter import scrolledtext
 
-# Configuración del bot
-BOT_DIR = os.path.dirname(os.path.abspath(__file__))
-GITHUB_TOKEN = "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"
-GITHUB_OWNER = "eddiesboutique954-prog"
-GITHUB_REPO = "oraculo-diario-bot"
+# ── Configuración ──────────────────────────────────────────────────────────────
+BOT_DIR       = os.path.dirname(os.path.abspath(__file__))
+GITHUB_TOKEN  = "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"
+GITHUB_OWNER  = "eddiesboutique954-prog"
+GITHUB_REPO   = "oraculo-diario-bot"
 OPENROUTER_KEY = "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"
 
-class TarotBotChatApp:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("🔮 Oráculo Diario — Centro de Control y Chat del Agente")
-        self.root.geometry("860x680")
-        self.root.minsize(700, 500)
-        self.root.configure(bg="#0f0c1b")
+# Modelo estable que siempre devuelve content correcto
+AI_MODEL = "liquid/lfm-2.5-2.6b:free"
 
+SYSTEM_PROMPT = """Eres el Agente Inteligente del canal "Oráculo Diario" — un canal de YouTube Shorts de tarot y espiritualidad que se publica automáticamente.
+
+CONTEXTO REAL DEL CANAL:
+- Se publican 4 Shorts diarios: 8 AM, 12 PM, 5 PM, 9 PM (Colombia, UTC-5).
+- Los videos se generan con IA (guion, voz Camila, fondo cósmico, subtítulos) y se suben solos a YouTube.
+- El pipeline corre en GitHub Actions: repo eddiesboutique954-prog/oraculo-diario-bot
+- El dueño del canal se llama Eddie. Ofrece lecturas personalizadas a $50.000 COP / $15 USD.
+- Email de contacto: eddiesboutique954@gmail.com
+
+ERRORES CONOCIDOS Y SOLUCIONES:
+- "edge-tts 403 WebSocket": Microsoft bloqueó el servicio de voz. SOLUCIÓN: el bot ya fue migrado a gTTS.
+- "Process completed with exit code 1": error en la generación. Usar el botón "Publicar Short Ahora" para reintentar.
+- Si GitHub Actions no disparó un video: GitHub cron puede tener hasta 15 min de retraso — es normal.
+
+TUS CAPACIDADES:
+- Responder preguntas sobre el canal, el bot y los errores.
+- Explicar qué ocurrió en una publicación fallida.
+- Dar recomendaciones para crecer el canal.
+- El usuario puede ver el estado con el botón "Ver Estado" y forzar publicación con "Publicar Short Ahora".
+
+REGLAS IMPORTANTES:
+- Responde SIEMPRE en español.
+- Sé directo y concreto. Máximo 4 líneas por respuesta.
+- Nunca digas "no tengo acceso" — tienes todo el contexto necesario arriba.
+- Si el usuario pregunta por un error específico, explica la causa y la solución concreta.
+- Recuerda la conversación anterior para dar respuestas coherentes."""
+
+# ── Colores ───────────────────────────────────────────────────────────────────
+C_BG       = "#0f0c1b"
+C_PANEL    = "#1a142e"
+C_INPUT    = "#261d42"
+C_GOLD     = "#ffd700"
+C_PURPLE   = "#9d4edd"
+C_PURPLE2  = "#7b2cbf"
+C_BLUE     = "#2a1b4e"
+C_GREEN    = "#00ff88"
+C_CYAN     = "#00e5ff"
+C_WHITE    = "#f0f0f0"
+C_AGENT    = "#e0d4fd"
+C_ERROR    = "#ff5555"
+
+
+class OracloChatApp:
+    def __init__(self, root: tk.Tk):
+        self.root = root
+        self.root.title("🔮 Oráculo Diario — Control y Chat del Agente")
+        self.root.geometry("900x700")
+        self.root.minsize(700, 520)
+        self.root.configure(bg=C_BG)
+
+        # Cargar ícono
         icon_path = os.path.join(BOT_DIR, "assets", "app_icon.ico")
         if os.path.exists(icon_path):
             try:
@@ -37,233 +80,299 @@ class TarotBotChatApp:
             except Exception:
                 pass
 
-        self._setup_styles()
-        self._build_ui()
-        self._append_agent_message(
-            "¡Hola! Soy tu Agente del canal Oráculo Diario.\n"
-            "Estoy monitoreando tus publicaciones automáticas en YouTube y GitHub Actions.\n\n"
-            "¿Qué deseas hacer hoy? Puedes preguntarme:\n"
-            "• '¿Cuál es el estado de las publicaciones?'\n"
-            "• '¿Hubo algún error hoy?'\n"
-            "• 'Publica un video de tarot ahora mismo'\n"
-            "• '¿A qué hora sale el próximo video?'"
-        )
-        self.check_github_status_async()
+        # Historial de conversación para que la IA recuerde el contexto
+        self.chat_history: list[dict] = []
 
-    def _setup_styles(self):
-        style = ttk.Style()
-        style.theme_use("clam")
-        style.configure("TFrame", background="#0f0c1b")
-        style.configure("Header.TLabel", background="#0f0c1b", foreground="#ffd700", font=("Segoe UI", 16, "bold"))
-        style.configure("Status.TLabel", background="#1a142e", foreground="#e0e0e0", font=("Segoe UI", 10))
-        style.configure("Action.TButton", font=("Segoe UI", 10, "bold"), background="#7b2cbf", foreground="#ffffff")
+        self._build_ui()
+
+        self._agent("¡Hola! Soy tu Agente del canal Oráculo Diario. 🔮\n"
+                    "Puedo ayudarte a:\n"
+                    "• Ver el estado de las publicaciones y errores\n"
+                    "• Forzar la publicación de un video ahora mismo\n"
+                    "• Responder cualquier pregunta sobre el canal\n\n"
+                    "¿En qué te ayudo?")
+
+        # Al abrir, verificar estado automáticamente
+        threading.Thread(target=self._auto_status, daemon=True).start()
+
+    # ── UI ────────────────────────────────────────────────────────────────────
 
     def _build_ui(self):
-        # 1. Encabezado superior
-        header_frame = tk.Frame(self.root, bg="#1a142e", padx=15, pady=12)
-        header_frame.pack(fill="x")
+        # Header
+        header = tk.Frame(self.root, bg=C_PANEL, padx=15, pady=10)
+        header.pack(fill="x")
 
-        title_lbl = tk.Label(header_frame, text="🔮 Oráculo Diario Bot — Asistente Inteligente",
-                             bg="#1a142e", fg="#ffd700", font=("Segoe UI", 15, "bold"))
-        title_lbl.pack(side="left")
+        tk.Label(header, text="🔮 Oráculo Diario Bot — Asistente Inteligente",
+                 bg=C_PANEL, fg=C_GOLD, font=("Segoe UI", 14, "bold")).pack(side="left")
 
-        self.status_indicator = tk.Label(header_frame, text="🟢 Conectado con GitHub Actions",
-                                         bg="#1a142e", fg="#00ff88", font=("Segoe UI", 10, "bold"))
-        self.status_indicator.pack(side="right")
+        self.status_dot = tk.Label(header, text="⬤ Conectado",
+                                   bg=C_PANEL, fg=C_GREEN, font=("Segoe UI", 9, "bold"))
+        self.status_dot.pack(side="right")
 
-        # 2. Barra de acciones rápidas
-        btn_frame = tk.Frame(self.root, bg="#0f0c1b", padx=15, pady=8)
-        btn_frame.pack(fill="x")
+        # Botones de acción
+        btns = tk.Frame(self.root, bg=C_BG, padx=12, pady=6)
+        btns.pack(fill="x")
 
-        btn_status = tk.Button(btn_frame, text="🔄 Verificar Estado / Errores", bg="#2a1b4e", fg="#ffffff",
-                               font=("Segoe UI", 9, "bold"), relief="flat", padx=10, pady=5,
-                               command=self.check_github_status_async)
-        btn_status.pack(side="left", padx=5)
+        self._btn(btns, "🔄  Ver Estado y Errores",  C_BLUE,    self._status_btn).pack(side="left", padx=4)
+        self._btn(btns, "🚀  Publicar Short Ahora",  C_PURPLE2, self._publish_btn).pack(side="left", padx=4)
+        self._btn(btns, "📺  Abrir Canal YouTube",   "#3a225d", self._open_channel).pack(side="right", padx=4)
 
-        btn_publish_now = tk.Button(btn_frame, text="🚀 Publicar Short Ahora Mismo", bg="#7b2cbf", fg="#ffffff",
-                                    font=("Segoe UI", 9, "bold"), relief="flat", padx=10, pady=5,
-                                    command=self.trigger_publish_now)
-        btn_publish_now.pack(side="left", padx=5)
-
-        btn_channel = tk.Button(btn_frame, text="📺 Abrir Mi Canal en YouTube", bg="#3a225d", fg="#ffd700",
-                                font=("Segoe UI", 9, "bold"), relief="flat", padx=10, pady=5,
-                                command=self.open_channel)
-        btn_channel.pack(side="right", padx=5)
-
-        # 3. Área de chat
-        chat_frame = tk.Frame(self.root, bg="#0f0c1b", padx=15, pady=5)
+        # Chat
+        chat_frame = tk.Frame(self.root, bg=C_BG, padx=12, pady=4)
         chat_frame.pack(fill="both", expand=True)
 
-        self.chat_display = scrolledtext.ScrolledText(
-            chat_frame, wrap="word", bg="#151026", fg="#f0f0f0",
-            font=("Segoe UI", 11), insertbackground="#ffd700",
-            relief="flat", padx=15, pady=15
+        self.chat = scrolledtext.ScrolledText(
+            chat_frame, wrap="word", bg="#151026", fg=C_WHITE,
+            font=("Segoe UI", 11), insertbackground=C_GOLD,
+            relief="flat", padx=14, pady=14, state="disabled"
         )
-        self.chat_display.pack(fill="both", expand=True)
-        self.chat_display.config(state="disabled")
+        self.chat.pack(fill="both", expand=True)
+        self.chat.tag_config("agent",  foreground=C_AGENT)
+        self.chat.tag_config("user",   foreground=C_GOLD)
+        self.chat.tag_config("system", foreground=C_CYAN)
+        self.chat.tag_config("error",  foreground=C_ERROR)
+        self.chat.tag_config("bold",   font=("Segoe UI", 11, "bold"))
 
-        # Configurar colores de tags de texto
-        self.chat_display.tag_config("agent", foreground="#e0d4fd")
-        self.chat_display.tag_config("user", foreground="#ffd700")
-        self.chat_display.tag_config("system", foreground="#00e5ff")
-        self.chat_display.tag_config("error", foreground="#ff5555")
+        # Input
+        inp_frame = tk.Frame(self.root, bg=C_PANEL, padx=12, pady=10)
+        inp_frame.pack(fill="x")
 
-        # 4. Campo de entrada de mensaje
-        input_frame = tk.Frame(self.root, bg="#1a142e", padx=15, pady=10)
-        input_frame.pack(fill="x")
+        self.entry = tk.Entry(inp_frame, bg=C_INPUT, fg=C_WHITE,
+                              font=("Segoe UI", 12), relief="flat",
+                              insertbackground=C_GOLD)
+        self.entry.pack(side="left", fill="x", expand=True, ipady=7, padx=(0, 10))
+        self.entry.bind("<Return>", lambda e: self._send())
+        self.entry.focus()
 
-        self.user_input = tk.Entry(input_frame, bg="#261d42", fg="#ffffff",
-                                   font=("Segoe UI", 12), relief="flat", insertbackground="#ffd700")
-        self.user_input.pack(side="left", fill="x", expand=True, ipady=7, padx=(0, 10))
-        self.user_input.bind("<Return>", lambda event: self.send_message())
+        self._btn(inp_frame, "Enviar  ➤", C_PURPLE, self._send,
+                  font=("Segoe UI", 10, "bold"), padx=18, pady=6).pack(side="right")
 
-        btn_send = tk.Button(input_frame, text="Enviar ➤", bg="#9d4edd", fg="#ffffff",
-                             font=("Segoe UI", 10, "bold"), relief="flat", padx=16, pady=6,
-                             command=self.send_message)
-        btn_send.pack(side="right")
+    def _btn(self, parent, text, color, cmd, **kw):
+        defaults = dict(font=("Segoe UI", 9, "bold"), padx=10, pady=5)
+        defaults.update(kw)
+        return tk.Button(parent, text=text, bg=color, fg=C_WHITE,
+                         relief="flat", activebackground=C_PURPLE,
+                         cursor="hand2", command=cmd, **defaults)
 
-    def _append_message(self, sender: str, text: str, tag: str = "agent"):
-        self.chat_display.config(state="normal")
-        self.chat_display.insert("end", f"\n{sender}:\n", tag)
-        self.chat_display.insert("end", f"{text}\n")
-        self.chat_display.see("end")
-        self.chat_display.config(state="disabled")
+    # ── Chat helpers ──────────────────────────────────────────────────────────
 
-    def _append_agent_message(self, text: str):
-        self._append_message("🔮 Agente Oráculo Diario", text, "agent")
+    def _write(self, who: str, text: str, tag: str = "agent"):
+        def _do():
+            self.chat.config(state="normal")
+            now = datetime.datetime.now().strftime("%H:%M")
+            self.chat.insert("end", f"\n{who}  [{now}]\n", tag)
+            self.chat.insert("end", f"{text}\n")
+            self.chat.see("end")
+            self.chat.config(state="disabled")
+        self.root.after(0, _do)
 
-    def _append_user_message(self, text: str):
-        self._append_message("👤 Tú", text, "user")
+    def _agent(self, text: str):
+        self._write("🔮 Agente Oráculo Diario", text, "agent")
 
-    def send_message(self):
-        msg = self.user_input.get().strip()
+    def _user(self, text: str):
+        self._write("👤 Tú", text, "user")
+
+    def _sys(self, text: str):
+        self._write("⚙️ Sistema", text, "system")
+
+    # ── Enviar mensaje ────────────────────────────────────────────────────────
+
+    def _send(self):
+        msg = self.entry.get().strip()
         if not msg:
             return
-        self.user_input.delete(0, "end")
-        self._append_user_message(msg)
+        self.entry.delete(0, "end")
+        self._user(msg)
+        threading.Thread(target=self._handle_message, args=(msg,), daemon=True).start()
 
-        # Procesar en segundo plano para no congelar la ventana
-        threading.Thread(target=self._process_user_message, args=(msg,), daemon=True).start()
-
-    def _process_user_message(self, text: str):
+    def _handle_message(self, text: str):
         lower = text.lower()
 
-        # Comandos directos de acción rápida
-        if any(w in lower for w in ["publicar", "subir video", "publica ahora", "lanza video"]):
-            self.trigger_publish_now()
+        # Comandos directos que no necesitan IA
+        if any(w in lower for w in ["publicar", "publica", "subir video", "lanza video", "sube video"]):
+            self._do_publish()
             return
 
-        if any(w in lower for w in ["estado", "status", "error", "errores", "fallo", "falló", "qué pasó"]):
-            self.check_github_status_async()
+        if any(w in lower for w in ["estado", "status", "errores", "error", "fallo", "qué pasó", "que paso"]):
+            self._do_status()
             return
 
-        if any(w in lower for w in ["horario", "hora", "cuándo", "proximo", "próximo"]):
-            self._append_agent_message(
-                "📅 Horarios de publicación programados (Hora Colombia UTC-5):\n"
-                "• ☀️ 8:00 AM — Tarot del Día\n"
-                "• 🍽️ 12:00 PM — Zodíaco / Energías\n"
-                "• 🌇 5:00 PM — Reflexión y Sanación\n"
-                "• 🌙 9:00 PM — Mensaje de Advertencia / Cierre Nocturno\n\n"
-                "Cada video se publica de forma 100% automática en GitHub Actions."
+        if any(w in lower for w in ["horario", "hora", "cuándo sale", "proximo", "próximo"]):
+            self._agent(
+                "📅 Horarios diarios (hora Colombia):\n"
+                "• ☀️  8:00 AM — Tarot del Día\n"
+                "• 🌞 12:00 PM — Zodíaco / Energías\n"
+                "• 🌇  5:00 PM — Reflexión y Sanación\n"
+                "• 🌙  9:00 PM — Mensaje Nocturno\n\n"
+                "Los videos se publican solos. Si uno falla, pulsa '🚀 Publicar Short Ahora'."
             )
             return
 
-        # Para preguntas generales, consultar con la IA (OpenRouter)
-        self._query_agent_ai(text)
+        # Cualquier otra pregunta → IA con historial completo
+        self._ask_ai(text)
 
-    def _query_agent_ai(self, user_prompt: str):
+    # ── IA con historial ──────────────────────────────────────────────────────
+
+    def _ask_ai(self, user_text: str):
+        self._sys("Pensando...")
+
+        # Agregar el mensaje del usuario al historial
+        self.chat_history.append({"role": "user", "content": user_text})
+        # Mantener solo los últimos 12 mensajes (6 intercambios)
+        if len(self.chat_history) > 12:
+            self.chat_history = self.chat_history[-12:]
+
+        messages = [{"role": "system", "content": SYSTEM_PROMPT}] + self.chat_history
+
         headers = {
             "Authorization": f"Bearer {OPENROUTER_KEY}",
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "HTTP-Referer": "https://github.com/eddiesboutique954-prog/oraculo-diario-bot"
         }
-        system_prompt = (
-            "Eres el Agente de Control de 'Oráculo Diario', un canal automatizado de YouTube Shorts de tarot y espiritualidad. "
-            "Responde de forma amable, empática, concisa y profesional en español. "
-            "Ayuda al usuario a entender cómo funciona el bot, diagnosticar dudas sobre las publicaciones o dar consejos para crecer."
-        )
+        payload = {
+            "model": AI_MODEL,
+            "messages": messages,
+            "max_tokens": 350,
+            "temperature": 0.7
+        }
+
         try:
             resp = requests.post(
                 "https://openrouter.ai/api/v1/chat/completions",
-                headers=headers,
-                json={
-                    "model": "nvidia/nemotron-3.5-lightning:free",
-                    "messages": [
-                        {"role": "system", "content": system_prompt},
-                        {"role": "user", "content": user_prompt}
-                    ],
-                    "max_tokens": 400
-                },
-                timeout=25
+                headers=headers, json=payload, timeout=30
             )
             if resp.status_code == 200:
-                answer = resp.json()["choices"][0]["message"]["content"]
-                self.root.after(0, self._append_agent_message, answer)
+                data = resp.json()
+                msg_obj = data.get("choices", [{}])[0].get("message", {})
+                # Fallback: algunos modelos ponen el texto en "reasoning" en vez de "content"
+                answer = (msg_obj.get("content") or
+                          msg_obj.get("reasoning") or
+                          "Estoy activo. Usa los botones para ver el estado o publicar.")
+                answer = answer.strip()
+            elif resp.status_code == 429:
+                answer = "Límite de solicitudes alcanzado. Espera un momento e intenta de nuevo."
             else:
-                self.root.after(0, self._append_agent_message, "Estoy activo y monitoreando el canal. Si necesitas forzar una publicación o revisar el estado, usa los botones superiores.")
+                answer = (f"No pude conectar con la IA (error {resp.status_code}). "
+                          "Usa los botones de arriba para las acciones principales.")
+
+            # Guardar respuesta en historial
+            self.chat_history.append({"role": "assistant", "content": answer})
+            self._agent(answer)
+
+        except requests.exceptions.Timeout:
+            self._agent("La IA tardó demasiado en responder. Intenta de nuevo.")
         except Exception as e:
-            self.root.after(0, self._append_agent_message, f"Nota del sistema: Conectado localmente. ({e})")
+            self._agent(f"Error de conexión: {e}")
 
-    def check_github_status_async(self):
-        self._append_message("⚙️ Sistema", "Consultando estado de las últimas ejecuciones en GitHub Actions...", "system")
-        threading.Thread(target=self._check_github_status, daemon=True).start()
+    # ── Estado GitHub Actions ─────────────────────────────────────────────────
 
-    def _check_github_status(self):
+    def _status_btn(self):
+        threading.Thread(target=self._do_status, daemon=True).start()
+
+    def _do_status(self):
+        self._sys("Consultando estado de las últimas ejecuciones en GitHub Actions...")
         headers = {
             "Authorization": f"token {GITHUB_TOKEN}",
             "Accept": "application/vnd.github.v3+json"
         }
         try:
-            r = requests.get(f"https://api.github.com/repos/{GITHUB_OWNER}/{GITHUB_REPO}/actions/runs", headers=headers, timeout=15)
+            r = requests.get(
+                f"https://api.github.com/repos/{GITHUB_OWNER}/{GITHUB_REPO}/actions/runs",
+                headers=headers, timeout=15
+            )
+            if r.status_code == 200:
+                runs = r.json().get("workflow_runs", [])[:5]
+                lines = ["📊 Últimas 5 ejecuciones:\n"]
+                all_ok = True
+                for i, run in enumerate(runs, 1):
+                    conclusion = run.get("conclusion") or run.get("status", "?")
+                    icon = "✅" if conclusion == "success" else \
+                           "❌" if conclusion == "failure" else "🔄"
+                    if conclusion == "failure":
+                        all_ok = False
+                    ts_utc = run.get("created_at", "")[:16].replace("T", " ")
+                    lines.append(f"{icon} #{i} — {ts_utc} UTC — {conclusion}")
+
+                if all_ok:
+                    lines.append("\n✅ Todo funcionando correctamente.")
+                else:
+                    lines.append("\n⚠️ Hay ejecuciones fallidas. Pulsa '🚀 Publicar Short Ahora' para relanzar.")
+
+                self._agent("\n".join(lines))
+            else:
+                self._agent(f"No se pudo consultar GitHub (HTTP {r.status_code}). Verifica tu conexión.")
+        except Exception as e:
+            self._agent(f"Error al conectar con GitHub: {e}")
+
+    def _auto_status(self):
+        """Verificación silenciosa al arrancar — solo muestra si hay errores."""
+        import time
+        time.sleep(2)
+        headers = {
+            "Authorization": f"token {GITHUB_TOKEN}",
+            "Accept": "application/vnd.github.v3+json"
+        }
+        try:
+            r = requests.get(
+                f"https://api.github.com/repos/{GITHUB_OWNER}/{GITHUB_REPO}/actions/runs",
+                headers=headers, timeout=10
+            )
             if r.status_code == 200:
                 runs = r.json().get("workflow_runs", [])[:3]
-                report = "📊 Estado de las últimas publicaciones:\n\n"
-                for idx, run in enumerate(runs, 1):
-                    run_id = run.get("id")
-                    status = run.get("status")
-                    conclusion = run.get("conclusion") or "En ejecución"
-                    icon = "✅" if conclusion == "success" else ("❌" if conclusion == "failure" else "⏳")
-                    report += f"{idx}. {icon} Run #{run_id} — Estado: {status} | Resultado: {conclusion}\n"
+                failed = [run for run in runs if run.get("conclusion") == "failure"]
+                if failed:
+                    self._agent(
+                        f"⚠️ Detecté {len(failed)} ejecución(es) fallida(s) recientemente.\n"
+                        "Pulsa '🔄 Ver Estado y Errores' para más detalles,\n"
+                        "o '🚀 Publicar Short Ahora' para relanzar inmediatamente."
+                    )
+        except Exception:
+            pass
 
-                report += "\nSi alguna falló, puedes hacer clic en 'Publicar Short Ahora Mismo' para resolverlo de inmediato."
-                self.root.after(0, self._append_agent_message, report)
-            else:
-                self.root.after(0, self._append_agent_message, f"No se pudo consultar GitHub Actions (Código {r.status_code}).")
-        except Exception as e:
-            self.root.after(0, self._append_agent_message, f"Error al conectar con GitHub: {e}")
+    # ── Publicar ──────────────────────────────────────────────────────────────
 
-    def trigger_publish_now(self):
-        self._append_message("🚀 Acción", "Lanzando generación y publicación inmediata en GitHub Actions...", "system")
-        threading.Thread(target=self._dispatch_publish, daemon=True).start()
+    def _publish_btn(self):
+        threading.Thread(target=self._do_publish, daemon=True).start()
 
-    def _dispatch_publish(self):
+    def _do_publish(self):
+        self._sys("Lanzando publicación de video en GitHub Actions...")
         headers = {
             "Authorization": f"token {GITHUB_TOKEN}",
             "Accept": "application/vnd.github.v3+json"
         }
         try:
             r = requests.post(
-                f"https://api.github.com/repos/{GITHUB_OWNER}/{GITHUB_REPO}/actions/workflows/publish_shorts.yml/dispatches",
+                f"https://api.github.com/repos/{GITHUB_OWNER}/{GITHUB_REPO}"
+                "/actions/workflows/publish_shorts.yml/dispatches",
                 headers=headers,
                 json={"ref": "main", "inputs": {"lang": "es", "content_type": "tarot"}},
                 timeout=15
             )
             if r.status_code == 204:
-                msg = (
-                    "🎉 ¡Publicación lanzada exitosamente en la nube!\n\n"
-                    "El bot está generando el guion, la voz de Camila, los subtítulos y subiendo el video a YouTube ahora mismo.\n"
-                    "En aproximadamente 2 minutos estará publicado en tu canal."
+                self._agent(
+                    "🎉 ¡Video enviado a publicar exitosamente!\n\n"
+                    "GitHub Actions está generando ahora mismo:\n"
+                    "• ✍️ Guion con IA\n"
+                    "• 🎙️ Voz de Camila\n"
+                    "• 🎬 Fondo cósmico animado + subtítulos\n"
+                    "• 📤 Subida a YouTube\n\n"
+                    "En aproximadamente 2–3 minutos aparecerá en tu canal."
                 )
-                self.root.after(0, self._append_agent_message, msg)
             else:
-                self.root.after(0, self._append_agent_message, f"Hubo un inconveniente al lanzar la acción ({r.status_code}).")
+                self._agent(f"Hubo un error al lanzar la publicación (HTTP {r.status_code}). "
+                            "Verifica que el token de GitHub siga activo.")
         except Exception as e:
-            self.root.after(0, self._append_agent_message, f"Error de conexión: {e}")
+            self._agent(f"Error de red al intentar publicar: {e}")
 
-    def open_channel(self):
-        import webbrowser
-        webbrowser.open("https://www.youtube.com/channel/UCvjSasYQoo9DHd-u-OkUefA")
+    # ── Canal ─────────────────────────────────────────────────────────────────
+
+    def _open_channel(self):
+        webbrowser.open("https://www.youtube.com/@OraculoDiario")
+
+
+# ── Entry point ───────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = TarotBotChatApp(root)
+    app = OracloChatApp(root)
     root.mainloop()
