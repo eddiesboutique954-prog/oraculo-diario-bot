@@ -64,6 +64,8 @@ TEMAS_BENDICION_LUZ = [
     ("bendicion", "una puerta gigante de abundancia se abrirá antes de que termine esta semana"),
 ]
 
+SITUACIONES_VIRALES_ES = [item[1] for item in TEMAS_ADVERTENCIA_OSCURA + TEMAS_BENDICION_LUZ]
+
 def get_situacion_polarizada(lang: str) -> tuple:
     # 50% probabilidad de advertencia dura / 50% de bendición luminosa
     pool = TEMAS_ADVERTENCIA_OSCURA if random.random() < 0.5 else TEMAS_BENDICION_LUZ
