@@ -5,16 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="apple-mobile-web-app-title" content="OrÃ¡culo Bot">
+<meta name="apple-mobile-web-app-title" content="OrÃƒÂ¡culo Bot">
 <meta name="theme-color" content="#0f0c1b">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>ðŸ”® OrÃ¡culo Diario â€” Control</title>
+<title>Ã°Å¸â€Â® OrÃƒÂ¡culo Diario Ã¢â‚¬â€ Control</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;height:100dvh;overflow:hidden;background:#0f0c1b;color:#f0f0f0;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
 
-/* â”€â”€ LOGIN â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ LOGIN Ã¢â€â‚¬Ã¢â€â‚¬ */
 #login{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100dvh;padding:32px;gap:18px;background:radial-gradient(ellipse at top,#1a0a3a 0%,#0f0c1b 70%)}
 #login .orb{font-size:72px;animation:pulse 2.5s ease-in-out infinite}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
@@ -26,7 +26,7 @@ html,body{height:100%;height:100dvh;overflow:hidden;background:#0f0c1b;color:#f0
 #login-btn:active{background:#5a1e9a}
 #err{color:#ff5555;font-size:13px;display:none;text-align:center}
 
-/* â”€â”€ APP â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬ APP Ã¢â€â‚¬Ã¢â€â‚¬ */
 #app{display:none;flex-direction:column;height:100dvh;height:100%}
 
 header{background:#1a142e;padding:11px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #2a1b4e;flex-shrink:0}
@@ -67,65 +67,66 @@ header{background:#1a142e;padding:11px 16px;display:flex;align-items:center;just
 </head>
 <body>
 
-<!-- â”€â”€ LOGIN â”€â”€ -->
+<!-- Ã¢â€â‚¬Ã¢â€â‚¬ LOGIN Ã¢â€â‚¬Ã¢â€â‚¬ -->
 <div id="login">
-  <div class="orb">ðŸ”®</div>
-  <h1>OrÃ¡culo Diario</h1>
+  <div class="orb">Ã°Å¸â€Â®</div>
+  <h1>OrÃƒÂ¡culo Diario</h1>
   <p>Panel de Control del Canal</p>
-  <input id="pwd" type="password" placeholder="ContraseÃ±a" autocomplete="current-password"
+  <input id="pwd" type="password" placeholder="ContraseÃƒÂ±a" autocomplete="current-password"
          onkeydown="if(event.key==='Enter')login()">
-  <button id="login-btn" onclick="login()">Entrar â†’</button>
-  <p id="err">ContraseÃ±a incorrecta. Intenta de nuevo.</p>
+  <button id="login-btn" onclick="login()">Entrar Ã¢â€ â€™</button>
+  <p id="err">ContraseÃƒÂ±a incorrecta. Intenta de nuevo.</p>
 </div>
 
-<!-- â”€â”€ APP â”€â”€ -->
+<!-- Ã¢â€â‚¬Ã¢â€â‚¬ APP Ã¢â€â‚¬Ã¢â€â‚¬ -->
 <div id="app">
   <header>
     <div>
-      <div class="h-title">ðŸ”® OrÃ¡culo Diario Bot</div>
-      <div class="h-sub" id="hstatus">â¬¤ Conectado</div>
+      <div class="h-title">Ã°Å¸â€Â® OrÃƒÂ¡culo Diario Bot</div>
+      <div class="h-sub" id="hstatus">Ã¢Â¬Â¤ Conectado</div>
     </div>
-    <a class="h-yt" href="https://www.youtube.com/@OraculoDiario" target="_blank" rel="noopener">ðŸ“º</a>
+    <a class="h-yt" href="https://www.youtube.com/@OraculoDiario" target="_blank" rel="noopener">Ã°Å¸â€œÂº</a>
   </header>
 
   <div class="btn-row">
-    <button class="act-btn" onclick="checkStatus()">ðŸ”„ Ver Estado</button>
-    <button class="act-btn pub-btn" onclick="publishNow()">ðŸš€ Publicar Short Ahora</button>
-    <button class="act-btn" onclick="showSchedule()">ðŸ“… Horarios</button>
+    <button class="act-btn" onclick="checkStatus()">Ã°Å¸â€â€ž Ver Estado</button>
+    <button class="act-btn pub-btn" onclick="publishNow()">Ã°Å¸Å¡â‚¬ Publicar Short Ahora</button>
+    <button class="act-btn" onclick="showSchedule()">Ã°Å¸â€œâ€¦ Horarios</button>
   </div>
 
   <div id="chat"></div>
 
   <div id="input-bar">
-    <input id="msg-input" type="text" placeholder="PregÃºntame algo..." autocomplete="off"
+    <input id="msg-input" type="text" placeholder="PregÃƒÂºntame algo..." autocomplete="off"
            onkeydown="if(event.key==='Enter')sendMsg()">
-    <button id="send-btn" onclick="sendMsg()">âž¤</button>
+    <button id="send-btn" onclick="sendMsg()">Ã¢Å¾Â¤</button>
   </div>
 </div>
 
 <script>
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ CONFIG â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-const PWD  = 'oraculo2024';
-const GH_TOKEN  = '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';
-const GH_REPO   = 'eddiesboutique954-prog/oraculo-diario-bot';
-const OR_KEY    = 'OPENROUTER_KEY_FROM_SECRET';
-const AI_MODEL  = 'liquid/lfm-2.5-2.6b:free';
+const PWD = 'oraculo2024';
+const GH_REPO = 'eddiesboutique954-prog/oraculo-diario-bot';
+const AI_MODEL = 'liquid/lfm-2.5-2.6b:free';
 
-const SYSTEM = `Eres el Agente del canal "OrÃ¡culo Diario" â€” canal de YouTube Shorts de tarot y espiritualidad publicado automÃ¡ticamente.
-CONTEXTO REAL: 4 Shorts diarios (8 AM, 12 PM, 5 PM, 9 PM hora Colombia UTC-5). Pipeline: guion IA â†’ voz gTTS â†’ FFmpeg â†’ YouTube vÃ­a GitHub Actions.
+// Las claves se leen de localStorage del celular (se configuran una sola vez al entrar)
+function getGHToken(){ return localStorage.getItem('getGHToken()') || ''; }
+function getORKey()  { return localStorage.getItem('getORKey()')   || ''; }
+
+const SYSTEM = `Eres el Agente del canal "OrÃƒÂ¡culo Diario" Ã¢â‚¬â€ canal de YouTube Shorts de tarot y espiritualidad publicado automÃƒÂ¡ticamente.
+CONTEXTO REAL: 4 Shorts diarios (8 AM, 12 PM, 5 PM, 9 PM hora Colombia UTC-5). Pipeline: guion IA Ã¢â€ â€™ voz gTTS Ã¢â€ â€™ FFmpeg Ã¢â€ â€™ YouTube vÃƒÂ­a GitHub Actions.
 ERRORES COMUNES: edge-tts 403 ya resuelto con gTTS. Cron GitHub puede demorar hasta 15 min.
-REGLAS: Responde siempre en espaÃ±ol. MÃ¡ximo 4 lÃ­neas. Nunca digas "no tengo acceso" â€” tienes todo el contexto.`;
+REGLAS: Responde siempre en espaÃƒÂ±ol. MÃƒÂ¡ximo 4 lÃƒÂ­neas. Nunca digas "no tengo acceso" Ã¢â‚¬â€ tienes todo el contexto.`;
 
 let history = [];
 let typingEl = null;
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ AUTH â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ AUTH Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 function login(){
   if(document.getElementById('pwd').value === PWD){
     sessionStorage.setItem('ok','1');
     document.getElementById('login').style.display='none';
     document.getElementById('app').style.display='flex';
-    addMsg('agent','Â¡Hola! ðŸ”® Soy tu Agente del canal OrÃ¡culo Diario.\n\nPuedes preguntarme cualquier cosa, o usar los botones de arriba para ver el estado o publicar un video ahora mismo.');
+    addMsg('agent','Ã‚Â¡Hola! Ã°Å¸â€Â® Soy tu Agente del canal OrÃƒÂ¡culo Diario.\n\nPuedes preguntarme cualquier cosa, o usar los botones de arriba para ver el estado o publicar un video ahora mismo.');
     setTimeout(autoStatus,1800);
   } else {
     document.getElementById('err').style.display='block';
@@ -140,7 +141,7 @@ if(sessionStorage.getItem('ok')==='1'){
 }
 document.getElementById('pwd').focus();
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ CHAT UI â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ CHAT UI Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 function now(){
   const d=new Date();
   return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');
@@ -153,7 +154,7 @@ function addMsg(type, text){
 
   const lbl = document.createElement('div');
   lbl.className = 'msg-label';
-  lbl.textContent = type==='agent' ? `ðŸ”® Agente â€¢ ${now()}` : type==='user' ? `ðŸ‘¤ TÃº â€¢ ${now()}` : `âš™ï¸ Sistema â€¢ ${now()}`;
+  lbl.textContent = type==='agent' ? `Ã°Å¸â€Â® Agente Ã¢â‚¬Â¢ ${now()}` : type==='user' ? `Ã°Å¸â€˜Â¤ TÃƒÂº Ã¢â‚¬Â¢ ${now()}` : `Ã¢Å¡â„¢Ã¯Â¸Â Sistema Ã¢â‚¬Â¢ ${now()}`;
 
   const bbl = document.createElement('div');
   bbl.className = `bubble ${type}`;
@@ -184,7 +185,7 @@ function hideTyping(){
   if(t) t.remove();
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ SEND MESSAGE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ SEND MESSAGE Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 function sendMsg(){
   const input=document.getElementById('msg-input');
   const text=input.value.trim();
@@ -194,8 +195,8 @@ function sendMsg(){
   const lower=text.toLowerCase();
 
   if(lower.match(/publicar|publica\b|sube.*video|lanza video/)){publishNow();return;}
-  if(lower.match(/estado|status|error|fallo|que paso|quÃ© pasÃ³/)){checkStatus();return;}
-  if(lower.match(/horario|a quÃ© hora|cuÃ¡ndo|proximo|prÃ³ximo/)){showSchedule();return;}
+  if(lower.match(/estado|status|error|fallo|que paso|quÃƒÂ© pasÃƒÂ³/)){checkStatus();return;}
+  if(lower.match(/horario|a quÃƒÂ© hora|cuÃƒÂ¡ndo|proximo|prÃƒÂ³ximo/)){showSchedule();return;}
 
   askAI(text);
 }
@@ -208,7 +209,7 @@ async function askAI(userText){
   try{
     const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{
       method:'POST',
-      headers:{'Authorization':`Bearer ${OR_KEY}`,'Content-Type':'application/json'},
+      headers:{'Authorization':`Bearer ${getORKey()}`,'Content-Type':'application/json'},
       body:JSON.stringify({
         model:AI_MODEL,
         messages:[{role:'system',content:SYSTEM},...history],
@@ -223,70 +224,72 @@ async function askAI(userText){
     history.push({role:'assistant',content:answer});
   }catch(e){
     hideTyping();
-    addMsg('agent',`Error de conexiÃ³n: ${e.message}`);
+    addMsg('agent',`Error de conexiÃƒÂ³n: ${e.message}`);
   }
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ ESTADO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ ESTADO Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 async function checkStatus(){
   addMsg('system','Consultando GitHub Actions...');
   try{
     const res=await fetch(`https://api.github.com/repos/${GH_REPO}/actions/runs`,{
-      headers:{'Authorization':`token ${GH_TOKEN}`}
+      headers:{'Authorization':`token ${getGHToken()}`}
     });
     const data=await res.json();
     const runs=(data.workflow_runs||[]).slice(0,5);
-    let txt='ðŸ“Š Ãšltimas publicaciones:\n';
+    let txt='Ã°Å¸â€œÅ  ÃƒÅ¡ltimas publicaciones:\n';
     let hayFallo=false;
     runs.forEach((r,i)=>{
-      const icon=r.conclusion==='success'?'âœ…':r.conclusion==='failure'?'âŒ':'ðŸ”„';
+      const icon=r.conclusion==='success'?'Ã¢Å“â€¦':r.conclusion==='failure'?'Ã¢ÂÅ’':'Ã°Å¸â€â€ž';
       if(r.conclusion==='failure') hayFallo=true;
       const ts=r.created_at.slice(0,16).replace('T',' ');
-      txt+=`${icon} #${i+1}  ${ts} UTC â€” ${r.conclusion||r.status}\n`;
+      txt+=`${icon} #${i+1}  ${ts} UTC Ã¢â‚¬â€ ${r.conclusion||r.status}\n`;
     });
-    txt+=hayFallo?'\nâš ï¸ Hay fallos. Pulsa ðŸš€ Publicar Ahora.':'\nâœ… Todo funcionando correctamente.';
+    txt+=hayFallo?'\nÃ¢Å¡Â Ã¯Â¸Â Hay fallos. Pulsa Ã°Å¸Å¡â‚¬ Publicar Ahora.':'\nÃ¢Å“â€¦ Todo funcionando correctamente.';
     addMsg('agent',txt);
   }catch(e){addMsg('agent',`Error: ${e.message}`);}
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ PUBLICAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ PUBLICAR Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 async function publishNow(){
-  addMsg('system','Enviando orden de publicaciÃ³n a GitHub Actions...');
+  addMsg('system','Enviando orden de publicaciÃƒÂ³n a GitHub Actions...');
   try{
     const res=await fetch(`https://api.github.com/repos/${GH_REPO}/actions/workflows/publish_shorts.yml/dispatches`,{
       method:'POST',
-      headers:{'Authorization':`token ${GH_TOKEN}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+      headers:{'Authorization':`token ${getGHToken()}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
       body:JSON.stringify({ref:'main',inputs:{lang:'es',content_type:'tarot'}})
     });
     if(res.status===204){
-      addMsg('agent','ðŸŽ‰ Â¡Video en camino!\n\nGitHub Actions estÃ¡ generando ahora:\nâœï¸ Guion con IA\nðŸŽ™ï¸ Voz de Camila\nðŸŽ¬ Fondo cÃ³smico + subtÃ­tulos\nðŸ“¤ Subida a YouTube\n\nEn 2â€“3 minutos aparece en el canal.');
+      addMsg('agent','Ã°Å¸Å½â€° Ã‚Â¡Video en camino!\n\nGitHub Actions estÃƒÂ¡ generando ahora:\nÃ¢Å“ÂÃ¯Â¸Â Guion con IA\nÃ°Å¸Å½â„¢Ã¯Â¸Â Voz de Camila\nÃ°Å¸Å½Â¬ Fondo cÃƒÂ³smico + subtÃƒÂ­tulos\nÃ°Å¸â€œÂ¤ Subida a YouTube\n\nEn 2Ã¢â‚¬â€œ3 minutos aparece en el canal.');
     } else {
       addMsg('agent',`Error al publicar (HTTP ${res.status}). Verifica el token de GitHub.`);
     }
   }catch(e){addMsg('agent',`Error de red: ${e.message}`);}
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ HORARIOS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ HORARIOS Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 function showSchedule(){
-  addMsg('agent','ðŸ“… Horarios diarios (hora Colombia):\n\nâ˜€ï¸  8:00 AM â€” Tarot del DÃ­a\nðŸŒž 12:00 PM â€” ZodÃ­aco / EnergÃ­as\nðŸŒ‡  5:00 PM â€” ReflexiÃ³n y SanaciÃ³n\nðŸŒ™  9:00 PM â€” Mensaje Nocturno\n\nLos videos se publican solos. Si uno falla, usa el botÃ³n ðŸš€.');
+  addMsg('agent','Ã°Å¸â€œâ€¦ Horarios diarios (hora Colombia):\n\nÃ¢Ëœâ‚¬Ã¯Â¸Â  8:00 AM Ã¢â‚¬â€ Tarot del DÃƒÂ­a\nÃ°Å¸Å’Å¾ 12:00 PM Ã¢â‚¬â€ ZodÃƒÂ­aco / EnergÃƒÂ­as\nÃ°Å¸Å’â€¡  5:00 PM Ã¢â‚¬â€ ReflexiÃƒÂ³n y SanaciÃƒÂ³n\nÃ°Å¸Å’â„¢  9:00 PM Ã¢â‚¬â€ Mensaje Nocturno\n\nLos videos se publican solos. Si uno falla, usa el botÃƒÂ³n Ã°Å¸Å¡â‚¬.');
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ AUTO-STATUS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ AUTO-STATUS Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */
 async function autoStatus(){
   try{
     const res=await fetch(`https://api.github.com/repos/${GH_REPO}/actions/runs`,{
-      headers:{'Authorization':`token ${GH_TOKEN}`}
+      headers:{'Authorization':`token ${getGHToken()}`}
     });
     const data=await res.json();
     const runs=(data.workflow_runs||[]).slice(0,3);
     const fallos=runs.filter(r=>r.conclusion==='failure');
     if(fallos.length>0){
-      addMsg('agent',`âš ï¸ Hay ${fallos.length} publicaciÃ³n(es) fallida(s) recientemente.\nPulsa ðŸš€ Publicar Ahora para relanzar.`);
+      addMsg('agent',`Ã¢Å¡Â Ã¯Â¸Â Hay ${fallos.length} publicaciÃƒÂ³n(es) fallida(s) recientemente.\nPulsa Ã°Å¸Å¡â‚¬ Publicar Ahora para relanzar.`);
     }
   }catch(e){}
 }
 </script>
 </body>
 </html>
+
+
 
 
