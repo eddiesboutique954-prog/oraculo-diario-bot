@@ -30,6 +30,13 @@ class TarotBotChatApp:
         self.root.minsize(700, 500)
         self.root.configure(bg="#0f0c1b")
 
+        icon_path = os.path.join(BOT_DIR, "assets", "app_icon.ico")
+        if os.path.exists(icon_path):
+            try:
+                self.root.iconbitmap(icon_path)
+            except Exception:
+                pass
+
         self._setup_styles()
         self._build_ui()
         self._append_agent_message(
