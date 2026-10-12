@@ -19,7 +19,36 @@ from generators.voice_generator import generate_voice
 from thumbnail.creator import create_tarot_thumbnail
 from video.assembler import assemble_dynamic_video, cleanup_temp_files
 
-def _execute_pipeline_once(language="es", content_type=None, card=None, sign=None, upload=False):
+def check_recent_upload_cooldown(min_minutes=45) -> bool:
+    """
+    Verifica si se ha subido un video recientemente para evitar publicaciones duplicadas
+    provocadas por retrasos en los crons de GitHub Actions.
+    """
+    try:
+        from youtube.uploader import get_youtube_service
+        from datetime import datetime, timezone
+        yt = get_youtube_service()
+        search = yt.search().list(part='snippet', forMine=True, type='video', maxResults=1, order='date').execute()
+        items = search.get('items', [])
+        if items:
+            pub_str = items[0]['snippet']['publishedAt'].replace('Z', '+00:00')
+            pub_time = datetime.fromisoformat(pub_str)
+            now = datetime.now(timezone.utc)
+            diff_minutes = (now - pub_time).total_seconds() / 60.0
+            if diff_minutes < min_minutes:
+                print(f"🛑 [CANDADO ANTI-DUPLICADO] Se publicó un video hace solo {diff_minutes:.1f} minutos.")
+                print(f"   Último video: '{items[0]['snippet']['title']}'.")
+                print(f"   Saltando ejecución para proteger el canal de saturación.")
+                return True
+    except Exception as e:
+        print(f"⚠️ [AVISO] No se pudo verificar cooldown de subida: {e}")
+    return False
+
+def _execute_pipeline_once(language="es", content_type=None, card=None, sign=None, upload=False, force=False):
+    if upload and not force:
+        if check_recent_upload_cooldown(min_minutes=45):
+            return "SKIPPED_COOLDOWN", ""
+
     print("\n" + "=" * 60)
     print(f"[BOT VIRAL V4] GENERANDO SHORT DINÁMICO [{language.upper()}]")
     print(f"[BOT VIRAL V4] Fecha: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
@@ -77,7 +106,7 @@ def _execute_pipeline_once(language="es", content_type=None, card=None, sign=Non
     cleanup_temp_files()
     return video_path, thumbnail_path
 
-def run_pipeline_with_self_healing(language="es", content_type=None, card=None, sign=None, upload=False, max_attempts=3):
+def run_pipeline_with_self_healing(language="es", content_type=None, card=None, sign=None, upload=False, force=False, max_attempts=3):
     """
     Ejecuta el pipeline con auto-recuperación interna:
     Si algún paso falla, limpia archivos temporales y reintenta
@@ -87,7 +116,7 @@ def run_pipeline_with_self_healing(language="es", content_type=None, card=None, 
         try:
             print(f"\n🔄 [SELF-HEALING] Intento {attempt} de {max_attempts}...")
             return _execute_pipeline_once(language=language, content_type=content_type,
-                                          card=card, sign=sign, upload=upload)
+                                          card=card, sign=sign, upload=upload, force=force)
         except Exception as e:
             print(f"\n⚠️ [ERROR EN INTENTO {attempt}]: {e}")
             cleanup_temp_files()
@@ -107,6 +136,7 @@ def main():
     parser.add_argument("--card", type=str, default=None, help="Carta específica")
     parser.add_argument("--sign", type=str, default=None, help="Signo zodiacal")
     parser.add_argument("--upload", action="store_true", help="Subir a YouTube")
+    parser.add_argument("--force", action="store_true", help="Forzar subida ignorando cooldown anti-duplicado")
 
     args = parser.parse_args()
     languages = ACTIVE_LANGUAGES if args.lang == "all" else [args.lang]
@@ -118,6 +148,7 @@ def main():
             card=args.card,
             sign=args.sign,
             upload=args.upload,
+            force=args.force,
             max_attempts=3
         )
 
