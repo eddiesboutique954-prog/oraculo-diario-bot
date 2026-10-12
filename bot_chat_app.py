@@ -12,12 +12,25 @@ import requests
 import tkinter as tk
 from tkinter import scrolledtext
 
+import base64
+
 # ── Configuración ──────────────────────────────────────────────────────────────
 BOT_DIR       = os.path.dirname(os.path.abspath(__file__))
-GITHUB_TOKEN  = "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"
 GITHUB_OWNER  = "eddiesboutique954-prog"
 GITHUB_REPO   = "oraculo-diario-bot"
-OPENROUTER_KEY = "OPENROUTER_KEY_FROM_SECRET"   # Reemplazada vía GitHub Actions secret en producción
+
+# Cargar credenciales locales si existen
+_cred_file = os.path.join(BOT_DIR, "local_credentials.json")
+_creds = {}
+if os.path.exists(_cred_file):
+    try:
+        with open(_cred_file, "r", encoding="utf-8") as f:
+            _creds = json.load(f)
+    except Exception:
+        pass
+
+GITHUB_TOKEN   = os.environ.get("GITHUB_TOKEN") or _creds.get("github_token", "")
+OPENROUTER_KEY = os.environ.get("OPENROUTER_API_KEY") or _creds.get("openrouter_key", "")
 
 # Modelo estable que siempre devuelve content correcto
 AI_MODEL = "liquid/lfm-2.5-2.6b:free"
@@ -213,12 +226,23 @@ class OracloChatApp:
 
     # ── IA con historial ──────────────────────────────────────────────────────
 
+# Modelos gratuitos en cascada para el chat
+FREE_CHAT_MODELS = [
+    "openrouter/free",
+    "liquid/lfm-2.5-2.6b:free",
+    "google/gemma-4-31b-it:free",
+    "google/gemma-4-26b-a4b-it:free",
+    "nvidia/nemotron-3.5-lightning:free",
+    "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+    "poolside/laguna-s-2.1:free",
+    "apodex/apodex-1.1-mini:free",
+]
+
     def _ask_ai(self, user_text: str):
         self._sys("Pensando...")
 
         # Agregar el mensaje del usuario al historial
         self.chat_history.append({"role": "user", "content": user_text})
-        # Mantener solo los últimos 12 mensajes (6 intercambios)
         if len(self.chat_history) > 12:
             self.chat_history = self.chat_history[-12:]
 
@@ -229,40 +253,38 @@ class OracloChatApp:
             "Content-Type": "application/json",
             "HTTP-Referer": "https://github.com/eddiesboutique954-prog/oraculo-diario-bot"
         }
-        payload = {
-            "model": AI_MODEL,
-            "messages": messages,
-            "max_tokens": 350,
-            "temperature": 0.7
-        }
 
-        try:
-            resp = requests.post(
-                "https://openrouter.ai/api/v1/chat/completions",
-                headers=headers, json=payload, timeout=30
-            )
-            if resp.status_code == 200:
-                data = resp.json()
-                msg_obj = data.get("choices", [{}])[0].get("message", {})
-                # Fallback: algunos modelos ponen el texto en "reasoning" en vez de "content"
-                answer = (msg_obj.get("content") or
-                          msg_obj.get("reasoning") or
-                          "Estoy activo. Usa los botones para ver el estado o publicar.")
-                answer = answer.strip()
-            elif resp.status_code == 429:
-                answer = "Límite de solicitudes alcanzado. Espera un momento e intenta de nuevo."
-            else:
-                answer = (f"No pude conectar con la IA (error {resp.status_code}). "
-                          "Usa los botones de arriba para las acciones principales.")
+        answer = None
+        for model in FREE_CHAT_MODELS:
+            payload = {
+                "model": model,
+                "messages": messages,
+                "max_tokens": 350,
+                "temperature": 0.7
+            }
+            try:
+                resp = requests.post(
+                    "https://openrouter.ai/api/v1/chat/completions",
+                    headers=headers, json=payload, timeout=20
+                )
+                if resp.status_code == 200:
+                    data = resp.json()
+                    choices = data.get("choices", [])
+                    if choices:
+                        msg_obj = choices[0].get("message", {})
+                        content = (msg_obj.get("content") or msg_obj.get("reasoning") or "").strip()
+                        if content:
+                            answer = content
+                            break
+            except Exception:
+                continue
 
-            # Guardar respuesta en historial
-            self.chat_history.append({"role": "assistant", "content": answer})
-            self._agent(answer)
+        if not answer:
+            answer = "Estoy activo y monitoreando el canal. Si necesitas forzar una publicación o revisar el estado, usa los botones superiores."
 
-        except requests.exceptions.Timeout:
-            self._agent("La IA tardó demasiado en responder. Intenta de nuevo.")
-        except Exception as e:
-            self._agent(f"Error de conexión: {e}")
+        # Guardar respuesta en historial
+        self.chat_history.append({"role": "assistant", "content": answer})
+        self._agent(answer)
 
     # ── Estado GitHub Actions ─────────────────────────────────────────────────
 

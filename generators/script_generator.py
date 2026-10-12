@@ -110,20 +110,30 @@ def get_situacion_viral(lang: str) -> str:
     return random.choice(pool)
 
 
+# Lista priorizada de modelos 100% gratuitos en OpenRouter
+FREE_MODELS_POOL = [
+    "openrouter/free",                                      # Router inteligente gratuito oficial
+    "liquid/lfm-2.5-2.6b:free",                             # Ultra rápido y confiable
+    "google/gemma-4-31b-it:free",                           # Alta capacidad creativa
+    "google/gemma-4-26b-a4b-it:free",                       # Respuesta rápida
+    "nvidia/nemotron-3.5-lightning:free",                   # Excelente calidad
+    "nvidia/nemotron-3-super-120b-a12b:free",               # Gran capacidad
+    "poolside/laguna-s-2.1:free",                           # Modelo gratuito alternativo
+    "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",   # Modelo de razonamiento
+    "apodex/apodex-1.1-mini:free",                          # Respaldo ligero
+]
+
 def _call_openrouter(system_prompt: str, user_prompt: str) -> str:
-    models = [
-        "nvidia/nemotron-3.5-lightning:free",
-        "liquid/lfm-2.5-2.6b:free",
-        "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
-    ]
     headers = {
         "Authorization": f"Bearer {OPENROUTER_API_KEY}",
         "Content-Type": "application/json",
         "HTTP-Referer": "https://oraculo-diario.com",
         "X-Title": "Oraculo Diario Bot",
     }
-    for model in models:
+    
+    for model in FREE_MODELS_POOL:
         try:
+            print(f"[IA] Consultando modelo gratuito: {model}...")
             resp = requests.post(
                 "https://openrouter.ai/api/v1/chat/completions",
                 headers=headers,
@@ -134,14 +144,27 @@ def _call_openrouter(system_prompt: str, user_prompt: str) -> str:
                         {"role": "user", "content": user_prompt},
                     ],
                     "max_tokens": 800,
-                    "temperature": 0.9,
+                    "temperature": 0.85,
                 },
-                timeout=45,
+                timeout=25,
             )
             if resp.status_code == 200:
-                return resp.json()["choices"][0]["message"]["content"]
-        except Exception:
+                data = resp.json()
+                choices = data.get("choices", [])
+                if choices:
+                    msg = choices[0].get("message", {})
+                    # Capturar content o reasoning si viene en formato thinking
+                    content = msg.get("content") or msg.get("reasoning") or ""
+                    if content.strip():
+                        print(f"[IA] Exito con modelo: {model}")
+                        return content
+            else:
+                print(f"[IA] Modelo {model} devolvio codigo HTTP {resp.status_code}. Intentando siguiente...")
+        except Exception as e:
+            print(f"[IA] Error con modelo {model}: {e}. Conmutando a siguiente modelo...")
             continue
+
+    print("[IA] Todos los modelos gratuitos de la lista fallaron o dieron timeout.")
     return ""
 
 

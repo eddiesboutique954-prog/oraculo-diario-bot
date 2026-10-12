@@ -1,4 +1,4 @@
-﻿youtube_token.json
+youtube_token.json
 client_secret.json
 *.mp4
 *.mp3
@@ -8,3 +8,4 @@ assets/mystical_bg.mp3
 __pycache__/
 *.pyc
 .env
+local_credentials.json
