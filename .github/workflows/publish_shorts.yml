@@ -1,4 +1,4 @@
-name: 🔮 Tarot Bot — 4 Videos Diarios
+name: 🔮 Tarot Bot — 4 Videos Diarios (Resiliente y Auto-Recuperable)
 
 on:
   schedule:
@@ -21,7 +21,7 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
 
     steps:
       - name: 📥 Clonar repositorio
@@ -33,22 +33,22 @@ jobs:
           python-version: '3.11'
           cache: 'pip'
 
-      - name: 📦 Instalar dependencias
+      - name: 📦 Instalar dependencias del sistema y FFmpeg + espeak-ng
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg espeak-ng
+
+      - name: 📦 Instalar dependencias Python
         run: |
           pip install --upgrade pip
           pip install -r requirements.txt
-
-      - name: 🎬 Instalar FFmpeg
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y ffmpeg
 
       - name: 🔑 Crear archivo de credenciales YouTube
         run: |
           echo '${{ secrets.YOUTUBE_TOKEN_JSON }}' > youtube_token.json
           echo '${{ secrets.CLIENT_SECRET_JSON }}' > client_secret.json
 
-      - name: 🔮 Generar y publicar video
+      - name: 🔮 Generar y publicar video (con auto-recuperación y reintentos)
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           PYTHONIOENCODING: utf-8
@@ -65,10 +65,35 @@ jobs:
           if [ -z "$CTYPE" ]; then CTYPE="$TYPE"; fi
 
           echo "🕐 Hora UTC: $HOUR | Tipo: $CTYPE | Idioma: $LANG"
-          python main.py --lang "$LANG" --type "$CTYPE" --upload
+
+          # Bucle de reintentos inteligente: hasta 3 intentos antes de abortar
+          MAX_RETRIES=3
+          RETRY_COUNT=0
+          SUCCESS=0
+
+          while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+            RETRY_COUNT=$((RETRY_COUNT + 1))
+            echo "----------------------------------------------------"
+            echo "🚀 Ejecutando intento $RETRY_COUNT de $MAX_RETRIES..."
+            echo "----------------------------------------------------"
+            
+            if python main.py --lang "$LANG" --type "$CTYPE" --upload; then
+              echo "✅ Publicación completada con éxito en el intento $RETRY_COUNT!"
+              SUCCESS=1
+              break
+            else
+              echo "⚠️ Falló el intento $RETRY_COUNT. Esperando 20 segundos para reintentar con auto-recuperación..."
+              sleep 20
+            fi
+          done
+
+          if [ $SUCCESS -ne 1 ]; then
+            echo "❌ Fallaron todos los $MAX_RETRIES intentos de publicación."
+            exit 1
+          fi
 
       - name: 📊 Reporte de resultado
         if: always()
         run: |
-          echo "✅ Pipeline completado en $(date)"
-          ls -lh output/*.mp4 2>/dev/null || echo "No se encontraron videos"
+          echo "🏁 Estado del pipeline al finalizar en $(date)"
+          ls -lh output/*.mp4 2>/dev/null || echo "No quedaron archivos temporales pesados."
