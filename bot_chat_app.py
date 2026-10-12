@@ -17,7 +17,7 @@ BOT_DIR       = os.path.dirname(os.path.abspath(__file__))
 GITHUB_TOKEN  = "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"
 GITHUB_OWNER  = "eddiesboutique954-prog"
 GITHUB_REPO   = "oraculo-diario-bot"
-OPENROUTER_KEY = "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"
+OPENROUTER_KEY = "OPENROUTER_KEY_FROM_SECRET"   # Reemplazada vía GitHub Actions secret en producción
 
 # Modelo estable que siempre devuelve content correcto
 AI_MODEL = "liquid/lfm-2.5-2.6b:free"

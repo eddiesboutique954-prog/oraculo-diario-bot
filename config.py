@@ -10,8 +10,8 @@ import os
 # ─────────────────────────────────────────
 #  🔑 API KEYS
 # ─────────────────────────────────────────
-ANTHROPIC_API_KEY    = os.getenv("ANTHROPIC_API_KEY", "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")
-OPENROUTER_API_KEY   = os.getenv("OPENROUTER_API_KEY", "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")
+ANTHROPIC_API_KEY    = os.getenv("ANTHROPIC_API_KEY", "")
+OPENROUTER_API_KEY   = os.getenv("OPENROUTER_API_KEY", "")
 
 YOUTUBE_CLIENT_ID    = os.getenv("YOUTUBE_CLIENT_ID", "")
 YOUTUBE_CLIENT_SECRET= os.getenv("YOUTUBE_CLIENT_SECRET", "")
