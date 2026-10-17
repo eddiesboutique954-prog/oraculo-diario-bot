@@ -200,30 +200,30 @@ def generate_tarot_script(lang: str = "es", card: str = None, situacion: str = N
             "ganchos viscerales que activan el sesgo de confirmación y llamadas a la acción que provocan miles de comentarios. "
             "Escribes como un ser humano íntimo, empático y misterioso. CERO frases genéricas de horóscopo barato."
         )
-        user = f"""Crea un guion VIRAL COMPLETO para un Short que dure EXACTAMENTE ENTRE 28 Y 32 SEGUNDOS de locución continua (aproximadamente 65 a 80 palabras habladas).
+        user = f"""Crea un guion VIRAL COMPLETO para un Short que dure EXACTAMENTE ENTRE 45 Y 52 SEGUNDOS de locución continua (debes escribir OBLIGATORIAMENTE ENTRE 110 Y 135 PALABRAS habladas).
 
 CARTA: {card}
 CONFLICTO VISCERAL: {situacion}
 ENFOQUE DEL VIDEO: {instruccion_tono}
 
-REGLAS DE DURACIÓN Y NARRATIVA:
-- Cada video debe ser TOTALMENTE DIFERENTE al anterior. Alterna drásticamente entre advertencias duras y bendiciones luminosas.
-- NO LO HAGAS CORTO. Llena entre 28 y 32 segundos de narración continua.
-- Al final, invita naturalmente a dejar un comentario o revisar la descripción si desean su lectura privada personalizada.
+REGLAS DE RETENCIÓN MÁXIMA EN SHORTS (OBLIGATORIAS):
+- NO LO HAGAS CORTO. Escribe suficiente texto para llenar entre 45 y 52 segundos de narración fluida y atrapante (110 a 135 palabras).
+- El TÍTULO debe ser demoledor, con emojis de advertencia o bendición, misterio y alta curiosidad psicológica (ejemplos: "⚠️ ALGUIEN CERCA TE ENVIDIA EN SILENCIO 💔", "🔥 La Verdad Oculta que Necesitas Saber Hoy 😱", "⚡️ El Tarot te Advierte: No Ignores Esta Señal").
+- El final DEBE terminar con una llamada a la acción para decretar en comentarios (ejemplo: "Escribe 'ME PROTEJO' para anular esta energía", "Comenta 'HECHO ESTÁ' para recibir tu bendición").
 
-ESTRUCTURA VIRAL (28 a 32 SEGUNDOS):
-1. HOOK EXPLOSIVO (0 a 3s): Apertura directa al corazón o al subconsciente.
-2. REVELACIÓN Y DESARROLLO PROFUNDO (4 a 22s): Explica con detalle lo que está pasando en la vida del espectador, por qué apareció '{card}', la advertencia o bendición concreta que viene, y el significado oculto.
-3. MENSAJE FINAL + CTA EN BUCLE (23 a 30s): Cierre contundente invitando a comentar para conectar con la energía o solicitar su lectura personalizada privada en comentarios. Termina con frase de enganche.
+ESTRUCTURA VIRAL (45 a 52 SEGUNDOS):
+1. HOOK EXPLOSIVO (0 a 4s): Una frase que congele el dedo del usuario y le toque una fibra sensible.
+2. REVELACIÓN Y DESARROLLO (5 a 35s): Profundiza en lo que está viviendo, qué significa la carta {card}, cuál es la advertencia o bendición concreta, y qué decisión debe tomar.
+3. CONSEJO PRÁCTICO + CTA VIRAL (36 a 48s): Dale una instrucción clara y ordénale comentar una palabra de poder para decretar o protegerse.
 
-Responde ÚNICAMENTE en JSON:
+Responde ÚNICAMENTE en formato JSON:
 {{
   "content_type": "tarot",
   "card": "{card}",
   "cards": ["{card}"],
-  "title": "titulo con alta curiosidad psicologica y emojis (max 50 chars)",
-  "hook": "frase demoledora del hook inicial (max 12 palabras)",
-  "script": "guion narrado de 70 a 80 palabras que llene 28 a 32 segundos de voz continua sin pausas vacias",
+  "title": "titulo impactante de alta curiosidad con emojis (max 60 caracteres)",
+  "hook": "frase demoledora del gancho inicial (max 12 palabras)",
+  "script": "guion continuo y profundo de 110 a 135 palabras que llene 45 a 52 segundos de voz sin pausas vacias",
   "caption_lines": ["subtitulo 1", "subtitulo 2", "subtitulo 3"],
   "description": "descripcion orientada a SEO y conexion emocional",
   "tags": ["tarot", "lecturadetarot", "espiritualidad", "amor", "destino", "oraculo"]
@@ -272,36 +272,38 @@ Respond ONLY in this exact JSON (no extra text):
     data.setdefault("cards", [card])
     data.setdefault("lang", lang)
 
-    # Generación de títulos y aperturas dinámicas sin plantillas fijas
+    # Generación de títulos y aperturas dinámicas con alta urgencia y curiosidad
     titulos_dinamicos = [
-        f"El Secreto de {card} que Nadie Te Dijo",
-        f"Lo que {card} Revela Sobre Tu Destino",
-        f"¿Por qué {card} Aparece Hoy Frente a Ti?",
-        f"La Verdad Oculta Detrás de {card}",
-        f"La Señal de {card}: Algo Grande Viene",
-        f"No Ignores a {card}: Revelación Inesperada",
-        f"El Mensaje Oculto de {card} Para Tu Vida",
+        f"⚠️ CUIDADO: La advertencia oculta de {card} 💔",
+        f"🔥 {card}: La verdad que cambiará tu destino hoy 😱",
+        f"⚡️ No ignores esta señal de {card}: Alguien planea algo",
+        f"👁️ Lo que {card} acaba de revelar sobre tu entorno ✨",
+        f"🚨 La traición que {card} te advierte antes de que sea tarde",
+        f"💰 {card}: La bendición y el dinero que se destraba para ti",
+        f"👑 {card}: El universo te acaba de elegir para esto 🌹",
     ]
     hooks_dinamicos = [
-        f"Si estás viendo a {card} justo ahora, no fue casualidad...",
-        f"El universo puso a {card} en tu camino por una razón urgente...",
-        f"Hay algo que las cartas revelan sobre {card} que debes saber hoy...",
-        f"Antes de que termine el día, escucha lo que {card} te anuncia...",
-        f"Esta lectura con {card} no apareció en tu pantalla por error...",
+        f"Si la carta de {card} apareció en tu pantalla justo ahora, no fue casualidad...",
+        f"El universo puso a {card} en tu camino porque alguien cerca de ti oculta algo...",
+        f"Detén lo que estás haciendo: la carta de {card} trae un mensaje urgente para ti...",
+        f"Antes de que termine este día, escucha con mucha atención lo que {card} anuncia...",
+        f"Esta lectura con {card} no apareció frente a tus ojos por error...",
     ]
 
     data.setdefault("title", random.choice(titulos_dinamicos))
     data.setdefault("hook", random.choice(hooks_dinamicos))
     data.setdefault("script",
         f"{data.get('hook')} "
-        f"{situacion.capitalize()}. "
-        f"La carta {card} confirma que estás en un punto de quiebre espiritual. "
-        f"No permitas que las dudas del pasado apaguen tu luz. "
-        f"Deja un comentario en este video para conectar con esta energía.")
+        f"Sientes en tu pecho que {situacion}. "
+        f"La carta de {card} no miente: confirma que estás atravesando un punto de quiebre espiritual definitivo en tu vida. "
+        f"Hay personas en tu entorno que fingen apoyarte, pero en el fondo envidian tu luz y tu progreso en silencio. "
+        f"Sin embargo, las fuerzas del universo se están alineando a tu favor para cerrar ese ciclo de dolor y abrirte caminos de abundancia y paz. "
+        f"No permitas que las dudas del pasado te frenen. "
+        f"Escribe 'ME LIBERO' en los comentarios para cortar con toda mala energía y reclamar tu bendición hoy mismo.")
     data.setdefault("caption_lines", [
-        f"REVELACIÓN: {card.upper()}",
+        f"ALERTA: {card.upper()}",
         situacion[:22].upper() + "...",
-        "DEJA TU COMENTARIO"
+        "ESCRIBE 'ME LIBERO'"
     ])
     data["situacion"] = situacion
     return data
@@ -317,30 +319,30 @@ def generate_zodiaco_script(lang: str = "es", sign: str = None) -> dict:
     card = get_random_card(lang)
 
     if lang == "es":
-        system = "Eres el astrólogo esotérico más viral en español. Tus mensajes de zodiaco hacen llorar a la gente porque los conoces mejor que ellos mismos."
-        user = f"""Crea un SHORT viral de 30 segundos para el signo {sign}.
+        system = "Eres el astrólogo esotérico más viral en español. Tus mensajes de zodiaco provocan miles de comentarios porque tocas advertencias, traiciones y momentos clave de su vida con total precisión."
+        user = f"""Crea un SHORT viral de 45 a 52 SEGUNDOS para el signo {sign} (debes escribir OBLIGATORIAMENTE ENTRE 110 Y 135 PALABRAS habladas).
 
 Situación emocional que viven ahora: {situacion}
 Carta del tarot que los acompaña hoy: {card}
 
-El video debe:
-- Comenzar con "Si eres {sign}..." o "Para los {sign}..." de forma que SOLO ellos sientan que es para ellos
-- Hablar de algo MUY ESPECÍFICO que los {sign} viven en este momento
-- Dar un mensaje que los haga sentir vistos, comprendidos
-- Terminar con "Comparte si eres {sign} y lo sentiste"
+REGLAS DE RETENCIÓN MÁXIMA:
+- NO LO HAGAS CORTO. Escribe un guion completo de 110 a 135 palabras que llene entre 45 y 52 segundos de locución continua.
+- Comienza con un hook directo: "Si eres {sign}, detén lo que estás haciendo..." o "Cuidado si naciste bajo el signo de {sign}..."
+- El TÍTULO NO debe ser genérico. Usa títulos de alto impacto y advertencia (ejemplos: "⚠️ CUIDADO si eres {sign}: Algo oculto se revela hoy 💔", "🔥 {sign}: La advertencia que no debes ignorar 😱", "⚡️ El universo te frena, {sign}: Lee esto antes de dormir ✨").
+- Termina ordenando comentar una palabra para decretar (ejemplo: "Si eres {sign}, escribe 'ACEPTO' para activar tu protección").
 
-Responde SOLO en JSON:
+Responde SOLO en formato JSON:
 {{
   "content_type": "zodiaco",
   "sign": "{sign}",
   "card": "{card}",
   "cards": ["{card}"],
-  "title": "titulo para {sign} con emoji maximo 60 caracteres",
-  "hook": "hook inicial para {sign} maximo 15 palabras",
-  "script": "guion narrado 30 segundos intimo y especifico para {sign}",
-  "caption_lines": ["{sign.upper()}", "frase emocional", "CTA corto"],
+  "title": "titulo de alta curiosidad y misterio para {sign} con emojis (max 60 caracteres)",
+  "hook": "hook inicial impactante para {sign} (max 15 palabras)",
+  "script": "guion narrado de 110 a 135 palabras intimo, revelador y profundo para {sign} de 45 a 52 segundos",
+  "caption_lines": ["{sign.upper()}", "frase emocional", "CTA de poder"],
   "description": "descripcion YouTube con hashtags",
-  "tags": ["{sign.lower()}", "zodiaco", "tarot", "astrologia", "horoscopo"]
+  "tags": ["{sign.lower()}", "zodiaco", "tarot", "astrologia", "horoscopo", "prediccion"]
 }}"""
     else:
         system = "You are the most viral esoteric astrologer in English. Your zodiac messages make people cry because you know them better than themselves."
@@ -376,14 +378,23 @@ Respond ONLY in JSON:
     data.setdefault("card", card)
     data.setdefault("cards", [card])
     data.setdefault("lang", lang)
-    data.setdefault("title", f"🔮 {sign}: El universo tiene algo para ti")
-    data.setdefault("hook", f"Si eres {sign}, este mensaje es solo para ti")
+    titulos_zodiaco = [
+        f"⚠️ CUIDADO si eres {sign}: Algo oculto se revela hoy 💔",
+        f"🔥 {sign}: La advertencia del tarot que no debes ignorar 😱",
+        f"⚡️ El universo te frena, {sign}: Alguien habla a tus espaldas ✨",
+        f"👁️ {sign}: Hay dinero y verdad que se destraban para ti 💰",
+        f"🚨 {sign}: La carta de {card} trae un aviso urgente a tu vida",
+    ]
+    data.setdefault("title", random.choice(titulos_zodiaco))
+    data.setdefault("hook", f"Si eres {sign}, detén lo que estás haciendo y escucha bien...")
     data.setdefault("script",
-        f"Si eres {sign}, escucha bien. {situacion.capitalize()}. "
-        f"La carta {card} lo confirma hoy. "
-        f"El universo te está viendo y quiere que sepas que no estás solo. "
-        f"Comparte si eres {sign} y lo sentiste.")
-    data.setdefault("caption_lines", [sign.upper(), situacion[:25].upper() + "...", "COMPARTE SI LO SENTISTE"])
+        f"{data.get('hook')} "
+        f"El universo me pidió darte este mensaje urgente: {situacion}. "
+        f"La carta de {card} confirma que tu intuición no se equivocaba respecto a esa persona o esa situación que te quitaba el sueño. "
+        f"Ha habido traiciones y miradas de envidia a tu alrededor que intentaban bloquear tu brillo y tus finanzas. "
+        f"Pero hoy el ciclo se invierte: lo que te quitaron regresará multiplicado y verás con tus propios ojos cómo la justicia divina actúa a tu favor. "
+        f"Si eres {sign}, escribe 'ACEPTO' en los comentarios para activar tu decreto de protección y bendición ahora.")
+    data.setdefault("caption_lines", [f"ALERTA {sign.upper()}", situacion[:22].upper() + "...", "ESCRIBE 'ACEPTO'"])
     return data
 
 
@@ -395,26 +406,26 @@ def generate_reflexion_script(lang: str = "es") -> dict:
     card = get_random_card(lang)
 
     if lang == "es":
-        system = "Eres un guía espiritual viral. Tus reflexiones tienen millones de vistas porque dices exactamente lo que la gente necesita escuchar pero nadie más les dice."
-        user = f"""Crea una reflexión espiritual viral de 30 segundos sobre: "{situacion}"
+        system = "Eres un guía espiritual viral. Tus reflexiones provocan miles de comentarios porque tocas heridas reales, envidias silenciadas y verdades que nadie se atreve a decir."
+        user = f"""Crea una reflexión espiritual y viral de 45 A 52 SEGUNDOS sobre: "{situacion}" (debes escribir OBLIGATORIAMENTE ENTRE 110 Y 135 PALABRAS habladas).
 
-Reglas:
-- La primera frase debe hacer que quien la escuche piense "esto lo escribieron para mí"
-- Sin frases vacías ni genéricas. Todo específico y emocional.
-- Debe resolver algo, consolar algo, o revelar algo que la persona ya sentía pero no sabía cómo decirse a sí misma
-- Tono: como un mensaje de un ser querido del otro lado, o de tu yo más sabio
+REGLAS DE RETENCIÓN MÁXIMA:
+- NO LO HAGAS CORTO. Escribe suficiente texto para llenar entre 45 y 52 segundos de narración profunda (110 a 135 palabras).
+- La primera frase debe congelar el dedo del usuario: "Alguien que te lastimó en silencio...", "Hay una envidia que te rodea..."
+- TÍTULO: Debe generar misterio y tensión emocional con emojis (ejemplo: "✨ la verdad sobre quién te envidia en silencio 🍞", "⚠️ No ignores este aviso antes de que sea tarde 💔").
+- Final: Invita a decretar en comentarios (ejemplo: "Escribe 'CORTO CON TODO MAL' para proteger tu paz").
 
-Responde SOLO en JSON:
+Responde SOLO en formato JSON:
 {{
   "content_type": "reflexion",
   "card": "{card}",
   "cards": ["{card}"],
-  "title": "titulo que duela bonito, maximo 60 caracteres con emoji",
-  "hook": "primera frase que llega al alma, maxima 15 palabras",
-  "script": "reflexion narrada 30 segundos, pausas con ..., sin frases vacias",
-  "caption_lines": ["frase 1 que duele bonito", "frase 2 revelacion", "frase 3 CTA emocional"],
+  "title": "titulo impactante y misterioso con emojis (max 60 caracteres)",
+  "hook": "primera frase demoledora (max 15 palabras)",
+  "script": "reflexion narrada de 110 a 135 palabras continua, profunda y sanadora de 45 a 52 segundos",
+  "caption_lines": ["frase 1 de impacto", "frase 2 revelacion", "frase 3 CTA de poder"],
   "description": "descripcion YouTube con hashtags espirituales",
-  "tags": ["reflexion", "espiritualidad", "despertar", "crecimientopersonal", "sanacion"]
+  "tags": ["reflexion", "espiritualidad", "despertar", "crecimientopersonal", "sanacion", "karma"]
 }}"""
     else:
         system = "You are a viral spiritual guide. Your reflections get millions of views because you say exactly what people need to hear but no one else tells them."
@@ -445,17 +456,27 @@ Respond ONLY in JSON:
     data.setdefault("card", card)
     data.setdefault("cards", [card])
     data.setdefault("lang", lang)
-    data.setdefault("title", f"✨ {situacion[:40]}...")
-    data.setdefault("hook", situacion[:50])
+    titulos_reflexion = [
+        f"✨ La verdad sobre quién te envidia en silencio 💔",
+        f"⚠️ CUIDADO: Hay alguien que habló de ti a tus espaldas 🍞",
+        f"🔥 La justicia divina se está cobrando lo que te hicieron ✨",
+        f"👁️ Hay un dinero y una verdad que no te querían contar 💰",
+        f"⚡️ No ignores este aviso antes de irte a dormir hoy 🌙",
+    ]
+    data.setdefault("title", random.choice(titulos_reflexion))
+    data.setdefault("hook", "Alguien que te lastimó en silencio no puede dejar de pensar en ti...")
     data.setdefault("script",
-        f"{situacion.capitalize()}. "
-        f"El universo te lo está diciendo hoy porque estás listo para escucharlo. "
-        f"No es casualidad que estés leyendo esto ahora. "
-        f"Escribe SI en los comentarios si esto llegó a tu corazón.")
+        f"{data.get('hook')} "
+        f"El universo te lo está mostrando hoy porque {situacion}. "
+        f"Has soportado cargas y silencios que nadie más conoce, entregando tu lealtad a personas que no supieron valorar tu corazón. "
+        f"Pero escucha con claridad: la carta de {card} anuncia que la deuda kármica ha sido saldada. "
+        f"Toda lágrima derramada en secreto se convertirá en una victoria que verán quienes intentaron verte caer. "
+        f"No permitas que el rencor contamine tu luz. "
+        f"Escribe 'CORTO CON TODO MAL' en los comentarios para sellar tu protección y recibir tu bendición hoy.")
     data.setdefault("caption_lines", [
+        "JUSTICIA DIVINA",
         situacion[:22].upper() + "...",
-        "NO ES CASUALIDAD",
-        "ESCRIBE SI SI LO SENTISTE"
+        "ESCRIBE 'CORTO CON TODO MAL'"
     ])
     return data
 
