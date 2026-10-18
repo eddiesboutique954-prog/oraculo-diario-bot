@@ -200,21 +200,22 @@ def generate_tarot_script(lang: str = "es", card: str = None, situacion: str = N
             "ganchos viscerales que activan el sesgo de confirmación y llamadas a la acción que provocan miles de comentarios. "
             "Escribes como un ser humano íntimo, empático y misterioso. CERO frases genéricas de horóscopo barato."
         )
-        user = f"""Crea un guion VIRAL COMPLETO para un Short que dure EXACTAMENTE ENTRE 45 Y 52 SEGUNDOS de locución continua (debes escribir OBLIGATORIAMENTE ENTRE 110 Y 135 PALABRAS habladas).
+        user = f"""Crea un guion VIRAL COMPLETO para un Short que dure EXACTAMENTE ENTRE 24 Y 28 SEGUNDOS de locución continua (debes escribir OBLIGATORIAMENTE ENTRE 60 Y 75 PALABRAS habladas).
 
 CARTA: {card}
 CONFLICTO VISCERAL: {situacion}
 ENFOQUE DEL VIDEO: {instruccion_tono}
 
 REGLAS DE RETENCIÓN MÁXIMA EN SHORTS (OBLIGATORIAS):
-- NO LO HAGAS CORTO. Escribe suficiente texto para llenar entre 45 y 52 segundos de narración fluida y atrapante (110 a 135 palabras).
-- El TÍTULO debe ser demoledor, con emojis de advertencia o bendición, misterio y alta curiosidad psicológica (ejemplos: "⚠️ ALGUIEN CERCA TE ENVIDIA EN SILENCIO 💔", "🔥 La Verdad Oculta que Necesitas Saber Hoy 😱", "⚡️ El Tarot te Advierte: No Ignores Esta Señal").
-- El final DEBE terminar con una llamada a la acción para decretar en comentarios (ejemplo: "Escribe 'ME PROTEJO' para anular esta energía", "Comenta 'HECHO ESTÁ' para recibir tu bendición").
+- Duración exacta: 24 a 28 segundos (60 a 75 palabras). Esta duración permite que el espectador escuche el video dos veces seguidas, logrando más del 130% de retención en YouTube.
+- El TÍTULO debe ser demoledor, con emojis de advertencia o bendición y alta intriga (ejemplos: "⚠️ ALGUIEN CERCA TE ENVIDIA EN SILENCIO 💔", "🔥 La Verdad Oculta que Necesitas Saber Hoy 😱", "⚡️ El Tarot te Advierte: No Ignores Esta Señal").
+- TÉCNICA DE BUCLE INFINITO: La última frase del guion debe conectar de forma gramatical y natural con la primera frase del hook.
+- El final DEBE incluir una llamada de poder a comentar (ejemplo: "Escribe 'ME LIBERO' para cortar esta energía", "Comenta 'HECHO ESTÁ' para recibir tu bendición").
 
-ESTRUCTURA VIRAL (45 a 52 SEGUNDOS):
-1. HOOK EXPLOSIVO (0 a 4s): Una frase que congele el dedo del usuario y le toque una fibra sensible.
-2. REVELACIÓN Y DESARROLLO (5 a 35s): Profundiza en lo que está viviendo, qué significa la carta {card}, cuál es la advertencia o bendición concreta, y qué decisión debe tomar.
-3. CONSEJO PRÁCTICO + CTA VIRAL (36 a 48s): Dale una instrucción clara y ordénale comentar una palabra de poder para decretar o protegerse.
+ESTRUCTURA VIRAL (24 a 28 SEGUNDOS):
+1. HOOK EXPLOSIVO (0 a 3s): Congela el dedo del usuario de inmediato.
+2. REVELACIÓN RÁPIDA (4 a 19s): Qué significa la carta {card} para su vida hoy y la advertencia o bendición concreta.
+3. CIERRE DE BUCLE + CTA (20 a 26s): Palabra de poder para comentar que engancha con el inicio del video.
 
 Responde ÚNICAMENTE en formato JSON:
 {{
@@ -222,11 +223,11 @@ Responde ÚNICAMENTE en formato JSON:
   "card": "{card}",
   "cards": ["{card}"],
   "title": "titulo impactante de alta curiosidad con emojis (max 60 caracteres)",
-  "hook": "frase demoledora del gancho inicial (max 12 palabras)",
-  "script": "guion continuo y profundo de 110 a 135 palabras que llene 45 a 52 segundos de voz sin pausas vacias",
+  "hook": "frase demoledora del gancho inicial (max 10 palabras)",
+  "script": "guion narrado de 60 a 75 palabras exactas y profundas que llene entre 24 y 28 segundos de voz continua",
   "caption_lines": ["subtitulo 1", "subtitulo 2", "subtitulo 3"],
   "description": "descripcion orientada a SEO y conexion emocional",
-  "tags": ["tarot", "lecturadetarot", "espiritualidad", "amor", "destino", "oraculo"]
+  "tags": ["tarot", "lecturadetarot", "espiritualidad", "amor", "destino", "oraculo", "shorts"]
 }}"""
 
     else:
@@ -294,12 +295,11 @@ Respond ONLY in this exact JSON (no extra text):
     data.setdefault("hook", random.choice(hooks_dinamicos))
     data.setdefault("script",
         f"{data.get('hook')} "
-        f"Sientes en tu pecho que {situacion}. "
-        f"La carta de {card} no miente: confirma que estás atravesando un punto de quiebre espiritual definitivo en tu vida. "
-        f"Hay personas en tu entorno que fingen apoyarte, pero en el fondo envidian tu luz y tu progreso en silencio. "
-        f"Sin embargo, las fuerzas del universo se están alineando a tu favor para cerrar ese ciclo de dolor y abrirte caminos de abundancia y paz. "
-        f"No permitas que las dudas del pasado te frenen. "
-        f"Escribe 'ME LIBERO' en los comentarios para cortar con toda mala energía y reclamar tu bendición hoy mismo.")
+        f"Tu intuición no se equivoca: {situacion}. "
+        f"La carta de {card} confirma que estás en un punto de quiebre espiritual decisivo. "
+        f"Hay personas que fingen apoyarte, pero envidian tu luz en silencio. "
+        f"El universo cerrará hoy ese ciclo y te abrirá caminos de abundancia. "
+        f"Escribe 'ME LIBERO' en los comentarios para cortar con toda mala energía hoy mismo.")
     data.setdefault("caption_lines", [
         f"ALERTA: {card.upper()}",
         situacion[:22].upper() + "...",
@@ -320,14 +320,14 @@ def generate_zodiaco_script(lang: str = "es", sign: str = None) -> dict:
 
     if lang == "es":
         system = "Eres el astrólogo esotérico más viral en español. Tus mensajes de zodiaco provocan miles de comentarios porque tocas advertencias, traiciones y momentos clave de su vida con total precisión."
-        user = f"""Crea un SHORT viral de 45 a 52 SEGUNDOS para el signo {sign} (debes escribir OBLIGATORIAMENTE ENTRE 110 Y 135 PALABRAS habladas).
+        user = f"""Crea un SHORT viral de 24 A 28 SEGUNDOS para el signo {sign} (debes escribir OBLIGATORIAMENTE ENTRE 60 Y 75 PALABRAS habladas).
 
 Situación emocional que viven ahora: {situacion}
 Carta del tarot que los acompaña hoy: {card}
 
-REGLAS DE RETENCIÓN MÁXIMA:
-- NO LO HAGAS CORTO. Escribe un guion completo de 110 a 135 palabras que llene entre 45 y 52 segundos de locución continua.
-- Comienza con un hook directo: "Si eres {sign}, detén lo que estás haciendo..." o "Cuidado si naciste bajo el signo de {sign}..."
+REGLAS DE RETENCIÓN MÁXIMA (24 a 28 SEGUNDOS):
+- Duración exacta: 24 a 28 segundos (60 a 75 palabras). Esto permite que el video se reproduzca dos veces seguidas en el feed móvil.
+- Comienza con un gancho directo: "Si eres {sign}, detén lo que estás haciendo..." o "Cuidado si naciste bajo el signo de {sign}..."
 - El TÍTULO NO debe ser genérico. Usa títulos de alto impacto y advertencia (ejemplos: "⚠️ CUIDADO si eres {sign}: Algo oculto se revela hoy 💔", "🔥 {sign}: La advertencia que no debes ignorar 😱", "⚡️ El universo te frena, {sign}: Lee esto antes de dormir ✨").
 - Termina ordenando comentar una palabra para decretar (ejemplo: "Si eres {sign}, escribe 'ACEPTO' para activar tu protección").
 
@@ -338,11 +338,11 @@ Responde SOLO en formato JSON:
   "card": "{card}",
   "cards": ["{card}"],
   "title": "titulo de alta curiosidad y misterio para {sign} con emojis (max 60 caracteres)",
-  "hook": "hook inicial impactante para {sign} (max 15 palabras)",
-  "script": "guion narrado de 110 a 135 palabras intimo, revelador y profundo para {sign} de 45 a 52 segundos",
+  "hook": "hook inicial impactante para {sign} (max 12 palabras)",
+  "script": "guion narrado de 60 a 75 palabras intimo, revelador y profundo para {sign} de 24 a 28 segundos",
   "caption_lines": ["{sign.upper()}", "frase emocional", "CTA de poder"],
   "description": "descripcion YouTube con hashtags",
-  "tags": ["{sign.lower()}", "zodiaco", "tarot", "astrologia", "horoscopo", "prediccion"]
+  "tags": ["{sign.lower()}", "zodiaco", "tarot", "astrologia", "horoscopo", "shorts"]
 }}"""
     else:
         system = "You are the most viral esoteric astrologer in English. Your zodiac messages make people cry because you know them better than themselves."
@@ -389,11 +389,10 @@ Respond ONLY in JSON:
     data.setdefault("hook", f"Si eres {sign}, detén lo que estás haciendo y escucha bien...")
     data.setdefault("script",
         f"{data.get('hook')} "
-        f"El universo me pidió darte este mensaje urgente: {situacion}. "
-        f"La carta de {card} confirma que tu intuición no se equivocaba respecto a esa persona o esa situación que te quitaba el sueño. "
-        f"Ha habido traiciones y miradas de envidia a tu alrededor que intentaban bloquear tu brillo y tus finanzas. "
-        f"Pero hoy el ciclo se invierte: lo que te quitaron regresará multiplicado y verás con tus propios ojos cómo la justicia divina actúa a tu favor. "
-        f"Si eres {sign}, escribe 'ACEPTO' en los comentarios para activar tu decreto de protección y bendición ahora.")
+        f"El universo me pidió darte este aviso: {situacion}. "
+        f"La carta de {card} confirma que tu intuición no se equivocaba con esa persona. "
+        f"Alguien intentó bloquear tu luz y tus finanzas en silencio, pero hoy el karma actúa a tu favor. "
+        f"Si eres {sign}, escribe 'ACEPTO' en los comentarios para activar tu decreto de protección y bendición hoy.")
     data.setdefault("caption_lines", [f"ALERTA {sign.upper()}", situacion[:22].upper() + "...", "ESCRIBE 'ACEPTO'"])
     return data
 
@@ -407,12 +406,12 @@ def generate_reflexion_script(lang: str = "es") -> dict:
 
     if lang == "es":
         system = "Eres un guía espiritual viral. Tus reflexiones provocan miles de comentarios porque tocas heridas reales, envidias silenciadas y verdades que nadie se atreve a decir."
-        user = f"""Crea una reflexión espiritual y viral de 45 A 52 SEGUNDOS sobre: "{situacion}" (debes escribir OBLIGATORIAMENTE ENTRE 110 Y 135 PALABRAS habladas).
+        user = f"""Crea una reflexión espiritual y viral de 24 A 28 SEGUNDOS sobre: "{situacion}" (debes escribir OBLIGATORIAMENTE ENTRE 60 Y 75 PALABRAS habladas).
 
-REGLAS DE RETENCIÓN MÁXIMA:
-- NO LO HAGAS CORTO. Escribe suficiente texto para llenar entre 45 y 52 segundos de narración profunda (110 a 135 palabras).
+REGLAS DE RETENCIÓN MÁXIMA (24 a 28 SEGUNDOS):
+- Duración exacta: 24 a 28 segundos (60 a 75 palabras). Cero frases vacías; cada palabra debe tocar el alma.
 - La primera frase debe congelar el dedo del usuario: "Alguien que te lastimó en silencio...", "Hay una envidia que te rodea..."
-- TÍTULO: Debe generar misterio y tensión emocional con emojis (ejemplo: "✨ la verdad sobre quién te envidia en silencio 🍞", "⚠️ No ignores este aviso antes de que sea tarde 💔").
+- TÍTULO: Debe generar misterio y tensión emocional con emojis (ejemplo: "✨ La verdad sobre quién te envidia en silencio 💔", "⚠️ No ignores este aviso antes de que sea tarde").
 - Final: Invita a decretar en comentarios (ejemplo: "Escribe 'CORTO CON TODO MAL' para proteger tu paz").
 
 Responde SOLO en formato JSON:
@@ -421,11 +420,11 @@ Responde SOLO en formato JSON:
   "card": "{card}",
   "cards": ["{card}"],
   "title": "titulo impactante y misterioso con emojis (max 60 caracteres)",
-  "hook": "primera frase demoledora (max 15 palabras)",
-  "script": "reflexion narrada de 110 a 135 palabras continua, profunda y sanadora de 45 a 52 segundos",
+  "hook": "primera frase demoledora (max 12 palabras)",
+  "script": "reflexion narrada de 60 a 75 palabras continua, profunda y sanadora de 24 a 28 segundos",
   "caption_lines": ["frase 1 de impacto", "frase 2 revelacion", "frase 3 CTA de poder"],
   "description": "descripcion YouTube con hashtags espirituales",
-  "tags": ["reflexion", "espiritualidad", "despertar", "crecimientopersonal", "sanacion", "karma"]
+  "tags": ["reflexion", "espiritualidad", "despertar", "crecimientopersonal", "sanacion", "shorts"]
 }}"""
     else:
         system = "You are a viral spiritual guide. Your reflections get millions of views because you say exactly what people need to hear but no one else tells them."
@@ -467,11 +466,9 @@ Respond ONLY in JSON:
     data.setdefault("hook", "Alguien que te lastimó en silencio no puede dejar de pensar en ti...")
     data.setdefault("script",
         f"{data.get('hook')} "
-        f"El universo te lo está mostrando hoy porque {situacion}. "
-        f"Has soportado cargas y silencios que nadie más conoce, entregando tu lealtad a personas que no supieron valorar tu corazón. "
-        f"Pero escucha con claridad: la carta de {card} anuncia que la deuda kármica ha sido saldada. "
-        f"Toda lágrima derramada en secreto se convertirá en una victoria que verán quienes intentaron verte caer. "
-        f"No permitas que el rencor contamine tu luz. "
+        f"El universo te lo muestra hoy: {situacion}. "
+        f"Has soportado silencios que nadie conoce, pero la carta de {card} anuncia que tu deuda kármica ha sido saldada. "
+        f"Toda lágrima derramada se convertirá en una victoria que verán quienes intentaron apagarte. "
         f"Escribe 'CORTO CON TODO MAL' en los comentarios para sellar tu protección y recibir tu bendición hoy.")
     data.setdefault("caption_lines", [
         "JUSTICIA DIVINA",

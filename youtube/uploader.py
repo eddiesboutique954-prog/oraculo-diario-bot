@@ -82,8 +82,14 @@ def upload_video_to_youtube(video_path: str, thumbnail_path: str,
     tags_base   = YOUTUBE_CONFIG["tags"][lang]
     all_tags    = list(set(tags_custom + tags_base))[:500]  # máx 500 tags
 
-    # Descripción enriquecida
-    full_description = f"""{description}
+    # Garantizar que el título tenga el hashtag #shorts para indexación inmediata en el carrusel de Shorts
+    clean_title = title.strip()
+    if "#shorts" not in clean_title.lower():
+        clean_title = f"{clean_title[:85]} #shorts"
+
+    # Descripción enriquecida con #shorts en la primera línea
+    full_description = f"""#shorts #tarot #tarotdiario #espiritualidad
+{description}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🔮 {CHANNEL_NAME} — Guía Espiritual y Mensajes del Universo
@@ -96,17 +102,17 @@ Escríbeme a eddiesboutique954@gmail.com con la palabra "SESIÓN" y agendamos tu
 🔔 Activa la campanita para recibir cada revelación a tiempo.
 ✨ Deja tu comentario en este video para conectar con esta energía.
 
-#tarot #lecturapersonalizada #tarotcolombia #esoterismo #espiritualidad #tarotdiario #arcanos #mensajedeluniverso #oraculo
+#tarot #lecturapersonalizada #tarotcolombia #esoterismo #espiritualidad #tarotdiario #arcanos #mensajedeluniverso #oraculo #shorts
 """
 
-    print(f"\n📤 Subiendo a YouTube: {title}")
+    print(f"\n📤 Subiendo Short a YouTube: {clean_title}")
 
     youtube = get_youtube_service()
 
     # Metadatos del video
     body = {
         "snippet": {
-            "title":       title[:100],
+            "title":       clean_title[:100],
             "description": full_description[:5000],
             "tags":        all_tags,
             "categoryId":  YOUTUBE_CONFIG["category_id"],
@@ -126,7 +132,8 @@ Escríbeme a eddiesboutique954@gmail.com con la palabra "SESIÓN" y agendamos tu
     request = youtube.videos().insert(
         part="snippet,status",
         body=body,
-        media_body=media
+        media_body=media,
+        notifySubscribers=True
     )
 
     response = None
@@ -137,21 +144,10 @@ Escríbeme a eddiesboutique954@gmail.com con la palabra "SESIÓN" y agendamos tu
             print(f"   ⬆️  Subiendo... {progress}%", end="\r")
 
     video_id  = response["id"]
-    video_url = f"https://www.youtube.com/watch?v={video_id}"
-    print(f"   ✅ Video subido: {video_url}")
+    video_url = f"https://www.youtube.com/shorts/{video_id}"
+    print(f"   ✅ Short publicado en feed móvil: {video_url}")
 
-    # Subir miniatura
-    if thumbnail_path and os.path.exists(thumbnail_path):
-        try:
-            youtube.thumbnails().set(
-                videoId    = video_id,
-                media_body = MediaFileUpload(thumbnail_path, mimetype="image/jpeg")
-            ).execute()
-            print(f"   🖼️  Miniatura subida ✅")
-        except Exception as e:
-            print(f"   ⚠️  Miniatura no subida: {e}")
-
-    return {"id": video_id, "url": video_url, "title": title}
+    return {"id": video_id, "url": video_url, "title": clean_title}
 
 
 def check_daily_quota() -> bool:
