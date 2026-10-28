@@ -64,7 +64,12 @@ jobs:
           CTYPE="${{ github.event.inputs.content_type }}"
           if [ -z "$CTYPE" ]; then CTYPE="$TYPE"; fi
 
-          echo "🕐 Hora UTC: $HOUR | Tipo: $CTYPE | Idioma: $LANG"
+          FORCE_FLAG=""
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            FORCE_FLAG="--force"
+          fi
+
+          echo "🕐 Hora UTC: $HOUR | Tipo: $CTYPE | Idioma: $LANG | Force: $FORCE_FLAG"
 
           # Bucle de reintentos inteligente: hasta 3 intentos antes de abortar
           MAX_RETRIES=3
@@ -77,7 +82,7 @@ jobs:
             echo "🚀 Ejecutando intento $RETRY_COUNT de $MAX_RETRIES..."
             echo "----------------------------------------------------"
             
-            if python main.py --lang "$LANG" --type "$CTYPE" --upload; then
+            if python main.py --lang "$LANG" --type "$CTYPE" --upload $FORCE_FLAG; then
               echo "✅ Publicación completada con éxito en el intento $RETRY_COUNT!"
               SUCCESS=1
               break
