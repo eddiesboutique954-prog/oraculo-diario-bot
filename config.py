@@ -21,29 +21,72 @@ YOUTUBE_REFRESH_TOKEN= os.getenv("YOUTUBE_REFRESH_TOKEN", "")
 #  📺 CONFIGURACIÓN DEL CANAL
 # ─────────────────────────────────────────
 CHANNEL_NAME = "Tarot Místico"          # Nombre de tu canal
-ACTIVE_LANGUAGES = ["es", "en"]
+ACTIVE_LANGUAGES = ["es", "en", "pt", "fr", "it", "de"]
+
+LANGUAGE_INFO = {
+    "es": {
+        "name": "Español", "native": "Español",
+        "badge": "MENSAJE URGENTE", "card_label": "CARTA",
+        "cta": "Comenta 'HECHO ESTÁ' para recibir esta bendición",
+        "voice": "es-PE-CamilaNeural", "gtts": "es"
+    },
+    "en": {
+        "name": "Inglés", "native": "English",
+        "badge": "URGENT MESSAGE", "card_label": "CARD",
+        "cta": "Comment 'CLAIM' to manifest this blessing",
+        "voice": "en-US-JennyNeural", "gtts": "en"
+    },
+    "pt": {
+        "name": "Portugués", "native": "Português",
+        "badge": "MENSAGEM URGENTE", "card_label": "CARTA",
+        "cta": "Comente 'ESTÁ FEITO' para selar esta energia",
+        "voice": "pt-BR-FranciscaNeural", "gtts": "pt"
+    },
+    "fr": {
+        "name": "Francés", "native": "Français",
+        "badge": "MESSAGE URGENT", "card_label": "CARTE",
+        "cta": "Commentez 'C'EST FAIT' pour réclamer cette bénédiction",
+        "voice": "fr-FR-DeniseNeural", "gtts": "fr"
+    },
+    "it": {
+        "name": "Italiano", "native": "Italiano",
+        "badge": "MESSAGGIO URGENTE", "card_label": "CARTA",
+        "cta": "Scrivi 'È FATTO' per accogliere questo messaggio",
+        "voice": "it-IT-ElsaNeural", "gtts": "it"
+    },
+    "de": {
+        "name": "Alemán", "native": "Deutsch",
+        "badge": "DRINGENDE BOTSCHAFT", "card_label": "KARTE",
+        "cta": "Kommentiere 'ES IST VOLLBRACHT' um diesen Segen anzunehmen",
+        "voice": "de-DE-KatjaNeural", "gtts": "de"
+    }
+}
 
 # ─────────────────────────────────────────
 #  🎬 CONFIGURACIÓN DE VIDEO
 # ─────────────────────────────────────────
 VIDEO_CONFIG = {
     "width":     1080,
-    "height":    1920,          # Formato Vertical (Shorts 9:16)
+    "height":    1920,          # Formato Vertical (Shorts / Reels 9:16)
     "fps":       30,
-    "duration":  30,            # Duración en segundos (Shorts)
+    "duration":  28,            # Duración óptima para Shorts y Reels (24-28s)
     "format":    "mp4",
 }
 
 IMAGE_DISPLAY_TIME = 5
 
 # ─────────────────────────────────────────
-#  🎙️ CONFIGURACIÓN DE VOZ (Edge-TTS - GRATIS)
+#  🎙️ CONFIGURACIÓN DE VOZ (gTTS & Edge-TTS)
 # ─────────────────────────────────────────
 VOICE_CONFIG = {
-    "es": "es-PE-CamilaNeural",      # Camila: Cálida, íntima, envolvente y muy humana
-    "en": "en-US-JennyNeural",       # Voz femenina americana suave
-    "rate": "+0%",                   # Cadencia 100% natural humana
-    "pitch": "+0Hz",                 # Tono original sin deformación
+    "es": "es",
+    "en": "en",
+    "pt": "pt",
+    "fr": "fr",
+    "it": "it",
+    "de": "de",
+    "rate": "+0%",
+    "pitch": "+0Hz",
 }
 
 # ─────────────────────────────────────────
@@ -111,8 +154,12 @@ YOUTUBE_CONFIG = {
     "privacy":     "public",
     "made_for_kids": False,
     "tags": {
-        "es": ["tarot", "lectura de tarot", "tarot diario", "esoterismo", "arcanos", "tarot hoy", "espiritualidad", "predicciones"],
-        "en": ["tarot", "tarot reading", "daily tarot", "tarot cards", "esoteric", "spirituality", "tarot today", "predictions"],
+        "es": ["tarot", "lectura de tarot", "tarot diario", "esoterismo", "arcanos", "tarot hoy", "espiritualidad", "predicciones", "shorts", "reels"],
+        "en": ["tarot", "tarot reading", "daily tarot", "tarot cards", "esoteric", "spirituality", "tarot today", "predictions", "shorts", "reels"],
+        "pt": ["tarot", "leitura de tarot", "tarot diario", "esoterismo", "arcanos", "espiritualidade", "previsoes", "shorts", "reels"],
+        "fr": ["tarot", "tirage de tarot", "tarot du jour", "esoterisme", "spiritualite", "voyance", "guidance", "shorts", "reels"],
+        "it": ["tarocchi", "lettura tarocchi", "tarocchi del giorno", "esoterismo", "spiritualita", "oracolo", "shorts", "reels"],
+        "de": ["tarot", "tarot tageskarte", "kartenlegen", "esoterik", "spiritualitat", "orakel", "shorts", "reels"],
     }
 }
 

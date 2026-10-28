@@ -113,6 +113,53 @@ def create_card_overlay(card_name: str, hook_text: str = "",
             draw.line([(bbox[0] - 8, bbox[3] + 6), (bbox[2] + 8, bbox[3] + 6)], fill=(255, 215, 0, 230), width=3)
             y += bbox[3] - bbox[1] + 20
 
+    # ── Banner de WhatsApp para lectura personalizada (parte inferior) ────
+    draw = ImageDraw.Draw(overlay)
+    bx1, by1, bx2, by2 = 70, 1420, 1010, 1600
+
+    # Resplandor verde externo (efecto WhatsApp)
+    for off in range(14, 0, -2):
+        draw.rounded_rectangle(
+            [bx1 - off, by1 - off, bx2 + off, by2 + off],
+            radius=28, fill=(37, 211, 102, int(40 * (1 - off / 14)))
+        )
+
+    # Caja principal verde oscuro
+    draw.rounded_rectangle(
+        [bx1, by1, bx2, by2], radius=24,
+        fill=(6, 20, 14, 245), outline=(37, 211, 102, 255), width=5
+    )
+    # Borde dorado interior
+    draw.rounded_rectangle(
+        [bx1 + 6, by1 + 6, bx2 - 6, by2 - 6], radius=20,
+        outline=(255, 215, 0, 230), width=2
+    )
+
+    # Fuentes del banner
+    _cand = ["arialbd.ttf", "arial.ttf", "DejaVuSans-Bold.ttf", "Arial_Bold.ttf"]
+    def _try_font(sz):
+        for fn in _cand:
+            try:
+                return ImageFont.truetype(fn, sz)
+            except Exception:
+                pass
+        return ImageFont.load_default()
+
+    f_hdr   = _try_font(32)
+    f_phone = _try_font(48)
+    f_sub   = _try_font(26)
+
+    cx = (bx1 + bx2) // 2
+    # Título dorado
+    draw.text((cx, by1 + 22), "LECTURA PERSONALIZADA DE TAROT",
+              font=f_hdr, fill=(255, 225, 80, 255), anchor="mt")
+    # Número de WhatsApp grande y blanco
+    draw.text((cx, by1 + 72), "WhatsApp: +57 305 338 9704",
+              font=f_phone, fill=(255, 255, 255, 255), anchor="mt")
+    # Subtexto verde claro
+    draw.text((cx, by1 + 134), "Escribe 'SESION' para agendar tu consulta",
+              font=f_sub, fill=(160, 255, 190, 255), anchor="mt")
+
     out_file = os.path.join(output_dir, "card_overlay.png")
     overlay.save(out_file, "PNG")
     return out_file

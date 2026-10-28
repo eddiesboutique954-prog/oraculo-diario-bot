@@ -122,8 +122,22 @@ def generate_voice(text: str, lang: str = "es", output_dir: str = TEMP_DIR) -> t
     """
     os.makedirs(output_dir, exist_ok=True)
 
-    # Código de idioma para gTTS
-    gtts_lang = "es" if lang.startswith("es") else "en"
+    # Código de idioma para gTTS (soporte global: es, en, pt, fr, it, de, etc.)
+    clean_lang = lang.lower().strip()
+    if clean_lang.startswith("es"):
+        gtts_lang = "es"
+    elif clean_lang.startswith("pt"):
+        gtts_lang = "pt"
+    elif clean_lang.startswith("fr"):
+        gtts_lang = "fr"
+    elif clean_lang.startswith("it"):
+        gtts_lang = "it"
+    elif clean_lang.startswith("de"):
+        gtts_lang = "de"
+    elif clean_lang.startswith("en"):
+        gtts_lang = "en"
+    else:
+        gtts_lang = clean_lang[:2]
 
     audio_path = os.path.join(output_dir, f"narration_{lang}.mp3")
     srt_path   = os.path.join(output_dir, f"subtitles_{lang}.srt")

@@ -95,8 +95,9 @@ def upload_video_to_youtube(video_path: str, thumbnail_path: str,
 🔮 {CHANNEL_NAME} — Guía Espiritual y Mensajes del Universo
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-✨ ¿QUIERES UNA LECTURA PERSONALIZADA DE TAROT PRIVADA?
-Escríbeme a eddiesboutique954@gmail.com con la palabra "SESIÓN" y agendamos tu lectura personalizada por $50.000 COP ✨
+✨ ¿QUIERES UNA LECTURA PERSONALIZADA DE TAROT PRIVADA? ✨
+📲 WhatsApp: +57 305 338 9704
+Escribe "SESIÓN" y agendamos tu lectura personalizada.
 
 📌 Suscríbete para tu lectura diaria: no te pierdas los mensajes que el destino tiene para ti.
 🔔 Activa la campanita para recibir cada revelación a tiempo.

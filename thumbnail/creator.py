@@ -70,10 +70,14 @@ def create_tarot_thumbnail(title: str, lang: str = "es",
     except:
         font_badge = font_big = font_sub = ImageFont.load_default()
 
-    # Badge rojo de urgencia
-    badge_text = "MENSAJE URGENTE" if lang == "es" else "URGENT MESSAGE"
-    draw.rounded_rectangle([40, 40, 390, 88], radius=8, fill=(200, 10, 10))
-    draw.text((215, 64), badge_text, font=font_badge, fill=(255, 255, 255), anchor="mm")
+    from config import LANGUAGE_INFO
+    lang_key = lang[:2].lower()
+    info = LANGUAGE_INFO.get(lang_key, LANGUAGE_INFO["es"])
+
+    # Badge rojo de urgencia localizado
+    badge_text = info.get("badge", "MENSAJE URGENTE")
+    draw.rounded_rectangle([40, 40, 420, 88], radius=8, fill=(200, 10, 10))
+    draw.text((230, 64), badge_text, font=font_badge, fill=(255, 255, 255), anchor="mm")
 
     # Título principal en 2-3 líneas, letras grandes doradas
     words = title.upper().replace("🔮","").replace("🌕","").replace("⚡","").replace("🌍","").strip().split()
@@ -96,9 +100,31 @@ def create_tarot_thumbnail(title: str, lang: str = "es",
         draw.text((52, y), line, font=font_big, fill=(255, 218, 50))
 
     # Nombre de la carta en la parte inferior izquierda
-    draw.line([(40, height - 95), (480, height - 95)], fill=(255, 215, 0), width=2)
-    card_display = f"CARTA: {card_name.upper()}" if lang == "es" else f"CARD: {card_name.upper()}"
+    draw.line([(40, height - 95), (500, height - 95)], fill=(255, 215, 0), width=2)
+    card_label = info.get("card_label", "CARTA")
+    card_display = f"{card_label}: {card_name.upper()}"
     draw.text((52, height - 75), card_display, font=font_sub, fill=(255, 215, 0))
+
+    # ── Banner de WhatsApp en la miniatura ────────────────────────────────
+    try:
+        font_wa_hdr = ImageFont.truetype("arialbd.ttf", 22)
+        font_wa_num = ImageFont.truetype("arialbd.ttf", 28)
+    except Exception:
+        font_wa_hdr = font_wa_num = ImageFont.load_default()
+
+    bx1, by1, bx2, by2 = 40, height - 165, 520, height - 55
+    # Caja verde WhatsApp
+    draw.rounded_rectangle([bx1, by1, bx2, by2], radius=14,
+                           fill=(6, 20, 14), outline=(37, 211, 102), width=3)
+    draw.rounded_rectangle([bx1 + 4, by1 + 4, bx2 - 4, by2 - 4], radius=10,
+                           outline=(255, 215, 0), width=1)
+    bcx = (bx1 + bx2) // 2
+    draw.text((bcx, by1 + 15), "LECTURA PERSONALIZADA",
+              font=font_wa_hdr, fill=(255, 225, 80), anchor="mt")
+    draw.text((bcx, by1 + 50), "+57 305 338 9704",
+              font=font_wa_num, fill=(255, 255, 255), anchor="mt")
+    draw.text((bcx, by1 + 85), "WhatsApp",
+              font=font_wa_hdr, fill=(37, 211, 102), anchor="mt")
 
     # Borde exterior dorado fino
     draw.rectangle([8, 8, width - 8, height - 8], outline=(255, 215, 0), width=4)
