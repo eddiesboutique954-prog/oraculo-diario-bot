@@ -208,31 +208,28 @@ def generate_tarot_script(lang: str = "es", card: str = None, situacion: str = N
             "ganchos viscerales que activan el sesgo de confirmación y llamadas a la acción que provocan miles de comentarios. "
             "Escribes como un ser humano íntimo, empático y misterioso. CERO frases genéricas de horóscopo barato."
         )
-        user = f"""Crea un guion VIRAL COMPLETO para un Short que dure EXACTAMENTE ENTRE 24 Y 28 SEGUNDOS de locución continua (debes escribir OBLIGATORIAMENTE ENTRE 60 Y 75 PALABRAS habladas).
+        user = f"""Crea un guion VIRAL HIPNÓTICO de ALTA RETENCIÓN para YouTube Shorts de EXACTAMENTE 18 A 22 SEGUNDOS de locución (OBLIGATORIO: ENTRE 45 Y 55 PALABRAS habladas).
 
 CARTA: {card}
 CONFLICTO VISCERAL: {situacion}
 ENFOQUE DEL VIDEO: {instruccion_tono}
 
-REGLAS DE RETENCIÓN Y CONVERSIÓN EN SHORTS (OBLIGATORIAS):
-- Duración exacta: 24 a 28 segundos (60 a 75 palabras habladas).
-- El TÍTULO debe ser demoledor, con emojis de advertencia o bendición y alta intriga (ejemplos: "⚠️ ALGUIEN CERCA TE ENVIDIA EN SILENCIO 💔", "🔥 La Verdad Oculta que Necesitas Saber Hoy 😱", "⚡️ El Tarot te Advierte: No Ignores Esta Señal").
-- LLAMADO A LA ACCIÓN DE VENTA AL FINAL: La locución al final DEBE invitar directamente a la lectura privada de 3 preguntas por $10 USD al WhatsApp en pantalla, enlazando con comentar una palabra clave.
-  Ejemplo de cierre hablado: "...si sientes que este mensaje es para ti y necesitas nombres y fechas exactas, escríbeme al WhatsApp en pantalla para tu lectura privada por 10 dólares. Comenta 'HECHO ESTÁ' para reclamar tu bendición."
-
-ESTRUCTURA VIRAL (24 a 28 SEGUNDOS):
-1. HOOK EXPLOSIVO (0 a 3s): Congela el dedo del usuario de inmediato con intriga directa.
-2. REVELACIÓN RÁPIDA (4 a 18s): Qué significa la carta {card} para su vida hoy y la advertencia o bendición concreta.
-3. CIERRE DE VENTA + CTA (19 a 26s): Invita a escribir al WhatsApp por su lectura de $10 USD y a comentar la palabra de poder.
+FÓRMULA DEL MILLÓN DE VISTAS (OBLIGATORIA):
+1. HOOK DE 0 A 2 SEGUNDOS: Debe congelar el dedo del usuario de forma inmediata. Prohibido saludar o decir "hola". Comienza con advertencia directa, prohibición o inicial de nombre (ejemplos: "No deslices este video: alguien que te sonríe de frente...", "Si tu nombre empieza por A, M o C detente...", "Esta noche antes de dormir vas a confirmar...").
+2. REVELACIÓN RÁPIDA (3 a 14s): La verdad oculta que la carta {card} revela sobre esa persona o dinero.
+3. CIERRE DE BUCLE INFINITO + VENTA + CTA (15 a 20s):
+   - Menciona directo: "para tu lectura privada de 3 preguntas por $10 dólares escribe al WhatsApp en pantalla".
+   - Conecta con la primera palabra del hook para crear un bucle infinito que haga que el video se repita solo.
+   - Ordena comentar una palabra de poder (ej: "Comenta 'CONFIRMO'").
 
 Responde ÚNICAMENTE en formato JSON:
 {{
   "content_type": "tarot",
   "card": "{card}",
   "cards": ["{card}"],
-  "title": "titulo impactante de alta curiosidad con emojis (max 60 caracteres)",
-  "hook": "frase demoledora del gancho inicial (max 10 palabras)",
-  "script": "guion narrado de 60 a 75 palabras exactas que incluya el cierre invitando al WhatsApp por la lectura de 10 dólares",
+  "title": "titulo de maximo impacto viral con emojis (max 55 caracteres)",
+  "hook": "gancho explosivo de maximo 8 palabras",
+  "script": "guion narrado de 45 a 55 palabras exactas para durar 18 a 22 segundos",
   "caption_lines": ["subtitulo 1", "subtitulo 2", "subtitulo 3"],
   "description": "descripcion orientada a SEO y conexion emocional",
   "tags": ["tarot", "lecturadetarot", "espiritualidad", "amor", "destino", "oraculo", "shorts"]
@@ -292,22 +289,21 @@ Respond ONLY in this exact JSON (no extra text):
         f"👑 {card}: El universo te acaba de elegir para esto 🌹",
     ]
     hooks_dinamicos = [
-        f"Si la carta de {card} apareció en tu pantalla justo ahora, no fue casualidad...",
-        f"El universo puso a {card} en tu camino porque alguien cerca de ti oculta algo...",
-        f"Detén lo que estás haciendo: la carta de {card} trae un mensaje urgente para ti...",
-        f"Antes de que termine este día, escucha con mucha atención lo que {card} anuncia...",
-        f"Esta lectura con {card} no apareció frente a tus ojos por error...",
+        f"No deslices este video: la carta de {card} trae un secreto...",
+        f"Detente un segundo: alguien que te sonríe oculta esto con {card}...",
+        f"Esta noche antes de dormir vas a confirmar lo que anuncia {card}...",
+        f"El universo te puso frente a {card} porque alguien habló de ti...",
+        f"Si estás viendo esto a esta hora exacta, escucha a {card}...",
     ]
 
     data.setdefault("title", random.choice(titulos_dinamicos))
     data.setdefault("hook", random.choice(hooks_dinamicos))
     data.setdefault("script",
         f"{data.get('hook')} "
-        f"Tu intuición no se equivoca: {situacion}. "
-        f"La carta de {card} anuncia un punto de quiebre espiritual decisivo en tu vida. "
-        f"Alguien oculta una verdad que necesitas saber hoy mismo. "
+        f"{situacion}. "
+        f"La carta de {card} anuncia que el karma actúa hoy a tu favor. "
         f"Para tu lectura privada de tres preguntas por diez dólares, escríbeme al WhatsApp en pantalla. "
-        f"Comenta 'HECHO ESTÁ' para reclamar tu bendición ahora.")
+        f"Comenta 'CONFIRMO' para sellar tu bendición.")
     data.setdefault("caption_lines", [
         f"ALERTA: {card.upper()}",
         situacion[:22].upper() + "...",
@@ -328,16 +324,15 @@ def generate_zodiaco_script(lang: str = "es", sign: str = None) -> dict:
 
     if lang == "es":
         system = "Eres el astrólogo esotérico más viral en español. Tus mensajes de zodiaco provocan miles de comentarios porque tocas advertencias, traiciones y momentos clave de su vida con total precisión."
-        user = f"""Crea un SHORT viral de 24 A 28 SEGUNDOS para el signo {sign} (debes escribir OBLIGATORIAMENTE ENTRE 60 Y 75 PALABRAS habladas).
+        user = f"""Crea un SHORT viral hipnótico de 18 A 22 SEGUNDOS para el signo {sign} (OBLIGATORIO: ENTRE 45 Y 55 PALABRAS habladas).
 
-Situación emocional que viven ahora: {situacion}
-Carta del tarot que los acompaña hoy: {card}
+Situación visceral: {situacion}
+Carta del tarot: {card}
 
-REGLAS DE RETENCIÓN Y CONVERSIÓN:
-- Duración exacta: 24 a 28 segundos (60 a 75 palabras).
-- Comienza con un gancho directo: "Si eres {sign}, detén lo que estás haciendo..." o "Cuidado si naciste bajo el signo de {sign}..."
-- El TÍTULO NO debe ser genérico. Usa títulos de alto impacto y advertencia (ejemplos: "⚠️ CUIDADO si eres {sign}: Algo oculto se revela hoy 💔", "🔥 {sign}: La advertencia que no debes ignorar 😱", "⚡️ El universo te frena, {sign}: Lee esto antes de dormir ✨").
-- Termina con llamado a la acción al WhatsApp: invita a escribir al WhatsApp en pantalla por su lectura privada de 3 preguntas por $10 USD y a decretar comentando una palabra clave.
+REGLAS DE RETENCIÓN DEL MILLÓN DE VISTAS (18 a 22 SEGUNDOS):
+- Gancho explosivo (0 a 2s): "No deslices si eres {sign}...", "Cuidado con quien duerme a tu lado si eres {sign}..."
+- TÍTULO: Alto impacto de curiosidad con emojis (ejemplo: "⚠️ CUIDADO si eres {sign}: Algo oculto se revela hoy 💔").
+- Final: Invita directo al WhatsApp por su lectura privada de 3 preguntas por $10 USD y a comentar 'CONFIRMO'.
 
 Responde SOLO en formato JSON:
 {{
@@ -394,14 +389,13 @@ Respond ONLY in JSON:
         f"🚨 {sign}: La carta de {card} trae un aviso urgente a tu vida",
     ]
     data.setdefault("title", random.choice(titulos_zodiaco))
-    data.setdefault("hook", f"Si eres {sign}, detén lo que estás haciendo y escucha bien...")
+    data.setdefault("hook", f"No deslices si eres {sign}: escucha esto con atención...")
     data.setdefault("script",
         f"{data.get('hook')} "
         f"El universo me pidió darte este aviso: {situacion}. "
-        f"La carta de {card} confirma que tu intuición no se equivocaba con esa persona. "
-        f"Alguien intentó bloquear tu camino en silencio, pero la justicia divina actúa a tu favor. "
+        f"La carta de {card} confirma que la justicia divina ya eligió tu favor. "
         f"Si eres {sign} y deseas tu lectura privada de tres preguntas por diez dólares, escríbeme al WhatsApp en pantalla. "
-        f"Comenta 'ACEPTO' para activar tu bendición hoy.")
+        f"Comenta 'CONFIRMO' para sellar tu protección hoy.")
     data.setdefault("caption_lines", [f"ALERTA {sign.upper()}", situacion[:22].upper() + "...", "ESCRIBE 'ACEPTO'"])
     return data
 
@@ -415,13 +409,12 @@ def generate_reflexion_script(lang: str = "es") -> dict:
 
     if lang == "es":
         system = "Eres un guía espiritual viral. Tus reflexiones provocan miles de comentarios porque tocas heridas reales, envidias silenciadas y verdades que nadie se atreve a decir."
-        user = f"""Crea una reflexión espiritual y viral de 24 A 28 SEGUNDOS sobre: "{situacion}" (debes escribir OBLIGATORIAMENTE ENTRE 60 Y 75 PALABRAS habladas).
+        user = f"""Crea una reflexión espiritual viral de 18 A 22 SEGUNDOS sobre: "{situacion}" (OBLIGATORIO: ENTRE 45 Y 55 PALABRAS habladas).
 
-REGLAS DE RETENCIÓN MÁXIMA (24 a 28 SEGUNDOS):
-- Duración exacta: 24 a 28 segundos (60 a 75 palabras). Cero frases vacías; cada palabra debe tocar el alma.
-- La primera frase debe congelar el dedo del usuario: "Alguien que te lastimó en silencio...", "Hay una envidia que te rodea..."
-- TÍTULO: Debe generar misterio y tensión emocional con emojis (ejemplo: "✨ La verdad sobre quién te envidia en silencio 💔", "⚠️ No ignores este aviso antes de que sea tarde").
-- Final: Invita a decretar en comentarios (ejemplo: "Escribe 'CORTO CON TODO MAL' para proteger tu paz").
+REGLAS DE RETENCIÓN DEL MILLÓN DE VISTAS (18 a 22 SEGUNDOS):
+- Gancho visceral de inicio (0 a 2s): "No ignores esta señal esta noche...", "Tres personas hablaron de ti anoche..."
+- TÍTULO: Alto misterio y tensión emocional con emojis (ejemplo: "✨ La verdad sobre quién te envidia en silencio 💔").
+- Final: Invita directo a la lectura privada de 3 preguntas por $10 USD al WhatsApp en pantalla y a comentar 'CONFIRMO'.
 
 Responde SOLO en formato JSON:
 {{
@@ -472,13 +465,13 @@ Respond ONLY in JSON:
         f"⚡️ No ignores este aviso antes de irte a dormir hoy 🌙",
     ]
     data.setdefault("title", random.choice(titulos_reflexion))
-    data.setdefault("hook", "Alguien que te lastimó en silencio no puede dejar de pensar en ti...")
+    data.setdefault("hook", "No ignores esto: alguien que te lastimó no puede dejar de pensar en ti...")
     data.setdefault("script",
         f"{data.get('hook')} "
-        f"El universo te lo muestra hoy: {situacion}. "
-        f"Has soportado silencios que nadie conoce, pero la carta de {card} anuncia que tu deuda kármica ha sido saldada. "
+        f"{situacion}. "
+        f"La carta de {card} anuncia que tu deuda kármica ha sido saldada y quienes intentaron apagarte verán tu victoria. "
         f"Para tu lectura personalizada privada de tres preguntas por diez dólares, escríbeme directo al WhatsApp en pantalla. "
-        f"Escribe 'CORTO CON TODO MAL' en los comentarios para sellar tu protección hoy.")
+        f"Comenta 'CONFIRMO' para sellar tu protección hoy.")
     data.setdefault("caption_lines", [
         "JUSTICIA DIVINA",
         situacion[:22].upper() + "...",
