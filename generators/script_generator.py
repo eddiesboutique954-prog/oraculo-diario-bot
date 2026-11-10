@@ -51,6 +51,10 @@ TEMAS_ADVERTENCIA_OSCURA = [
     ("advertencia", "un ciclo tóxico que creías superado está intentando atraparte de nuevo"),
     ("advertencia", "tu intuición te avisó sobre esa persona y preferiste ignorarla por miedo a la soledad"),
     ("advertencia", "hay dinero que se te está escapando por una fuga energética de alguien que te drena"),
+    ("advertencia", "esa persona que te sonríe de frente siente rabia interna cada vez que te ve prosperar"),
+    ("advertencia", "la persona en quien estás pensando en este segundo oculta una conversación que te rompería el corazón"),
+    ("advertencia", "alguien que te hizo daño en el pasado no duerme tranquilo y el karma le está pasando factura"),
+    ("advertencia", "intentaron cerrarte un camino económico con malas intenciones pero el tiro les va a salir por la culata"),
 ]
 
 TEMAS_BENDICION_LUZ = [
@@ -62,6 +66,10 @@ TEMAS_BENDICION_LUZ = [
     ("bendicion", "la justicia divina se está cobrando lo que te hicieron sin que tú muevas un dedo"),
     ("bendicion", "alguien que te ama en silencio finalmente romperá el orgullo y te buscará"),
     ("bendicion", "una puerta gigante de abundancia se abrirá antes de que termine esta semana"),
+    ("bendicion", "recibirás una cantidad exacta de dinero que resolverá esa deuda que no te dejaba dormir"),
+    ("bendicion", "antes de que termine este mes alguien vendrá a pedirte perdón con la cabeza baja"),
+    ("bendicion", "el universo ya firmó la victoria sobre esa batalla silenciosa que nadie sabe que estás librando"),
+    ("bendicion", "la llamada o el mensaje que esperas desde hace meses llegará en las próximas 48 horas"),
 ]
 
 SITUACIONES_VIRALES_ES = [item[1] for item in TEMAS_ADVERTENCIA_OSCURA + TEMAS_BENDICION_LUZ]
@@ -206,16 +214,16 @@ CARTA: {card}
 CONFLICTO VISCERAL: {situacion}
 ENFOQUE DEL VIDEO: {instruccion_tono}
 
-REGLAS DE RETENCIÓN MÁXIMA EN SHORTS (OBLIGATORIAS):
-- Duración exacta: 24 a 28 segundos (60 a 75 palabras). Esta duración permite que el espectador escuche el video dos veces seguidas, logrando más del 130% de retención en YouTube.
+REGLAS DE RETENCIÓN Y CONVERSIÓN EN SHORTS (OBLIGATORIAS):
+- Duración exacta: 24 a 28 segundos (60 a 75 palabras habladas).
 - El TÍTULO debe ser demoledor, con emojis de advertencia o bendición y alta intriga (ejemplos: "⚠️ ALGUIEN CERCA TE ENVIDIA EN SILENCIO 💔", "🔥 La Verdad Oculta que Necesitas Saber Hoy 😱", "⚡️ El Tarot te Advierte: No Ignores Esta Señal").
-- TÉCNICA DE BUCLE INFINITO: La última frase del guion debe conectar de forma gramatical y natural con la primera frase del hook.
-- El final DEBE incluir una llamada de poder a comentar (ejemplo: "Escribe 'ME LIBERO' para cortar esta energía", "Comenta 'HECHO ESTÁ' para recibir tu bendición").
+- LLAMADO A LA ACCIÓN DE VENTA AL FINAL: La locución al final DEBE invitar directamente a la lectura privada de 3 preguntas por $10 USD al WhatsApp en pantalla, enlazando con comentar una palabra clave.
+  Ejemplo de cierre hablado: "...si sientes que este mensaje es para ti y necesitas nombres y fechas exactas, escríbeme al WhatsApp en pantalla para tu lectura privada por 10 dólares. Comenta 'HECHO ESTÁ' para reclamar tu bendición."
 
 ESTRUCTURA VIRAL (24 a 28 SEGUNDOS):
-1. HOOK EXPLOSIVO (0 a 3s): Congela el dedo del usuario de inmediato.
-2. REVELACIÓN RÁPIDA (4 a 19s): Qué significa la carta {card} para su vida hoy y la advertencia o bendición concreta.
-3. CIERRE DE BUCLE + CTA (20 a 26s): Palabra de poder para comentar que engancha con el inicio del video.
+1. HOOK EXPLOSIVO (0 a 3s): Congela el dedo del usuario de inmediato con intriga directa.
+2. REVELACIÓN RÁPIDA (4 a 18s): Qué significa la carta {card} para su vida hoy y la advertencia o bendición concreta.
+3. CIERRE DE VENTA + CTA (19 a 26s): Invita a escribir al WhatsApp por su lectura de $10 USD y a comentar la palabra de poder.
 
 Responde ÚNICAMENTE en formato JSON:
 {{
@@ -224,7 +232,7 @@ Responde ÚNICAMENTE en formato JSON:
   "cards": ["{card}"],
   "title": "titulo impactante de alta curiosidad con emojis (max 60 caracteres)",
   "hook": "frase demoledora del gancho inicial (max 10 palabras)",
-  "script": "guion narrado de 60 a 75 palabras exactas y profundas que llene entre 24 y 28 segundos de voz continua",
+  "script": "guion narrado de 60 a 75 palabras exactas que incluya el cierre invitando al WhatsApp por la lectura de 10 dólares",
   "caption_lines": ["subtitulo 1", "subtitulo 2", "subtitulo 3"],
   "description": "descripcion orientada a SEO y conexion emocional",
   "tags": ["tarot", "lecturadetarot", "espiritualidad", "amor", "destino", "oraculo", "shorts"]
@@ -296,10 +304,10 @@ Respond ONLY in this exact JSON (no extra text):
     data.setdefault("script",
         f"{data.get('hook')} "
         f"Tu intuición no se equivoca: {situacion}. "
-        f"La carta de {card} confirma que estás en un punto de quiebre espiritual decisivo. "
-        f"Hay personas que fingen apoyarte, pero envidian tu luz en silencio. "
-        f"El universo cerrará hoy ese ciclo y te abrirá caminos de abundancia. "
-        f"Escribe 'ME LIBERO' en los comentarios para cortar con toda mala energía hoy mismo.")
+        f"La carta de {card} anuncia un punto de quiebre espiritual decisivo en tu vida. "
+        f"Alguien oculta una verdad que necesitas saber hoy mismo. "
+        f"Para tu lectura privada de tres preguntas por diez dólares, escríbeme al WhatsApp en pantalla. "
+        f"Comenta 'HECHO ESTÁ' para reclamar tu bendición ahora.")
     data.setdefault("caption_lines", [
         f"ALERTA: {card.upper()}",
         situacion[:22].upper() + "...",
@@ -325,11 +333,11 @@ def generate_zodiaco_script(lang: str = "es", sign: str = None) -> dict:
 Situación emocional que viven ahora: {situacion}
 Carta del tarot que los acompaña hoy: {card}
 
-REGLAS DE RETENCIÓN MÁXIMA (24 a 28 SEGUNDOS):
-- Duración exacta: 24 a 28 segundos (60 a 75 palabras). Esto permite que el video se reproduzca dos veces seguidas en el feed móvil.
+REGLAS DE RETENCIÓN Y CONVERSIÓN:
+- Duración exacta: 24 a 28 segundos (60 a 75 palabras).
 - Comienza con un gancho directo: "Si eres {sign}, detén lo que estás haciendo..." o "Cuidado si naciste bajo el signo de {sign}..."
 - El TÍTULO NO debe ser genérico. Usa títulos de alto impacto y advertencia (ejemplos: "⚠️ CUIDADO si eres {sign}: Algo oculto se revela hoy 💔", "🔥 {sign}: La advertencia que no debes ignorar 😱", "⚡️ El universo te frena, {sign}: Lee esto antes de dormir ✨").
-- Termina ordenando comentar una palabra para decretar (ejemplo: "Si eres {sign}, escribe 'ACEPTO' para activar tu protección").
+- Termina con llamado a la acción al WhatsApp: invita a escribir al WhatsApp en pantalla por su lectura privada de 3 preguntas por $10 USD y a decretar comentando una palabra clave.
 
 Responde SOLO en formato JSON:
 {{
@@ -391,8 +399,9 @@ Respond ONLY in JSON:
         f"{data.get('hook')} "
         f"El universo me pidió darte este aviso: {situacion}. "
         f"La carta de {card} confirma que tu intuición no se equivocaba con esa persona. "
-        f"Alguien intentó bloquear tu luz y tus finanzas en silencio, pero hoy el karma actúa a tu favor. "
-        f"Si eres {sign}, escribe 'ACEPTO' en los comentarios para activar tu decreto de protección y bendición hoy.")
+        f"Alguien intentó bloquear tu camino en silencio, pero la justicia divina actúa a tu favor. "
+        f"Si eres {sign} y deseas tu lectura privada de tres preguntas por diez dólares, escríbeme al WhatsApp en pantalla. "
+        f"Comenta 'ACEPTO' para activar tu bendición hoy.")
     data.setdefault("caption_lines", [f"ALERTA {sign.upper()}", situacion[:22].upper() + "...", "ESCRIBE 'ACEPTO'"])
     return data
 
@@ -468,8 +477,8 @@ Respond ONLY in JSON:
         f"{data.get('hook')} "
         f"El universo te lo muestra hoy: {situacion}. "
         f"Has soportado silencios que nadie conoce, pero la carta de {card} anuncia que tu deuda kármica ha sido saldada. "
-        f"Toda lágrima derramada se convertirá en una victoria que verán quienes intentaron apagarte. "
-        f"Escribe 'CORTO CON TODO MAL' en los comentarios para sellar tu protección y recibir tu bendición hoy.")
+        f"Para tu lectura personalizada privada de tres preguntas por diez dólares, escríbeme directo al WhatsApp en pantalla. "
+        f"Escribe 'CORTO CON TODO MAL' en los comentarios para sellar tu protección hoy.")
     data.setdefault("caption_lines", [
         "JUSTICIA DIVINA",
         situacion[:22].upper() + "...",

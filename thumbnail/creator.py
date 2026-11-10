@@ -119,11 +119,11 @@ def create_tarot_thumbnail(title: str, lang: str = "es",
     draw.rounded_rectangle([bx1 + 4, by1 + 4, bx2 - 4, by2 - 4], radius=10,
                            outline=(255, 215, 0), width=1)
     bcx = (bx1 + bx2) // 2
-    draw.text((bcx, by1 + 15), "LECTURA PERSONALIZADA",
+    draw.text((bcx, by1 + 15), "LECTURA PRIVADA • $10 USD",
               font=font_wa_hdr, fill=(255, 225, 80), anchor="mt")
     draw.text((bcx, by1 + 50), "+57 305 338 9704",
               font=font_wa_num, fill=(255, 255, 255), anchor="mt")
-    draw.text((bcx, by1 + 85), "WhatsApp",
+    draw.text((bcx, by1 + 85), "WhatsApp • 3 Preguntas",
               font=font_wa_hdr, fill=(37, 211, 102), anchor="mt")
 
     # Borde exterior dorado fino

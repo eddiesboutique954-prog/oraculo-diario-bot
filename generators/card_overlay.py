@@ -91,13 +91,13 @@ def create_card_overlay(card_name: str, hook_text: str = "",
 
     bcx = (bx1 + bx2) // 2
     # Título dorado llamativo
-    draw.text((bcx, by1 + 18), "LECTURA PERSONALIZADA DE TAROT",
+    draw.text((bcx, by1 + 18), "LECTURA PRIVADA DE TAROT • $10 USD",
               font=fonts["wa_hdr"], fill=(255, 225, 80, 255), anchor="mt")
     # WhatsApp grande y súper legible
     draw.text((bcx, by1 + 64), "WhatsApp: +57 305 338 9704",
               font=fonts["wa_phone"], fill=(255, 255, 255, 255), anchor="mt")
     # Subtexto verde menta
-    draw.text((bcx, by1 + 124), "Escribe 'SESION' para agendar tu consulta privada",
+    draw.text((bcx, by1 + 124), "3 Preguntas Directas • Escribe 'SESION' al WhatsApp",
               font=fonts["wa_sub"], fill=(160, 255, 190, 255), anchor="mt")
 
     # 3. Carta real del tarot justo debajo del banner de WhatsApp

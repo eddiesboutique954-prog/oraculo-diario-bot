@@ -95,9 +95,10 @@ def upload_video_to_youtube(video_path: str, thumbnail_path: str,
 🔮 {CHANNEL_NAME} — Guía Espiritual y Mensajes del Universo
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-✨ ¿QUIERES UNA LECTURA PERSONALIZADA DE TAROT PRIVADA? ✨
-📲 WhatsApp: +57 305 338 9704
-Escribe "SESIÓN" y agendamos tu lectura personalizada.
+✨ ¿QUIERES TU LECTURA PERSONALIZADA DE TAROT PRIVADA? ✨
+👉 3 Preguntas Directas por solo $10 USD (o $30.000 COP)
+📲 Escríbeme por WhatsApp al instante: https://wa.me/573053389704?text=Hola,%20quiero%20mi%20lectura%20privada
+(WhatsApp directo: +57 305 338 9704 — Escribe "SESIÓN")
 
 📌 Suscríbete para tu lectura diaria: no te pierdas los mensajes que el destino tiene para ti.
 🔔 Activa la campanita para recibir cada revelación a tiempo.
