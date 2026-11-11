@@ -35,8 +35,12 @@ jobs:
 
       - name: 📦 Instalar dependencias del sistema y FFmpeg + espeak-ng
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y ffmpeg espeak-ng
+          # FFmpeg ya viene preinstalado en ubuntu-latest de GitHub Actions
+          # espeak-ng es opcional (fallback secundario), no bloqueante
+          if ! command -v ffmpeg &> /dev/null; then
+            sudo apt-get update -qq || true
+            sudo apt-get install -y --no-install-recommends ffmpeg || true
+          fi
 
       - name: 📦 Instalar dependencias Python
         run: |
