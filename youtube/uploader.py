@@ -149,6 +149,28 @@ def upload_video_to_youtube(video_path: str, thumbnail_path: str,
     video_url = f"https://www.youtube.com/shorts/{video_id}"
     print(f"   ✅ Short publicado en feed móvil: {video_url}")
 
+    # Publicar automáticamente el primer comentario para disparar el algoritmo de comentarios masivos
+    comment_text = script_data.get("comment_ritual") or (
+        "🔮 Comenta 'HECHO ESTÁ' para sellar esta energía en tu vida ✨\n"
+        "📲 Para tu lectura privada de 3 preguntas por $10 USD escribe al WhatsApp directo: +57 305 338 9704 "
+        "o haz clic en el enlace de la descripción."
+    )
+    try:
+        c_body = {
+            "snippet": {
+                "videoId": video_id,
+                "topLevelComment": {
+                    "snippet": {
+                        "textOriginal": comment_text
+                    }
+                }
+            }
+        }
+        youtube.commentThreads().insert(part="snippet", body=c_body).execute()
+        print("   💬 Comentario de activación algorítmica publicado exitosamente.")
+    except Exception as e:
+        print(f"   ⚠️ Aviso publicando comentario inicial: {e}")
+
     return {"id": video_id, "url": video_url, "title": clean_title}
 
 

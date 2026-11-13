@@ -152,20 +152,24 @@ def generate_voice(text: str, lang: str = "es", output_dir: str = TEMP_DIR) -> t
     if not ok or not os.path.exists(audio_path):
         raise RuntimeError("[VOZ] No se pudo generar el audio. Todos los proveedores fallaron.")
 
-    # Acelerar el audio un 15% (atempo=1.15) para aumentar retención hipnótica en Shorts
+    # Masterización de audio para retención extrema (+1M Vistas):
+    # atempo=1.17: ritmo ágil y dinámico (cero aburrimiento)
+    # bass=g=4:f=110: resonancia cálida y oracular
+    # treble=g=2:f=3000: brillo y nitidez en altavoces de teléfonos móviles
+    # volume=1.2: volumen de alta presencia sin saturar
     try:
         fast_path = os.path.join(output_dir, f"narration_{lang}_fast.mp3")
         cmd_speed = [
             "ffmpeg", "-y", "-i", audio_path,
-            "-filter:a", "atempo=1.15",
+            "-filter:a", "atempo=1.17,bass=g=4:f=110,treble=g=2:f=3000,volume=1.2",
             "-vn", fast_path
         ]
         res = subprocess.run(cmd_speed, capture_output=True, timeout=20)
         if res.returncode == 0 and os.path.exists(fast_path) and os.path.getsize(fast_path) > 1000:
             os.replace(fast_path, audio_path)
-            print("[VOZ] Audio acelerado a 1.15x para máxima retención de audiencia.")
+            print("[VOZ] Audio masterizado a 1.17x con calidez oracular y máxima presencia.")
     except Exception as e:
-        print(f"[VOZ] Aviso acelerando audio: {e}")
+        print(f"[VOZ] Aviso masterizando audio: {e}")
 
     _generate_srt_from_audio(text, audio_path, srt_path)
     return audio_path, srt_path
