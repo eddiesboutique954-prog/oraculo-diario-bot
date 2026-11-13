@@ -246,3 +246,12 @@ def generate_zodiaco_script(lang: str = "es", sign: str = None) -> dict:
 def generate_reflexion_script(lang: str = "es") -> dict:
     card = random.choice(MAJOR_ARCANA_ES if lang == "es" else MAJOR_ARCANA_EN)
     return generate_tarot_script(lang=lang, card=card)
+
+def generate_script(lang: str = "es", content_type: str = None, card: str = None, sign: str = None) -> dict:
+    """Función principal llamada por main.py para orquestar la generación viral"""
+    if content_type == "zodiaco":
+        return generate_zodiaco_script(lang=lang, sign=sign)
+    elif content_type == "reflexion":
+        return generate_reflexion_script(lang=lang)
+    else:
+        return generate_tarot_script(lang=lang, card=card)
