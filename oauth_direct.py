@@ -17,7 +17,14 @@ CLIENT_ID = cs["client_id"]
 CLIENT_SECRET = cs["client_secret"]
 REDIRECT_URI = "http://localhost:8080/"
 
-GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
+CREDENTIALS_FILE = os.path.join(BASE_DIR, "local_credentials.json")
+if os.path.exists(CREDENTIALS_FILE):
+    with open(CREDENTIALS_FILE, "r") as f:
+        local_creds = json.load(f)
+        GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN") or local_creds.get("github_token", "")
+else:
+    GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
+
 GITHUB_REPO = "eddiesboutique954-prog/oraculo-diario-bot"
 
 def update_github_secret(secret_name: str, secret_value: str) -> bool:
