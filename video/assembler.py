@@ -49,72 +49,81 @@ def assemble_dynamic_video(card_overlay_path: str, audio_path: str,
     output_path = os.path.join(OUTPUT_DIR, output_filename)
 
     music = music_path or (MUSIC_PATH if os.path.exists(MUSIC_PATH) else None)
+    wa_banner_path = os.path.join(os.path.dirname(card_overlay_path), "wa_banner.png")
+    has_wa = os.path.exists(wa_banner_path)
 
-    # Filtro de subtítulos dinámicos estilo TikTok / Shorts
-    # Posicionados en la parte inferior (MarginV=60) para no tapar la carta
+    # Filtro de subtítulos dinámicos estilo TikTok / Shorts de ALTA RETENCIÓN
+    # Color amarillo brillante de alto contraste (&H0000FFFF), tamaño 34 y margen superior para no taparse
     sub_filter = ""
     if srt_path and os.path.exists(srt_path):
         escaped_srt = _escape_path_for_ffmpeg(srt_path)
         sub_style = (
-            "force_style='Alignment=2,FontSize=18,PrimaryColour=&H00FFFFFF,"
-            "OutlineColour=&H00000000,BackColour=&H60000000,Bold=1,"
-            "MarginV=70,Outline=2,Shadow=1'"
+            "force_style='Alignment=2,FontSize=34,PrimaryColour=&H0000FFFF,"
+            "OutlineColour=&H00000000,BackColour=&H80000000,Bold=1,"
+            "MarginV=130,Outline=3,Shadow=2'"
         )
         sub_filter = f",subtitles='{escaped_srt}':{sub_style}"
 
+    # Ensamblaje modular de entradas FFmpeg
+    inputs = [
+        "-stream_loop", "-1", "-i", motion_bg,
+        "-loop", "1", "-i", card_overlay_path,
+        "-i", audio_path,
+    ]
+    if music and os.path.exists(music):
+        inputs += ["-stream_loop", "-1", "-i", music]
+        wa_idx = 4
+    else:
+        wa_idx = 3
+
+    if has_wa:
+        inputs += ["-loop", "1", "-i", wa_banner_path]
+
     # Superposición de capas con movimiento:
     # 0:v = fondo cósmico en bucle continuo
-    # 1:v = overlay de la carta
-    # Filtro: escala el fondo, superpone la carta, aplica subtítulos
-    complex_filter = (
-        f"[0:v]scale={width}:{height},setsar=1,fps={fps}[bg];"
-        f"[1:v]scale={width}:{height}[fg];"
-        f"[bg][fg]overlay=0:0{sub_filter}[vid]"
-    )
+    # 1:v = overlay de la carta (visible desde segundo 0 sin publicidad para 0% swipe-away)
+    # wa_banner = aparece dinámicamente en segundo 10 cuando el espectador ya está hipnotizado
+    if has_wa:
+        video_filters = (
+            f"[0:v]scale={width}:{height},setsar=1,fps={fps}[bg];"
+            f"[1:v]scale={width}:{height}[fg];"
+            f"[{wa_idx}:v]scale={width}:{height}[wa];"
+            f"[bg][fg]overlay=0:0[v1];"
+            f"[v1][wa]overlay=0:0:enable='gte(t,10)'{sub_filter}[vid]"
+        )
+    else:
+        video_filters = (
+            f"[0:v]scale={width}:{height},setsar=1,fps={fps}[bg];"
+            f"[1:v]scale={width}:{height}[fg];"
+            f"[bg][fg]overlay=0:0{sub_filter}[vid]"
+        )
 
     if music and os.path.exists(music):
-        cmd = [
-            "ffmpeg", "-y",
-            "-stream_loop", "-1", "-i", motion_bg,              # Fondo en bucle continuo
-            "-loop", "1", "-i", card_overlay_path,             # Carta y textos
-            "-i", audio_path,                                  # Voz
-            "-stream_loop", "-1", "-i", music,                 # Música
-            "-filter_complex",
-            (
-                f"{complex_filter};"
-                "[2:a]volume=1.0[voice];"
-                f"[3:a]volume=0.07,afade=t=in:st=0:d=1.5,afade=t=out:st={total_duration-2:.1f}:d=2[bgm];"
-                "[voice][bgm]amix=inputs=2:duration=first[aout]"
-            ),
-            "-map", "[vid]",
-            "-map", "[aout]",
-            "-c:v", "libx264",
-            "-pix_fmt", "yuv420p",
-            "-crf", "18",
-            "-preset", "fast",
-            "-c:a", "aac",
-            "-b:a", "192k",
-            "-t", f"{total_duration:.3f}",
-            output_path
-        ]
+        audio_filters = (
+            "[2:a]volume=1.0[voice];"
+            f"[3:a]volume=0.07,afade=t=in:st=0:d=1.5,afade=t=out:st={total_duration-2:.1f}:d=2[bgm];"
+            "[voice][bgm]amix=inputs=2:duration=first[aout]"
+        )
     else:
-        cmd = [
-            "ffmpeg", "-y",
-            "-stream_loop", "-1", "-i", motion_bg,
-            "-loop", "1", "-i", card_overlay_path,
-            "-i", audio_path,
-            "-filter_complex", f"{complex_filter};[2:a]volume=1.0[aout]",
-            "-map", "[vid]",
-            "-map", "[aout]",
-            "-c:v", "libx264",
-            "-pix_fmt", "yuv420p",
-            "-crf", "18",
-            "-preset", "fast",
-            "-c:a", "aac",
-            "-b:a", "192k",
-            "-t", f"{total_duration:.3f}",
-            output_path
-        ]
+        audio_filters = "[2:a]volume=1.0[aout]"
+
+    filter_complex = f"{video_filters};{audio_filters}"
+
+    cmd = [
+        "ffmpeg", "-y",
+        *inputs,
+        "-filter_complex", filter_complex,
+        "-map", "[vid]",
+        "-map", "[aout]",
+        "-c:v", "libx264",
+        "-pix_fmt", "yuv420p",
+        "-crf", "18",
+        "-preset", "fast",
+        "-c:a", "aac",
+        "-b:a", "192k",
+        "-t", f"{total_duration:.3f}",
+        output_path
+    ]
 
     res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     if res.returncode != 0:

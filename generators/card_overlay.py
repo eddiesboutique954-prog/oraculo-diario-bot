@@ -65,42 +65,48 @@ def create_card_overlay(card_name: str, hook_text: str = "",
             y += bbox[3] - bbox[1] + 16
         end_hook_y = y
 
-    # 2. Banner de WhatsApp para lectura personalizada (ENCIMA DE LA CARTA)
-    # Ubicado estratégicamente arriba para no ser tapado por los subtítulos
+    # 2. Banner de WhatsApp para lectura personalizada en capa separada (wa_banner.png)
+    # Aparece dinámicamente en el segundo 10 del video para no espantar al usuario en los primeros segundos
+    wa_overlay = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+    wa_draw = ImageDraw.Draw(wa_overlay)
+
     bx1, bx2 = 60, width - 60
     by1 = max(end_hook_y + 14, 195)
     by2 = by1 + 155
 
     # Resplandor verde exterior (efecto WhatsApp neón)
     for off in range(12, 0, -2):
-        draw.rounded_rectangle(
+        wa_draw.rounded_rectangle(
             [bx1 - off, by1 - off, bx2 + off, by2 + off],
             radius=26, fill=(37, 211, 102, int(40 * (1 - off / 12)))
         )
 
     # Caja principal verde esmeralda profundo
-    draw.rounded_rectangle(
+    wa_draw.rounded_rectangle(
         [bx1, by1, bx2, by2], radius=22,
         fill=(6, 22, 15, 250), outline=(37, 211, 102, 255), width=5
     )
     # Borde interior dorado refinado
-    draw.rounded_rectangle(
+    wa_draw.rounded_rectangle(
         [bx1 + 5, by1 + 5, bx2 - 5, by2 - 5], radius=18,
         outline=(255, 215, 0, 230), width=2
     )
 
     bcx = (bx1 + bx2) // 2
     # Título dorado llamativo
-    draw.text((bcx, by1 + 18), "LECTURA PRIVADA DE TAROT • $10 USD",
+    wa_draw.text((bcx, by1 + 18), "LECTURA PRIVADA DE TAROT • $10 USD",
               font=fonts["wa_hdr"], fill=(255, 225, 80, 255), anchor="mt")
     # WhatsApp grande y súper legible
-    draw.text((bcx, by1 + 64), "WhatsApp: +57 305 338 9704",
+    wa_draw.text((bcx, by1 + 64), "WhatsApp: +57 305 338 9704",
               font=fonts["wa_phone"], fill=(255, 255, 255, 255), anchor="mt")
     # Subtexto verde menta
-    draw.text((bcx, by1 + 124), "3 Preguntas Directas • Escribe 'SESION' al WhatsApp",
+    wa_draw.text((bcx, by1 + 124), "3 Preguntas Directas • Escribe 'SESION' al WhatsApp",
               font=fonts["wa_sub"], fill=(160, 255, 190, 255), anchor="mt")
 
-    # 3. Carta real del tarot justo debajo del banner de WhatsApp
+    wa_file = os.path.join(output_dir, "wa_banner.png")
+    wa_overlay.save(wa_file, "PNG")
+
+    # 3. Carta real del tarot justo debajo del espacio reservado para el banner de WhatsApp
     card_path = get_real_tarot_card_image(card_name)
     if card_path and os.path.exists(card_path):
         card = Image.open(card_path).convert("RGBA")
