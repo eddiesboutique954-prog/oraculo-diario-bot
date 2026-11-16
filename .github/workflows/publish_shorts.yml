@@ -1,13 +1,14 @@
-name: 🔮 Tarot Bot — 4 Videos Diarios (Resiliente y Auto-Recuperable)
+name: 🔮 Tarot Bot — 5 Videos Diarios (Resiliente y Auto-Recuperable)
 
 on:
   schedule:
-    # Horarios en UTC (Colombia = UTC-5)
-    # Minutos desplazados (15, 20, 10, 25) para evitar caídas y congestión en los servidores de GitHub
-    - cron: '15 13 * * *'   # 8:15 AM Colombia
-    - cron: '20 17 * * *'   # 12:20 PM Colombia
-    - cron: '10 22 * * *'   # 5:10 PM Colombia
-    - cron: '25 2 * * *'    # 9:25 PM Colombia
+    # 5 Horarios Estratégicos diarios (Colombia UTC-5)
+    # Minutos desplazados (15, 20, 25, etc.) para máxima puntualidad y evitar caídas en GitHub
+    - cron: '30 12 * * *'   # 1) 7:30 AM Colombia — Despertar y Mensaje del Día
+    - cron: '05 16 * * *'   # 2) 11:05 AM Colombia — Señal del Universo e Intuición
+    - cron: '20 19 * * *'   # 3) 2:20 PM Colombia — Zodíaco y Advertencia Astral
+    - cron: '15 23 * * *'   # 4) 6:15 PM Colombia — Karma y Justicia Divina
+    - cron: '45 2 * * *'    # 5) 9:45 PM Colombia — Persona Especial e Iniciales (Pico Nocturno)
   workflow_dispatch:
     inputs:
       lang:
@@ -58,11 +59,13 @@ jobs:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           PYTHONIOENCODING: utf-8
         run: |
-          # Determinar tipo de contenido rotando según la hora
+          # Determinar tipo de contenido rotando según los 5 horarios diarios
           HOUR=$(date +%H)
-          if [ "$HOUR" = "13" ]; then TYPE="tarot";
-          elif [ "$HOUR" = "17" ]; then TYPE="zodiaco";
-          elif [ "$HOUR" = "22" ]; then TYPE="reflexion";
+          if [ "$HOUR" = "12" ]; then TYPE="tarot";
+          elif [ "$HOUR" = "16" ]; then TYPE="reflexion";
+          elif [ "$HOUR" = "19" ]; then TYPE="zodiaco";
+          elif [ "$HOUR" = "23" ]; then TYPE="tarot";
+          elif [ "$HOUR" = "02" ]; then TYPE="zodiaco";
           else TYPE="tarot"; fi
 
           LANG="${{ github.event.inputs.lang || 'es' }}"
