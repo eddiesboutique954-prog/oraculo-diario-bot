@@ -3,10 +3,11 @@ name: 🔮 Tarot Bot — 4 Videos Diarios (Resiliente y Auto-Recuperable)
 on:
   schedule:
     # Horarios en UTC (Colombia = UTC-5)
-    - cron: '0 13 * * *'   # 8:00 AM Colombia
-    - cron: '0 17 * * *'   # 12:00 PM Colombia
-    - cron: '0 22 * * *'   # 5:00 PM Colombia
-    - cron: '0 2 * * *'    # 9:00 PM Colombia
+    # Minutos desplazados (15, 20, 10, 25) para evitar caídas y congestión en los servidores de GitHub
+    - cron: '15 13 * * *'   # 8:15 AM Colombia
+    - cron: '20 17 * * *'   # 12:20 PM Colombia
+    - cron: '10 22 * * *'   # 5:10 PM Colombia
+    - cron: '25 2 * * *'    # 9:25 PM Colombia
   workflow_dispatch:
     inputs:
       lang:

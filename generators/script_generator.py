@@ -148,23 +148,38 @@ def build_viral_archetype(card: str, sign: str = None, lang: str = "es") -> dict
             "comment_ritual": "🛡️ Comenta 'ME PROTEJO' para sellar tu escudo energético y alejar la falsedad de tu vida hoy ✨",
             "tags": ["tarot", "advertencia", "karma", "justiciadivina", "enemigosocultos", "shorts"]
         },
-        # ARQUETIPO 3: MILAGRO ECONÓMICO EN 72H (Máximo guardado en favoritos)
+        # ARQUETIPO 3: LA SEÑAL QUE PEDISTE AL UNIVERSO (Alta conexión emocional, cero palabras bloqueadas)
         {
             "content_type": "tarot",
-            "title": f"💰 DINERO INESPERADO: {card} destraba tu economía antes del viernes ✨ #shorts",
-            "hook": "Si este video apareció en tu inicio hoy a esta hora exacta, no es casualidad.",
+            "title": f"⚡️ La señal que pediste anoche te la da {card} 👁️ #shorts",
+            "hook": "Si anoche antes de dormir le pediste una señal al universo, no deslices.",
             "script": (
-                f"Si este video apareció en tu inicio hoy a esta hora exacta, no es casualidad: una bendición económica viene en camino. "
-                f"Una puerta que dabas por cerrada se va a abrir de golpe. "
-                f"La carta de {card} confirma que el dinero que necesitas para resolver esa deuda llegará antes del domingo. "
-                f"Comenta 'RECLAMO CON FE' para reclamar esta abundancia en tu cuenta. "
-                f"Para tu lectura privada escribe al WhatsApp en pantalla, porque el universo no se equivoca cuando te avisa que..."
+                f"Si anoche antes de dormir le pediste una señal al universo, no deslices: "
+                f"tus dudas sobre esa persona no eran paranoia, era tu intuición avisándote la verdad. "
+                f"La carta de {card} confirma que el ciclo de mentiras se rompe esta misma semana y todo saldrá a la luz sin que muevas un dedo. "
+                f"Comenta 'CONFIRMO' para sellar tu paz y claridad mental hoy. "
+                f"Para tu lectura privada de 3 preguntas por $10 USD escribe al WhatsApp en pantalla, y recuerda que..."
             ),
-            "caption_lines": ["DINERO INESPERADO", "SE ABRE TU CAMINO", "ESCRIBE 'RECLAMO'"],
-            "comment_ritual": "💰 Comenta 'RECLAMO CON FE' para sellar este milagro económico en tu realidad antes del fin de semana ✨",
-            "tags": ["tarot", "abundancia", "dinero", "prosperidad", "manifestacion", "shorts"]
+            "caption_lines": ["LA SEÑAL QUE PEDISTE", "TU INTUICIÓN ACERTÓ", "ESCRIBE 'CONFIRMO'"],
+            "comment_ritual": "✨ Comenta 'CONFIRMO' para recibir la claridad del universo y activar tu paz mental hoy ✨",
+            "tags": ["tarot", "señaldeluniverso", "intuicion", "destino", "oraculo", "shorts"]
         },
-        # ARQUETIPO 4: EL KARMA DE QUIEN TE HIZO DAÑO (Vindicación emocional)
+        # ARQUETIPO 4: ALERTA DE ZODÍACO (Altísimo engagement por pertenencia de signo)
+        {
+            "content_type": "zodiaco",
+            "title": f"⚠️ CUIDADO {sign.upper()}: Lo que ocultan por ti con {card} 💔 #shorts",
+            "hook": f"No deslices si eres de {sign}. Alguien oculta algo que debes saber.",
+            "script": (
+                f"No deslices si eres de {sign}: alguien muy cercano oculta un sentimiento que no se atreve a decirte a la cara. "
+                f"La carta de {card} revela que esa persona se arrepiente profundamente del orgullo con el que te trató. "
+                f"Comenta tu signo {sign} para reclamar la justicia divina en tu favor. "
+                f"Para tu lectura privada de 3 preguntas por $10 USD escribe al WhatsApp en pantalla, y sobre todo recuerda..."
+            ),
+            "caption_lines": [f"ALERTA {sign.upper()}", "ARREPENTIMIENTO OCULTO", f"COMENTA {sign.upper()}"],
+            "comment_ritual": f"♈️ Deja tu signo {sign} en los comentarios para sellar tu energía y abrir tus caminos ✨",
+            "tags": [sign.lower(), "zodiaco", "tarot", "horoscopo", "astrologia", "shorts"]
+        },
+        # ARQUETIPO 5: EL KARMA DE QUIEN TE HIZO DAÑO (Vindicación emocional pura)
         {
             "content_type": "tarot",
             "title": f"👁️ El karma de quien te rompió el corazón ya empezó a actuar ⚖️ #shorts",
