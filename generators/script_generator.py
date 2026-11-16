@@ -125,8 +125,7 @@ def build_viral_archetype(card: str, sign: str = None, lang: str = "es") -> dict
                 f"No deslices este video. Si tu persona especial tiene las iniciales {iniciales} o es {sign}, esto es urgente: "
                 f"anoche estuvo a punto de romper el silencio y escribirte, pero el orgullo le ganó. "
                 f"La carta de {card} revela que no puede sacarte de su cabeza y mira tus fotos en secreto. "
-                f"Deja sus iniciales en los comentarios para romper el orgullo que los separa. "
-                f"Para tu lectura privada de 3 preguntas por $10 USD escribe al WhatsApp en pantalla, y no olvides que..."
+                f"Deja sus iniciales en los comentarios para romper el orgullo que los separa, y no olvides que..."
             ),
             "caption_lines": [f"INICIALES {iniciales}", "MIRA TUS FOTOS", "COMENTA SU INICIAL"],
             "comment_ritual": f"👇 Deja las iniciales de esa persona ({iniciales}) para romper su orgullo y activar la comunicación ✨",
@@ -141,8 +140,7 @@ def build_viral_archetype(card: str, sign: str = None, lang: str = "es") -> dict
                 f"Detén este video ahora mismo. Alguien muy cercano te sonríe de frente, pero oculta una conversación que te rompería el corazón. "
                 f"La carta de {card} revela que su envidia hacia ti no es por lo que tienes, sino por tu brillo. "
                 f"En menos de 48 horas una coincidencia extraña te mostrará la verdad sin que muevas un solo dedo. "
-                f"Comenta 'ME PROTEJO' para activar la justicia divina hoy. "
-                f"Para tu consulta privada escribe al WhatsApp en pantalla, y recuerda con atención..."
+                f"Comenta 'ME PROTEJO' para activar la justicia divina hoy, y recuerda con atención..."
             ),
             "caption_lines": ["ALERTA DE TRAICIÓN", "SE REVELA EN 48H", "ESCRIBE 'ME PROTEJO'"],
             "comment_ritual": "🛡️ Comenta 'ME PROTEJO' para sellar tu escudo energético y alejar la falsedad de tu vida hoy ✨",
@@ -157,8 +155,7 @@ def build_viral_archetype(card: str, sign: str = None, lang: str = "es") -> dict
                 f"Si anoche antes de dormir le pediste una señal al universo, no deslices: "
                 f"tus dudas sobre esa persona no eran paranoia, era tu intuición avisándote la verdad. "
                 f"La carta de {card} confirma que el ciclo de mentiras se rompe esta misma semana y todo saldrá a la luz sin que muevas un dedo. "
-                f"Comenta 'CONFIRMO' para sellar tu paz y claridad mental hoy. "
-                f"Para tu lectura privada de 3 preguntas por $10 USD escribe al WhatsApp en pantalla, y recuerda que..."
+                f"Comenta 'CONFIRMO' para sellar tu paz y claridad mental hoy, y recuerda que..."
             ),
             "caption_lines": ["LA SEÑAL QUE PEDISTE", "TU INTUICIÓN ACERTÓ", "ESCRIBE 'CONFIRMO'"],
             "comment_ritual": "✨ Comenta 'CONFIRMO' para recibir la claridad del universo y activar tu paz mental hoy ✨",
@@ -172,8 +169,7 @@ def build_viral_archetype(card: str, sign: str = None, lang: str = "es") -> dict
             "script": (
                 f"No deslices si eres de {sign}: alguien muy cercano oculta un sentimiento que no se atreve a decirte a la cara. "
                 f"La carta de {card} revela que esa persona se arrepiente profundamente del orgullo con el que te trató. "
-                f"Comenta tu signo {sign} para reclamar la justicia divina en tu favor. "
-                f"Para tu lectura privada de 3 preguntas por $10 USD escribe al WhatsApp en pantalla, y sobre todo recuerda..."
+                f"Comenta tu signo {sign} para reclamar la justicia divina en tu favor, y sobre todo recuerda..."
             ),
             "caption_lines": [f"ALERTA {sign.upper()}", "ARREPENTIMIENTO OCULTO", f"COMENTA {sign.upper()}"],
             "comment_ritual": f"♈️ Deja tu signo {sign} en los comentarios para sellar tu energía y abrir tus caminos ✨",
@@ -188,8 +184,7 @@ def build_viral_archetype(card: str, sign: str = None, lang: str = "es") -> dict
                 f"La persona que se burló de tus sentimientos y se fue como si nada ya empezó a pagar su karma. "
                 f"Las cartas muestran que en soledad se da cuenta del grave error que cometió al perderte. "
                 f"La carta de {card} confirma que la justicia divina tarda pero nunca falla, y antes de fin de mes buscará pedirte perdón. "
-                f"Comenta 'HECHO ESTÁ' para devolver toda mala vibra y liberar tu paz. "
-                f"Escribe al WhatsApp en pantalla para tu lectura privada de $10 dólares, y ten la certeza de que..."
+                f"Comenta 'HECHO ESTÁ' para devolver toda mala vibra y liberar tu paz, y ten la certeza de que..."
             ),
             "caption_lines": ["EL KARMA ACTÚA", "ARREPENTIMIENTO REAL", "COMENTA 'HECHO ESTÁ'"],
             "comment_ritual": "⚖️ Comenta 'HECHO ESTÁ' para soltar esa carga y dejar que la justicia divina actúe a tu favor ✨",
@@ -223,10 +218,10 @@ SIGNO DESTACADO: {sign}
 REGLAS DE ORO (+1M VISTAS):
 1. HOOK (0 a 2s): Inicia con impacto visceral ("No deslices este video...", "Si tu persona especial tiene las iniciales...", "Detén este video ahora mismo...").
 2. HISTORIA (3 a 16s): Revelación íntima que {card} destapa sobre esa persona o dinero.
-3. BUCLE INFINITO + VENTA + COMENTARIO (17 a 22s):
+3. BUCLE INFINITO + COMENTARIO (17 a 22s):
    - Invita a comentar una afirmación (ej: 'HECHO ESTÁ' o sus iniciales).
-   - Menciona: "Para tu lectura privada de 3 preguntas por $10 USD escribe al WhatsApp en pantalla".
    - La última frase debe quedar en suspenso conectando con la primera palabra del hook.
+   - NO menciones WhatsApp, precios, lecturas privadas ni servicios pagos.
 
 Responde SOLO en JSON:
 {{
@@ -248,7 +243,7 @@ Responde SOLO en JSON:
         ai_data.setdefault("cards", [card])
         ai_data.setdefault("sign", sign)
         ai_data.setdefault("lang", lang)
-        ai_data.setdefault("comment_ritual", "🔮 Comenta 'HECHO ESTÁ' para sellar esta energía y reclama tu lectura privada en WhatsApp ✨")
+        ai_data.setdefault("comment_ritual", "🔮 Comenta 'HECHO ESTÁ' para sellar esta energía en tu vida ✨")
         return ai_data
 
     # Fallback maestro de élite: arquetipos diseñados para superar el millón de vistas

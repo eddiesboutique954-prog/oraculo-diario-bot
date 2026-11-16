@@ -95,16 +95,11 @@ def upload_video_to_youtube(video_path: str, thumbnail_path: str,
 🔮 {CHANNEL_NAME} — Guía Espiritual y Mensajes del Universo
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-✨ ¿QUIERES TU LECTURA PERSONALIZADA DE TAROT PRIVADA? ✨
-👉 3 Preguntas Directas por solo $10 USD (o $30.000 COP)
-📲 Escríbeme por WhatsApp al instante: https://wa.me/573053389704?text=Hola,%20quiero%20mi%20lectura%20privada
-(WhatsApp directo: +57 305 338 9704 — Escribe "SESIÓN")
-
 📌 Suscríbete para tu lectura diaria: no te pierdas los mensajes que el destino tiene para ti.
 🔔 Activa la campanita para recibir cada revelación a tiempo.
 ✨ Deja tu comentario en este video para conectar con esta energía.
 
-#tarot #lecturapersonalizada #tarotcolombia #esoterismo #espiritualidad #tarotdiario #arcanos #mensajedeluniverso #oraculo #shorts
+#tarot #tarotcolombia #esoterismo #espiritualidad #tarotdiario #arcanos #mensajedeluniverso #oraculo #shorts
 """
 
     print(f"\n📤 Subiendo Short a YouTube: {clean_title}")
@@ -152,8 +147,7 @@ def upload_video_to_youtube(video_path: str, thumbnail_path: str,
     # Publicar automáticamente el primer comentario para disparar el algoritmo de comentarios masivos
     comment_text = script_data.get("comment_ritual") or (
         "🔮 Comenta 'HECHO ESTÁ' para sellar esta energía en tu vida ✨\n"
-        "📲 Para tu lectura privada de 3 preguntas por $10 USD escribe al WhatsApp directo: +57 305 338 9704 "
-        "o haz clic en el enlace de la descripción."
+        "📌 Suscríbete y activa la 🔔 para no perderte las revelaciones del universo."
     )
     try:
         c_body = {

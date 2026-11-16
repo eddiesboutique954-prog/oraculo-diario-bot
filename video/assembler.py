@@ -49,8 +49,6 @@ def assemble_dynamic_video(card_overlay_path: str, audio_path: str,
     output_path = os.path.join(OUTPUT_DIR, output_filename)
 
     music = music_path or (MUSIC_PATH if os.path.exists(MUSIC_PATH) else None)
-    wa_banner_path = os.path.join(os.path.dirname(card_overlay_path), "wa_banner.png")
-    has_wa = os.path.exists(wa_banner_path)
 
     # Filtro de subtítulos dinámicos estilo TikTok / Shorts de ALTA RETENCIÓN
     # Color amarillo brillante de alto contraste (&H0000FFFF), tamaño 34 y margen superior para no taparse
@@ -72,31 +70,15 @@ def assemble_dynamic_video(card_overlay_path: str, audio_path: str,
     ]
     if music and os.path.exists(music):
         inputs += ["-stream_loop", "-1", "-i", music]
-        wa_idx = 4
-    else:
-        wa_idx = 3
-
-    if has_wa:
-        inputs += ["-loop", "1", "-i", wa_banner_path]
 
     # Superposición de capas con movimiento:
     # 0:v = fondo cósmico en bucle continuo
-    # 1:v = overlay de la carta (visible desde segundo 0 sin publicidad para 0% swipe-away)
-    # wa_banner = aparece dinámicamente en segundo 10 cuando el espectador ya está hipnotizado
-    if has_wa:
-        video_filters = (
-            f"[0:v]scale={width}:{height},setsar=1,fps={fps}[bg];"
-            f"[1:v]scale={width}:{height}[fg];"
-            f"[{wa_idx}:v]scale={width}:{height}[wa];"
-            f"[bg][fg]overlay=0:0[v1];"
-            f"[v1][wa]overlay=0:0:enable='gte(t,10)'{sub_filter}[vid]"
-        )
-    else:
-        video_filters = (
-            f"[0:v]scale={width}:{height},setsar=1,fps={fps}[bg];"
-            f"[1:v]scale={width}:{height}[fg];"
-            f"[bg][fg]overlay=0:0{sub_filter}[vid]"
-        )
+    # 1:v = overlay de la carta (visible desde segundo 0)
+    video_filters = (
+        f"[0:v]scale={width}:{height},setsar=1,fps={fps}[bg];"
+        f"[1:v]scale={width}:{height}[fg];"
+        f"[bg][fg]overlay=0:0{sub_filter}[vid]"
+    )
 
     if music and os.path.exists(music):
         audio_filters = (

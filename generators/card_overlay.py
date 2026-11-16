@@ -2,9 +2,8 @@
 🎨 Compositor de Cartas Transparentes con Aura Pulsante para Animación 3D
 Genera capas transparentes (PNG con canal Alfa) con:
 1. Hook de intriga visual en la parte superior
-2. Banner destacado de WhatsApp justo encima de la carta (100% visible sin interferir con subtítulos)
-3. Carta real del tarot con marco y resplandor dorado místico
-4. Nombre de la carta
+2. Carta real del tarot con marco y resplandor dorado místico
+3. Nombre de la carta
 """
 
 import os
@@ -16,8 +15,7 @@ from generators.tarot_deck import get_real_tarot_card_image
 def _get_fonts():
     fonts = {}
     candidates = ["arialbd.ttf", "arial.ttf", "DejaVuSans-Bold.ttf", "Arial_Bold.ttf"]
-    for name, size in [("hero", 85), ("title", 60), ("sub", 44), ("badge", 32),
-                       ("wa_hdr", 30), ("wa_phone", 46), ("wa_sub", 24)]:
+    for name, size in [("hero", 85), ("title", 60), ("sub", 44), ("badge", 32)]:
         for fname in candidates:
             try:
                 fonts[name] = ImageFont.truetype(fname, size)
@@ -31,7 +29,7 @@ def _get_fonts():
 def create_card_overlay(card_name: str, hook_text: str = "",
                         width: int = 1080, height: int = 1920,
                         output_dir: str = TEMP_DIR) -> str:
-    """Crea una imagen transparente PNG con textos, banner de WhatsApp y carta de tarot"""
+    """Crea una imagen transparente PNG con textos y carta de tarot (sin publicidad)"""
     os.makedirs(output_dir, exist_ok=True)
     overlay = Image.new("RGBA", (width, height), (0, 0, 0, 0))
     fonts = _get_fonts()
@@ -65,56 +63,16 @@ def create_card_overlay(card_name: str, hook_text: str = "",
             y += bbox[3] - bbox[1] + 16
         end_hook_y = y
 
-    # 2. Banner de WhatsApp para lectura personalizada en capa separada (wa_banner.png)
-    # Aparece dinámicamente en el segundo 10 del video para no espantar al usuario en los primeros segundos
-    wa_overlay = Image.new("RGBA", (width, height), (0, 0, 0, 0))
-    wa_draw = ImageDraw.Draw(wa_overlay)
-
-    bx1, bx2 = 60, width - 60
-    by1 = max(end_hook_y + 14, 195)
-    by2 = by1 + 155
-
-    # Resplandor verde exterior (efecto WhatsApp neón)
-    for off in range(12, 0, -2):
-        wa_draw.rounded_rectangle(
-            [bx1 - off, by1 - off, bx2 + off, by2 + off],
-            radius=26, fill=(37, 211, 102, int(40 * (1 - off / 12)))
-        )
-
-    # Caja principal verde esmeralda profundo
-    wa_draw.rounded_rectangle(
-        [bx1, by1, bx2, by2], radius=22,
-        fill=(6, 22, 15, 250), outline=(37, 211, 102, 255), width=5
-    )
-    # Borde interior dorado refinado
-    wa_draw.rounded_rectangle(
-        [bx1 + 5, by1 + 5, bx2 - 5, by2 - 5], radius=18,
-        outline=(255, 215, 0, 230), width=2
-    )
-
-    bcx = (bx1 + bx2) // 2
-    # Título dorado llamativo
-    wa_draw.text((bcx, by1 + 18), "LECTURA PRIVADA DE TAROT • $10 USD",
-              font=fonts["wa_hdr"], fill=(255, 225, 80, 255), anchor="mt")
-    # WhatsApp grande y súper legible
-    wa_draw.text((bcx, by1 + 64), "WhatsApp: +57 305 338 9704",
-              font=fonts["wa_phone"], fill=(255, 255, 255, 255), anchor="mt")
-    # Subtexto verde menta
-    wa_draw.text((bcx, by1 + 124), "3 Preguntas Directas • Escribe 'SESION' al WhatsApp",
-              font=fonts["wa_sub"], fill=(160, 255, 190, 255), anchor="mt")
-
-    wa_file = os.path.join(output_dir, "wa_banner.png")
-    wa_overlay.save(wa_file, "PNG")
-
-    # 3. Carta real del tarot justo debajo del espacio reservado para el banner de WhatsApp
+    # 2. Carta real del tarot centrada y grande
+    card_y_start = max(end_hook_y + 30, 220)
     card_path = get_real_tarot_card_image(card_name)
     if card_path and os.path.exists(card_path):
         card = Image.open(card_path).convert("RGBA")
 
-        target_w = int(width * 0.58)
+        target_w = int(width * 0.62)
         aspect = card.height / card.width
         target_h = int(target_w * aspect)
-        max_h = int(height * 0.43)
+        max_h = int(height * 0.50)
         if target_h > max_h:
             target_h = max_h
             target_w = int(target_h / aspect)
@@ -125,7 +83,7 @@ def create_card_overlay(card_name: str, hook_text: str = "",
         card = Image.merge("RGBA", (*card_rgb.split(), card.split()[3]))
 
         cx = (width - target_w) // 2
-        cy = by2 + 25  # Empieza justo debajito del banner
+        cy = card_y_start
 
         # Resplandor dorado místico multicapa
         for off in range(35, 0, -3):
@@ -153,7 +111,6 @@ def create_card_overlay(card_name: str, hook_text: str = "",
         mx = width // 2
 
         draw.line([(mx - 180, name_y - 10), (mx + 180, name_y - 10)], fill=(255, 215, 0, 240), width=2)
-        # Sombra
         draw.text((mx + 2, name_y + 2), f"✦ {card_name.upper()} ✦", font=font_b, fill=(0, 0, 0, 255), anchor="mt")
         draw.text((mx, name_y), f"✦ {card_name.upper()} ✦", font=font_b, fill=(255, 225, 90, 255), anchor="mt")
         draw.line([(mx - 180, name_y + 45), (mx + 180, name_y + 45)], fill=(255, 215, 0, 240), width=2)
